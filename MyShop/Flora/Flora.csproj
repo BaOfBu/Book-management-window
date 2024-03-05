@@ -1,0 +1,116 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Flora</RootNamespace>
+    <EnableDefaultItems>False</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  <ApplicationDefinition Include="App.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </ApplicationDefinition>
+  <Page Include="MainWindow.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </Page>
+  <Page Include="Styles\Button.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Icon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Page.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Utilities\DataTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Home.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Orders.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Products.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\SearchBoxControl.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Vouchers.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Compile Include="App.xaml.cs">
+    <DependentUpon>App.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="MainWindow.xaml.cs">
+    <DependentUpon>MainWindow.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="Utilities\ButtonCustom.cs" />
+  <Compile Include="Utilities\RelayCommand.cs" />
+  <Compile Include="Utilities\ViewModelBase.cs" />
+  <Compile Include="ViewModel\HomeVM.cs" />
+  <Compile Include="ViewModel\NavigationVM.cs" />
+  <Compile Include="ViewModel\OrderVM.cs" />
+  <Compile Include="ViewModel\ProductVM.cs" />
+  <Compile Include="ViewModel\VoucherVM.cs" />
+  <Compile Include="View\Home.xaml.cs" />
+  <Compile Include="View\Orders.xaml.cs" />
+  <Compile Include="View\Products.xaml.cs" />
+  <Compile Include="View\SearchBoxControl.xaml.cs" />
+  <Compile Include="View\Vouchers.xaml.cs" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="Fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Poppins.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Lato.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Images\cart-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\code-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\home-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\product-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\search-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+</Project>
