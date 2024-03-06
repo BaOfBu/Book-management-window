@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+
+    <Style x:Key="DropdownButtonStyle" TargetType="telerik:RadRibbonDropDownButton">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="BorderBrush" Value="#B3B6B6" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="IsOpen" Value="False" />
+        <Setter Property="MinWidth" Value="50" />
+    </Style>
+
+</ResourceDictionary>

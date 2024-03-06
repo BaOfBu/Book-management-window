@@ -25,6 +25,12 @@
     <Page Update="Styles\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\DropdownButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\GridView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Icon.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -31,29 +31,29 @@
                 <StackPanel Height="420" Width="230" Margin="30 0 0 0" Panel.ZIndex="1">
                     <Menu:ButtonCustom IsChecked="True" Style="{StaticResource SideBarButtonStyle}" Command="{Binding HomeCommand}">
                         <Grid>
-                            <TextBlock Text="&#xf015;" Style="{StaticResource IconStyle}" />
-                            <TextBlock Text="Home" Style="{StaticResource TextStyle}" />
+                            <TextBlock Text="&#xf015;" Style="{StaticResource IconSideBarStyle}" />
+                            <TextBlock Text="Home" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ProductsCommand}">
                         <Grid>
-                            <TextBlock Text="&#xf03e;" Style="{StaticResource IconStyle}"/>
-                            <TextBlock Text="Products" Style="{StaticResource TextStyle}" />
+                            <TextBlock Text="&#xf03e;" Style="{StaticResource IconSideBarStyle}"/>
+                            <TextBlock Text="Products" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding OrdersCommand}">
                         <Grid>
-                            <TextBlock Text="&#xf07a;" Style="{StaticResource IconStyle}" />
-                            <TextBlock Text="Orders" Style="{StaticResource TextStyle}" />
+                            <TextBlock Text="&#xf07a;" Style="{StaticResource IconSideBarStyle}" />
+                            <TextBlock Text="Orders" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding VouchersCommand}">
                         <Grid>
-                            <TextBlock Text="&#xf06b;" Style="{DynamicResource IconStyle}" />
-                            <TextBlock Text="Vouchers" Style="{StaticResource TextStyle}" />
+                            <TextBlock Text="&#xf06b;" Style="{DynamicResource IconSideBarStyle}" />
+                            <TextBlock Text="Vouchers" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
                 </StackPanel>
@@ -73,7 +73,7 @@
                                     Content="{Binding CurrentView}" />
                 </Border>
                 <telerik:RadButton Style="{StaticResource ExitButtonStyle}" Click="ExitBtn_Click">
-                    <TextBlock Text="&#xf011;" Style="{StaticResource IconStyle}" Margin="0 0 0 0"/>
+                    <TextBlock Text="&#xf011;" Style="{StaticResource IconSideBarStyle}" Margin="0 0 0 0"/>
                 </telerik:RadButton>
             </Grid>
         </Grid>

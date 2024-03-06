@@ -11,11 +11,8 @@
     <UserControl.DataContext>
         <vm:VoucherVM />
     </UserControl.DataContext>
-    <Grid>
-        <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
-        <local:SearchBoxControl/>
-        <StackPanel Height="200">
-            <TextBlock Text="VOUCHERS" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" FontWeight="Bold" />
-        </StackPanel>
-    </Grid>
+
+    <Border CornerRadius="30" Background="#EFF2F7">
+        
+    </Border>
 </UserControl>

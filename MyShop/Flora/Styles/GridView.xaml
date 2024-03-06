@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    
+    <Style x:Key="HeaderRowStyle" TargetType="telerik:GridViewHeaderRow">
+        <Setter Property="Background" Value="#F3FFFC" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="RowStyle" TargetType="{x:Type telerik:GridViewRow}">
+        <Setter Property="Background" Value="#FFFFFF"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#B9FFF8"/>
+                <Setter Property="Foreground" Value="#ffffff"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#B9FFF8"/>
+                <Setter Property="Foreground" Value="#ffffff"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="true"/>
+                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#64CCC5"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridViewStyle" TargetType="telerik:RadGridView">
+        <Setter Property="Width" Value="858" />
+        <Setter Property="Height" Value="450" />
+        <Setter Property="RowHeight" Value="48" />
+        <Setter Property="Margin" Value="0 20 0 0" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
+        <Setter Property="ShowGroupPanel" Value="False" />
+        <Setter Property="RowStyle" Value="{DynamicResource RowStyle}" />
+    </Style>
+
+</ResourceDictionary>
