@@ -55,6 +55,9 @@
   <Page Include="View\AddVoucher.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\DetailOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\Home.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -90,6 +93,7 @@
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\DetailOrder.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />

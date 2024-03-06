@@ -56,10 +56,16 @@ namespace Flora.View
                 }
             }
         }
-        private void AddAnOrder_Click(object sender, RoutedEventArgs e)
+        private void AddAnOrderButton_Click(object sender, RoutedEventArgs e)
         {
             AddOrder addOrderWindow = new AddOrder();
             addOrderWindow.Show();
+        }
+
+        private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            DetailOrder detailOrder = new DetailOrder();
+            detailOrder.Show();
         }
     }
 }
