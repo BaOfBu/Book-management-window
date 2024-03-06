@@ -78,15 +78,15 @@
                         </telerik:RadGridView.HeaderRowStyle>
                         
                         <telerik:RadGridView.Columns>
-                            <telerik:GridViewDataColumn Header="" IsReadOnly="True" Width="16" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="#" IsReadOnly="True" Width="64" IsResizable="False" DataMemberBinding="{Binding Number}" />
-                            <telerik:GridViewDataColumn Header="OrderID" IsReadOnly="True" Width="100" IsResizable="False" DataMemberBinding="{Binding OrderID}" />
-                            <telerik:GridViewDataColumn Header="Customer" IsReadOnly="True" Width="150" IsResizable="False" DataMemberBinding="{Binding Customer}" />
-                            <telerik:GridViewDataColumn Header="Quantity" IsReadOnly="True" Width="90" IsResizable="False" DataMemberBinding="{Binding Quantity}" />
-                            <telerik:GridViewDataColumn Header="Cost Total" IsReadOnly="True" Width="108" IsResizable="False" DataMemberBinding="{Binding CostTotal}" />
-                            <telerik:GridViewDataColumn Header="Ordered Time" IsReadOnly="True" Width="120" IsResizable="False" DataMemberBinding="{Binding OrderedTime}" />
-                            <telerik:GridViewDataColumn Header="Status" IsReadOnly="True" Width="90" IsResizable="False" DataMemberBinding="{Binding Status}" />
-                            <telerik:GridViewDataColumn Header="Action" IsReadOnly="True" Width="auto" IsResizable="False">
+                            <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding Number}" Width="64" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="OrderID" DataMemberBinding="{Binding OrderID}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Customer" DataMemberBinding="{Binding Customer}" Width="150" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Quantity" DataMemberBinding="{Binding Quantity}" Width="90" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Cost Total" DataMemberBinding="{Binding CostTotal}" Width="108" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Ordered Time" DataMemberBinding="{Binding OrderedTime}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="90" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

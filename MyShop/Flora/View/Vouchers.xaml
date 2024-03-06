@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Flora.View"
              xmlns:vm="clr-namespace:Flora.ViewModel"
              mc:Ignorable="d" 
@@ -12,7 +14,99 @@
         <vm:VoucherVM />
     </UserControl.DataContext>
 
-    <Border CornerRadius="30" Background="#EFF2F7">
-        
-    </Border>
+    <Grid>
+        <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" >
+        </Border>
+
+        <Grid>
+            <StackPanel Orientation="Vertical">
+                <local:SearchBoxControl Margin="0 0 60 0"/>
+                <StackPanel Orientation="Horizontal" Margin="86 24 0 0">
+                    <telerik:RadDateRangePicker telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="250"/>
+                    <telerik:RadButton Style="{StaticResource ButtonStyle}" Margin="308 0 20 0">
+                        <Grid>
+                            <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
+                            <TextBlock Text="Add a voucher" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                        </Grid>
+                    </telerik:RadButton>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Results per page" Foreground="#B3B6B6" Style="{StaticResource ButtonTextStyle}"/>
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Content="8" Style="{StaticResource DropdownButtonStyle}">
+                            <telerik:RadRibbonDropDownButton.DropDownContent>
+
+                                <ListBox ItemsSource="{Binding PagesNumberList}" 
+                                     SelectedItem="{Binding SelectedItem}"
+                                     SelectionChanged="SelectedListBoxItem_Click">
+                                </ListBox>
+
+                            </telerik:RadRibbonDropDownButton.DropDownContent>
+                        </telerik:RadRibbonDropDownButton>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel>
+                    <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding PagedSource, ElementName=dataPager}" Style="{StaticResource GridViewStyle}">
+
+                        <telerik:RadGridView.Resources>
+                            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B9FFF8"/>
+                                        <Setter Property="Foreground" Value="#ffffff"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                            <Style TargetType="{x:Type telerik:GridViewCell}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type telerik:GridViewCell}">
+                                            <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Padding="{TemplateBinding Padding}"
+                                                SnapsToDevicePixels="True">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </telerik:RadGridView.Resources>
+
+                        <telerik:RadGridView.HeaderRowStyle>
+                            <StaticResource ResourceKey="HeaderRowStyle"/>
+                        </telerik:RadGridView.HeaderRowStyle>
+
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding Number}" Width="64" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Voucher ID" DataMemberBinding="{Binding VoucherID}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Voucher Name" DataMemberBinding="{Binding VoucherName}" Width="200" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="End Date" DataMemberBinding="{Binding EndDate}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource EditButtonStyle}">
+                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                                            </Button>
+                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}">
+                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+
+                </StackPanel>
+                <StackPanel>
+                    <telerik:RadDataPager Name="dataPager" Source="{Binding VoucherList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

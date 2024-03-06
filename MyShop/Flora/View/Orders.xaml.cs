@@ -33,8 +33,7 @@ namespace Flora.View
         public Orders()
         {
             InitializeComponent();
-            orderVM = new OrderVM();
-            DataContext = orderVM;
+            orderVM = DataContext as OrderVM;
         }
 
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
@@ -50,15 +49,12 @@ namespace Flora.View
                 int pageSize;
                 if (int.TryParse(selectedItem, out pageSize))
                 {
-                    orderVM.PageSize = pageSize;
+                    if (orderVM != null)
+                    {
+                        orderVM.PageSize = pageSize;
+                    }
                 }
             }
         }
-
-        //private OrderVM orderVM;
-        //private void DataPager_PageIndexChanged(object sender, Telerik.Windows.Controls.PageIndexChangedEventArgs e)
-        //{
-        //    orderVM.UpdateDisplayedItems(e.NewPageIndex);
-        //
     }
 }
