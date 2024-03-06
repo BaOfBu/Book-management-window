@@ -26,7 +26,6 @@ namespace Flora.ViewModel
         private void Product(object obj) => CurrentView = new ProductVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Voucher(object obj) => CurrentView = new VoucherVM();
-
         public NavigationVM()
         {
             HomeCommand = new RelayCommand(Home);

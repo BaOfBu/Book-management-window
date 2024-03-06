@@ -13,6 +13,7 @@
 			  <ResourceDictionary Source="Styles/Button.xaml" />
               <ResourceDictionary Source="Styles/DropdownButton.xaml" />
               <ResourceDictionary Source="Styles/GridView.xaml" />
+              <ResourceDictionary Source="Styles/InputField.xaml" />
               <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
           </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>

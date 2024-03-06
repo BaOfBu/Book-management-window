@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="View\AddOrder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\Home.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
     <Page Update="Styles\Icon.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\InputField.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Page.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -41,6 +47,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Utilities\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddOrder.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Home.xaml">
