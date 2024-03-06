@@ -48,5 +48,11 @@ namespace Flora.View
                 }
             }
         }
+
+        private void AddAVoucher_Click(object sender, RoutedEventArgs e)
+        {
+            AddVoucher addVoucherWindow = new AddVoucher();
+            addVoucherWindow.Show();
+        }
     }
 }

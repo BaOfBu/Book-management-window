@@ -52,6 +52,9 @@
   <Page Include="View\AddOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\AddVoucher.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\Home.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -80,13 +83,13 @@
   <Compile Include="Utilities\ButtonCustom.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
-  <Compile Include="ViewModel\AddOrderVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
+  <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
