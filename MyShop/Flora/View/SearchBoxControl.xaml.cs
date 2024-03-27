@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Flora.ViewModel;
+using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,21 @@ namespace Flora.View
         public SearchBoxControl()
         {
             InitializeComponent();
+        }
+
+        private void SearchHandle()
+        {
+            string keyword = txtSearchOrders.Text.Trim();
+
+            ((OrderVM)this.DataContext).SearchText = keyword;
+        }
+
+        private void txtSearchOrders_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchHandle();
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,8 +23,8 @@ namespace Flora.ViewModel
                 }
             }
         }
-        private BindingList<Voucher> _voucherList;
-        public BindingList<Voucher> VoucherList
+        private BindingList<Coupon> _voucherList;
+        public BindingList<Coupon> VoucherList
         {
             get { return _voucherList; }
             set
@@ -40,6 +39,7 @@ namespace Flora.ViewModel
 
         public VoucherVM()
         {
+            /*
             VoucherList = new BindingList<Voucher>()
             {
                 new Voucher { Number = 1, VoucherID = "100345489", VoucherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
@@ -59,6 +59,7 @@ namespace Flora.ViewModel
                 new Voucher { Number = 15, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
                 new Voucher { Number = 16, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
             };
+            */
             PageSize = 8;
             PagesNumberList = new List<string> { "8", "16", "24", "32", "64", "96" };
         }

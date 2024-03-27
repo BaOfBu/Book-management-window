@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.ViewModel;
+﻿using Flora.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;

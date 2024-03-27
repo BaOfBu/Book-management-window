@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Flora.Model
+namespace Flora;
+
+public partial class Order
 {
-    public class Order
-    {
-        public int Number { get; set; }
-        public string OrderID { get; set; }
-        public string Customer { get; set; }
-        public int Quantity { get; set; }
-        public string CostTotal { get; set; }
-        public string OrderedTime { get; set; }
-        public string Status { get; set; }
-    }
+    public int OrderId { get; set; }
+
+    public int? CustomerId { get; set; }
+
+    public int? Quantity { get; set; }
+
+    public decimal? TotalAmount { get; set; }
+
+    public DateOnly? OrderDate { get; set; }
+
+    public int? CouponId { get; set; }
+
+    public string Status { get; set; }
+
+    public virtual Coupon Coupon { get; set; }
+
+    public virtual Customer Customer { get; set; }
 }

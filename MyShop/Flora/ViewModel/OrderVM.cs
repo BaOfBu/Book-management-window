@@ -2,24 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Flora.Model;
 using Flora.View;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Documents.Fixed.Model.Common;
 using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
+using Microsoft.EntityFrameworkCore;
+using Flora.Model;
 
 namespace Flora.ViewModel
 {
     class OrderVM : Utilities.ViewModelBase
     {
-        public List<string> PagesNumberList { get; set; }
+        private MyShopContext _shopContext;
         private int _pageSize;
+        private string _searchText;
+        private BindingList<PreviewOrder> _orderList;
+
+        public List<string> PagesNumberList { get; set; }
+
         public int PageSize
         {
             get { return _pageSize; }
@@ -32,41 +40,67 @@ namespace Flora.ViewModel
                 }
             }
         }
-        private BindingList<Order> _orderList;
-        public BindingList<Order> OrderList
+
+        public BindingList<PreviewOrder> OrderList
         {
             get { return _orderList; }
             set
             {
-                if(_orderList != value) { 
+                if (_orderList != value)
+                {
                     _orderList = value;
                     OnPropertyChanged("OrderList");
                 }
             }
         }
 
-        public OrderVM() {
-            OrderList = new BindingList<Order>()
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
             {
-                new Order { Number = 1, OrderID = "100345489", Customer = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 2, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 3, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 4, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivered"},
-                new Order { Number = 5, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 6, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 7, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 8, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 9, OrderID = "100345489", Customer = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 10, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 11, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 12, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivered"},
-                new Order { Number = 13, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 14, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 15, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 16, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-            };
-            PageSize = 8;
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged("SearchText");
+                    SearchHandle();
+                }
+            }
+        }
+
+        public OrderVM()
+        {
+            _shopContext = new MyShopContext();
             PagesNumberList = new List<string> { "8", "16", "24", "32", "64", "96" };
+            PageSize = 8;
+            LoadOrders("");
+        }
+
+        private void LoadOrders(string keyword)
+        {
+            var orders = _shopContext.Orders
+                .Include(o => o.Customer)
+                .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword))
+                .ToList();
+
+            int orderIndex = 1;
+
+            OrderList = new BindingList<PreviewOrder>(
+                orders.Select(o => new PreviewOrder
+                {
+                    OrderIndex = orderIndex++,
+                    OrderId = o.OrderId,
+                    CustomerName = o.Customer.Name,
+                    Quantity = o.Quantity,
+                    TotalAmount = o.TotalAmount,
+                    OrderDate = o.OrderDate,
+                    Status = o.Status
+                }).ToList());
+        }
+
+        private void SearchHandle()
+        {
+            LoadOrders(SearchText);
         }
     }
 }
