@@ -68,6 +68,36 @@ namespace Flora.ViewModel
             }
         }
 
+        private DateOnly? _selectedStartDate;
+        public DateOnly? SelectedStartDate
+        {
+            get { return _selectedStartDate; }
+            set
+            {
+                if (_selectedStartDate != value)
+                {
+                    _selectedStartDate = value;
+                    OnPropertyChanged("SelectedStartDate");
+                    SearchHandle();
+                }
+            }
+        }
+
+        private DateOnly? _selectedEndDate;
+        public DateOnly? SelectedEndDate
+        {
+            get { return _selectedEndDate; }
+            set
+            {
+                if (_selectedEndDate != value)
+                {
+                    _selectedEndDate = value;
+                    OnPropertyChanged("SelectedEndDate");
+                    SearchHandle();
+                }
+            }
+        }
+
         public OrderVM()
         {
             _shopContext = new MyShopContext();
@@ -78,10 +108,16 @@ namespace Flora.ViewModel
 
         private void LoadOrders(string keyword)
         {
-            var orders = _shopContext.Orders
-                .Include(o => o.Customer)
-                .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword))
-                .ToList();
+            var query = _shopContext.Orders
+                        .Include(o => o.Customer)
+                        .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword));
+
+            if (_selectedStartDate != null && _selectedEndDate != null)
+            {
+                query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
+            }
+
+            var orders = query.ToList();
 
             int orderIndex = 1;
 

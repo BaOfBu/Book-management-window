@@ -31,7 +31,13 @@ namespace Flora.View
         {
             string keyword = txtSearchOrders.Text.Trim();
 
-            ((OrderVM)this.DataContext).SearchText = keyword;
+            if (this.DataContext is OrderVM)
+            {
+                ((OrderVM)this.DataContext).SearchText = keyword;
+            }else if (this.DataContext is VoucherVM)
+            {
+                ((VoucherVM)this.DataContext).SearchText = keyword;
+            }
         }
 
         private void txtSearchOrders_KeyDown(object sender, KeyEventArgs e)

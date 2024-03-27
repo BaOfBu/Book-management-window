@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -65,6 +66,15 @@ namespace Flora.View
         {
             DetailOrder detailOrder = new DetailOrder();
             detailOrder.Show();
+        }
+
+
+        private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
+        {
+            if (DateTime.TryParse("2024-01-01", out DateTime start))
+            {
+                radDateRangePicker.StartDate = start;
+            }
         }
     }
 }

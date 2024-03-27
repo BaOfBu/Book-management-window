@@ -22,7 +22,15 @@
             <StackPanel Orientation="Vertical">
                 <local:SearchBoxControl Margin="0 0 60 0" DataContext="{Binding}"/>
                 <StackPanel Orientation="Horizontal" Margin="86 24 0 0">
-                    <telerik:RadDateRangePicker telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="250"/>
+                    <telerik:RadDateRangePicker 
+                        x:Name="radDateRangePicker"
+                        telerik:StyleManager.Theme="Fluent" 
+                        HorizontalAlignment="Left" 
+                        Height="24" 
+                        VerticalAlignment="Top" 
+                        Width="250" 
+                        StartDate="{Binding SelectedStartDate, Mode=TwoWay}" />
+
                     <telerik:RadButton Style="{StaticResource ButtonStyle}" Margin="308 0 20 0" Click="AddAnOrderButton_Click">
                         <Grid>
                             <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
