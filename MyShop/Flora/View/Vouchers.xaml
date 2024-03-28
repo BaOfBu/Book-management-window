@@ -79,11 +79,11 @@
 
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding Number}" Width="64" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Voucher ID" DataMemberBinding="{Binding VoucherID}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Voucher Name" DataMemberBinding="{Binding VoucherName}" Width="200" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Coupon ID" DataMemberBinding="{Binding CouponId}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="200" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount}" Width="80" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="End Date" DataMemberBinding="{Binding EndDate}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate}" Width="120" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
@@ -104,7 +104,7 @@
 
                 </StackPanel>
                 <StackPanel>
-                    <telerik:RadDataPager Name="dataPager" Source="{Binding VoucherList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                    <telerik:RadDataPager Name="dataPager" Source="{Binding CouponList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
                 </StackPanel>
             </StackPanel>
         </Grid>

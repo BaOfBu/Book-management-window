@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Flora.ViewModel;
+using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +27,25 @@ namespace Flora.View
             InitializeComponent();
         }
 
-        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+        private void SearchHandle()
         {
+            string keyword = txtSearchOrders.Text.Trim();
 
+            if (this.DataContext is OrderVM)
+            {
+                ((OrderVM)this.DataContext).SearchText = keyword;
+            }else if (this.DataContext is VoucherVM)
+            {
+                ((VoucherVM)this.DataContext).SearchText = keyword;
+            }
+        }
+
+        private void txtSearchOrders_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchHandle();
+            }
         }
     }
 }

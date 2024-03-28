@@ -3,70 +3,150 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using Flora.Model;
-using Flora.View;
-using Telerik.Windows.Controls;
-using Telerik.Windows.Documents.Fixed.Model.Common;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flora.ViewModel
 {
     class OrderVM : Utilities.ViewModelBase
     {
-        public List<string> PagesNumberList { get; set; }
-        private int _pageSize;
-        public int PageSize
+        private MyShopContext _shopContext;
+        private string _searchText;
+        private PreviewOrder _orderSelected;
+
+        public ObservableCollection<PreviewOrder> OrderList { get; set; }
+        public ObservableCollection<string> PagesNumberList { get; set; }
+        public int PageSize { get; set; }
+
+        public string SearchText
         {
-            get { return _pageSize; }
+            get => _searchText;
             set
             {
-                if (_pageSize != value)
+                if (_searchText != value)
                 {
-                    _pageSize = value;
-                    OnPropertyChanged("PageSize");
-                }
-            }
-        }
-        private BindingList<Order> _orderList;
-        public BindingList<Order> OrderList
-        {
-            get { return _orderList; }
-            set
-            {
-                if(_orderList != value) { 
-                    _orderList = value;
-                    OnPropertyChanged("OrderList");
+                    _searchText = value;
+                    OnPropertyChanged(nameof(SearchText));
+                    SearchHandle();
                 }
             }
         }
 
-        public OrderVM() {
-            OrderList = new BindingList<Order>()
+        public PreviewOrder OrderSelected
+        {
+            get => _orderSelected;
+            set
             {
-                new Order { Number = 1, OrderID = "100345489", Customer = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 2, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 3, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 4, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivered"},
-                new Order { Number = 5, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 6, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 7, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 8, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 9, OrderID = "100345489", Customer = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 10, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 11, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 12, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivered"},
-                new Order { Number = 13, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 14, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 15, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-                new Order { Number = 16, OrderID = "100345489", Customer = "tuyetkydieu", Quantity = 1, CostTotal = "100000", OrderedTime = "03/05/2024", Status = "Delivering"},
-            };
+                if (_orderSelected != value)
+                {
+                    _orderSelected = value;
+                    OnPropertyChanged(nameof(OrderSelected));
+                    RemoveOrder();
+                }
+            }
+        }
+
+        private DateOnly? _selectedStartDate;
+        public DateOnly? SelectedStartDate
+        {
+            get => _selectedStartDate;
+            set
+            {
+                if (_selectedStartDate != value)
+                {
+                    _selectedStartDate = value;
+                    OnPropertyChanged(nameof(SelectedStartDate));
+                    SearchHandle();
+                }
+            }
+        }
+
+        private DateOnly? _selectedEndDate;
+        public DateOnly? SelectedEndDate
+        {
+            get => _selectedEndDate;
+            set
+            {
+                if (_selectedEndDate != value)
+                {
+                    _selectedEndDate = value;
+                    OnPropertyChanged(nameof(SelectedEndDate));
+                    SearchHandle();
+                }
+            }
+        }
+
+        public OrderVM()
+        {
+            _shopContext = new MyShopContext();
+            PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
             PageSize = 8;
-            PagesNumberList = new List<string> { "8", "16", "24", "32", "64", "96" };
+            OrderList = new ObservableCollection<PreviewOrder>();
+            LoadOrders("");
+        }
+
+        private List<Order> GetOrdersFromDatabase(string keyword)
+        {
+            var query = _shopContext.Orders
+                        .Include(o => o.Customer)
+                        .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword));
+
+            if (_selectedStartDate != null && _selectedEndDate != null)
+            {
+                query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
+            }
+
+            return query.ToList();
+        }
+
+        private ObservableCollection<PreviewOrder> CreatePreviewOrdersList(List<Order> orders)
+        {
+            var previewOrders = new ObservableCollection<PreviewOrder>();
+            int orderIndex = 1;
+            foreach (var o in orders)
+            {
+                previewOrders.Add(new PreviewOrder
+                {
+                    OrderIndex = orderIndex++,
+                    OrderId = o.OrderId,
+                    CustomerName = o.Customer.Name,
+                    Quantity = o.Quantity,
+                    TotalAmount = o.TotalAmount,
+                    OrderDate = o.OrderDate,
+                    Status = o.Status
+                });
+            }
+            return previewOrders;
+        }
+
+        private void LoadOrders(string keyword)
+        {
+            var orders = GetOrdersFromDatabase(keyword);
+            OrderList = CreatePreviewOrdersList(orders);
+        }
+
+        private void SearchHandle()
+        {
+            LoadOrders(SearchText);
+        }
+
+        private void RemoveOrder()
+        {
+            var orderToRemove = _shopContext.Orders.SingleOrDefault(o => _orderSelected != null && o.OrderId == _orderSelected.OrderId);
+
+            if (orderToRemove != null)
+            {
+                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == orderToRemove.OrderId).ToList();
+                _shopContext.OrderDetails.RemoveRange(orderDetails);
+
+                _shopContext.Orders.Remove(orderToRemove);
+                _shopContext.SaveChanges();
+
+                if (OrderList != null)
+                {
+                    OrderList.Remove(_orderSelected);
+                }
+            }
         }
     }
 }

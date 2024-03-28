@@ -1,4 +1,5 @@
 ﻿using Flora.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,8 +11,11 @@ namespace Flora.ViewModel
 {
     class VoucherVM : Utilities.ViewModelBase
     {
-        public List<string> PagesNumberList { get; set; }
+        private MyShopContext _shopContext;
         private int _pageSize;
+        private string _searchText;
+        private BindingList<Coupon> _couponList;
+        public List<string> PagesNumberList { get; set; }
         public int PageSize
         {
             get { return _pageSize; }
@@ -24,43 +28,54 @@ namespace Flora.ViewModel
                 }
             }
         }
-        private BindingList<Voucher> _voucherList;
-        public BindingList<Voucher> VoucherList
+        public BindingList<Coupon> CouponList
         {
-            get { return _voucherList; }
+            get { return _couponList; }
             set
             {
-                if (_voucherList != value)
+                if (_couponList != value)
                 {
-                    _voucherList = value;
-                    OnPropertyChanged("VoucherList");
+                    _couponList = value;
+                    OnPropertyChanged("CouponList");
+                }
+            }
+        }
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged("SearchText");
+                    SearchHandle();
                 }
             }
         }
 
         public VoucherVM()
         {
-            VoucherList = new BindingList<Voucher>()
-            {
-                new Voucher { Number = 1, VoucherID = "100345489", VoucherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 2, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 3, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 4, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Active"},
-                new Voucher { Number = 5, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 6, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 7, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 8, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 9, VoucherID = "100345489", VoucherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 10, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 11, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 12, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Active"},
-                new Voucher { Number = 13, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 14, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 15, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-                new Voucher { Number = 16, VoucherID = "100345489", VoucherName = "tuyetkydieu", StartDate = "03/01/2024", EndDate = "03/05/2024", Status = "Pending"},
-            };
-            PageSize = 8;
+            _shopContext = new MyShopContext();
             PagesNumberList = new List<string> { "8", "16", "24", "32", "64", "96" };
+            PageSize = 8;
+            LoadCoupons("");
+        }
+
+        private void LoadCoupons(string keyword)
+        {
+            var query = _shopContext.Coupons
+                        .Where(o => o.CouponId.ToString().Contains(keyword) || o.CouponCode.Contains(keyword));
+
+            var coupons = query.ToList();
+
+            CouponList = new BindingList<Coupon>(coupons);
+        }
+
+        private void SearchHandle()
+        {
+            LoadCoupons(SearchText);
         }
     }
 }
