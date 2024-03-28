@@ -11,12 +11,10 @@ namespace Flora.View
     {
         private ProductVM productVM { get; set; }
 
-        private PagedCollectionView _plantTypesPagedView;
         public Products()
         {
             InitializeComponent();
             productVM = DataContext as ProductVM;
-            _plantTypesPagedView = new PagedCollectionView(PlantTypesList);
         }
 
         private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
@@ -35,6 +33,11 @@ namespace Flora.View
         }
 
         private void AddProductTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }

@@ -9,7 +9,7 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1030"
-             Style="{StaticResource PageStyle}">
+             Style="{StaticResource PageStyle}" Loaded="UserControl_Loaded">
     <UserControl.DataContext>
         <vm:ProductVM />
     </UserControl.DataContext>
@@ -123,7 +123,11 @@
 
                 <!-- List of product type -->
                 <Grid>
-                    <ListView ItemsSource="{Binding PlantTypesList}" Name="plantTypeListView"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,5,0,0"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
+                    <ListView Height="490" ItemsSource="{Binding PlantTypesList}" 
+                              Name="plantTypeListView"  HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Center" Margin="0,5,0,0"  
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
@@ -146,14 +150,18 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="0,10,5,0" BorderBrush="#e6e6e6" BorderThickness="0.5" CornerRadius="10" Padding="0,0,0,10">
-                                    <Grid Height="220">
+                                <Border Margin="0,10,10,0" BorderBrush="#e6e6e6" 
+                                        BorderThickness="0.5" CornerRadius="10" Padding="0,0,0,10">
+                                    <Grid Height="220" Width="210">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <Image Grid.Row="0" Source="{Binding Image , Converter={StaticResource absoluteConverter}}" Height="140" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,10"/>
+                                        <Image Grid.Row="0" Source="{Binding Image , 
+                                            Converter={StaticResource absoluteConverter}}" 
+                                               Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
+                                               Margin="0,0,0,10"/>
 
                                         <DockPanel Grid.Row="1">
                                             <Grid Margin="10,0,10,0" DockPanel.Dock="Top">
