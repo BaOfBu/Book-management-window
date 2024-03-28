@@ -95,12 +95,12 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.PlantId).HasColumnName("PlantID");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.Order).WithMany()
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Order__47DBAE45");
 
-            entity.HasOne(d => d.Plant).WithMany()
+            entity.HasOne(d => d.Plant).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.PlantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Plant__44FF419A");

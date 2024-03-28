@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Flora.Model
 {
-    public class PreviewOrder
+    public partial class PreviewOrder
     {
         public int OrderIndex { get; set; }
         public int OrderId { get; set; }

@@ -1,4 +1,5 @@
-﻿using Flora.ViewModel;
+﻿using Flora.Model;
+using Flora.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,6 +76,12 @@ namespace Flora.View
             {
                 radDateRangePicker.StartDate = start;
             }
+        }
+
+        private void RemoveOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            PreviewOrder selectedOrder = (PreviewOrder)gridView.SelectedItem;
+            orderVM.OrderSelected = selectedOrder;
         }
     }
 }

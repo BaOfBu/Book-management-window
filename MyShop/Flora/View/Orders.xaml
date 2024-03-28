@@ -101,7 +101,7 @@
                                             <Button Style="{StaticResource EditButtonStyle}" Click="UpdateOrderButton_Click">
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}">
+                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}" Click="RemoveOrderButton_Click">
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
                                         </StackPanel>

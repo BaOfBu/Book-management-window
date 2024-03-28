@@ -2,68 +2,46 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SqlClient;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using Flora.View;
-using Telerik.Windows.Controls;
-using Telerik.Windows.Documents.Fixed.Model.Common;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
-using Microsoft.EntityFrameworkCore;
 using Flora.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flora.ViewModel
 {
     class OrderVM : Utilities.ViewModelBase
     {
         private MyShopContext _shopContext;
-        private int _pageSize;
         private string _searchText;
-        private BindingList<PreviewOrder> _orderList;
+        private PreviewOrder _orderSelected;
 
-        public List<string> PagesNumberList { get; set; }
-
-        public int PageSize
-        {
-            get { return _pageSize; }
-            set
-            {
-                if (_pageSize != value)
-                {
-                    _pageSize = value;
-                    OnPropertyChanged("PageSize");
-                }
-            }
-        }
-
-        public BindingList<PreviewOrder> OrderList
-        {
-            get { return _orderList; }
-            set
-            {
-                if (_orderList != value)
-                {
-                    _orderList = value;
-                    OnPropertyChanged("OrderList");
-                }
-            }
-        }
+        public ObservableCollection<PreviewOrder> OrderList { get; set; }
+        public ObservableCollection<string> PagesNumberList { get; set; }
+        public int PageSize { get; set; }
 
         public string SearchText
         {
-            get { return _searchText; }
+            get => _searchText;
             set
             {
                 if (_searchText != value)
                 {
                     _searchText = value;
-                    OnPropertyChanged("SearchText");
+                    OnPropertyChanged(nameof(SearchText));
                     SearchHandle();
+                }
+            }
+        }
+
+        public PreviewOrder OrderSelected
+        {
+            get => _orderSelected;
+            set
+            {
+                if (_orderSelected != value)
+                {
+                    _orderSelected = value;
+                    OnPropertyChanged(nameof(OrderSelected));
+                    RemoveOrder();
                 }
             }
         }
@@ -71,13 +49,13 @@ namespace Flora.ViewModel
         private DateOnly? _selectedStartDate;
         public DateOnly? SelectedStartDate
         {
-            get { return _selectedStartDate; }
+            get => _selectedStartDate;
             set
             {
                 if (_selectedStartDate != value)
                 {
                     _selectedStartDate = value;
-                    OnPropertyChanged("SelectedStartDate");
+                    OnPropertyChanged(nameof(SelectedStartDate));
                     SearchHandle();
                 }
             }
@@ -86,13 +64,13 @@ namespace Flora.ViewModel
         private DateOnly? _selectedEndDate;
         public DateOnly? SelectedEndDate
         {
-            get { return _selectedEndDate; }
+            get => _selectedEndDate;
             set
             {
                 if (_selectedEndDate != value)
                 {
                     _selectedEndDate = value;
-                    OnPropertyChanged("SelectedEndDate");
+                    OnPropertyChanged(nameof(SelectedEndDate));
                     SearchHandle();
                 }
             }
@@ -101,12 +79,13 @@ namespace Flora.ViewModel
         public OrderVM()
         {
             _shopContext = new MyShopContext();
-            PagesNumberList = new List<string> { "8", "16", "24", "32", "64", "96" };
+            PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
             PageSize = 8;
+            OrderList = new ObservableCollection<PreviewOrder>();
             LoadOrders("");
         }
 
-        private void LoadOrders(string keyword)
+        private List<Order> GetOrdersFromDatabase(string keyword)
         {
             var query = _shopContext.Orders
                         .Include(o => o.Customer)
@@ -117,12 +96,16 @@ namespace Flora.ViewModel
                 query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
             }
 
-            var orders = query.ToList();
+            return query.ToList();
+        }
 
+        private ObservableCollection<PreviewOrder> CreatePreviewOrdersList(List<Order> orders)
+        {
+            var previewOrders = new ObservableCollection<PreviewOrder>();
             int orderIndex = 1;
-
-            OrderList = new BindingList<PreviewOrder>(
-                orders.Select(o => new PreviewOrder
+            foreach (var o in orders)
+            {
+                previewOrders.Add(new PreviewOrder
                 {
                     OrderIndex = orderIndex++,
                     OrderId = o.OrderId,
@@ -131,12 +114,39 @@ namespace Flora.ViewModel
                     TotalAmount = o.TotalAmount,
                     OrderDate = o.OrderDate,
                     Status = o.Status
-                }).ToList());
+                });
+            }
+            return previewOrders;
+        }
+
+        private void LoadOrders(string keyword)
+        {
+            var orders = GetOrdersFromDatabase(keyword);
+            OrderList = CreatePreviewOrdersList(orders);
         }
 
         private void SearchHandle()
         {
             LoadOrders(SearchText);
+        }
+
+        private void RemoveOrder()
+        {
+            var orderToRemove = _shopContext.Orders.SingleOrDefault(o => _orderSelected != null && o.OrderId == _orderSelected.OrderId);
+
+            if (orderToRemove != null)
+            {
+                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == orderToRemove.OrderId).ToList();
+                _shopContext.OrderDetails.RemoveRange(orderDetails);
+
+                _shopContext.Orders.Remove(orderToRemove);
+                _shopContext.SaveChanges();
+
+                if (OrderList != null)
+                {
+                    OrderList.Remove(_orderSelected);
+                }
+            }
         }
     }
 }
