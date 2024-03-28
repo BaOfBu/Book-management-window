@@ -22,11 +22,6 @@
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!-- Trigger for Selected State -->
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#285A43"/>
-                            <Setter Property="Foreground" Value="White"/>
-                        </Trigger>
                         <!-- Trigger for Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="#D3D3D3"/>

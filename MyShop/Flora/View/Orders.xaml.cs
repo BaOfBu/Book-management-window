@@ -72,5 +72,10 @@ namespace Flora.View
         {
 
         }
+
+        private void gridView_SelectionChanged(object sender, SelectionChangeEventArgs e)
+        {
+
+        }
     }
 }

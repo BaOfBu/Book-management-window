@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
   </ItemGroup>
   
@@ -41,6 +42,15 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Styles\Page.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Button.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Icon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Text.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Styles\ProductTypePage.xaml">
@@ -91,8 +101,10 @@
     <SubType>Code</SubType>
   </Compile>
   <Compile Include="Model\Order.cs" />
+  <Compile Include="Model\PlantType.cs" />
   <Compile Include="Model\Voucher.cs" />
   <Compile Include="Utilities\ButtonCustom.cs" />
+  <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
@@ -137,6 +149,9 @@
     </Content>
     <Content Include="Images\product-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\search-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
