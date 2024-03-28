@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -68,9 +69,18 @@ namespace Flora.View
             detailOrder.Show();
         }
 
-        private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
+        private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
+            if (DateTime.TryParse("2024-01-01", out DateTime start))
+            {
+                radDateRangePicker.StartDate = start;
+            }
+        }
 
+        private void RemoveOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            PreviewOrder selectedOrder = (PreviewOrder)gridView.SelectedItem;
+            orderVM.OrderSelected = selectedOrder;
         }
 
         private void gridView_SelectionChanged(object sender, SelectionChangeEventArgs e)

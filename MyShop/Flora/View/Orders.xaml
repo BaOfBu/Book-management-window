@@ -20,9 +20,17 @@
 
         <Grid>
             <StackPanel Orientation="Vertical">
-                <local:SearchBoxControl Margin="0 0 60 0"/>
+                <local:SearchBoxControl Margin="0 0 60 0" DataContext="{Binding}"/>
                 <StackPanel Orientation="Horizontal" Margin="86 24 0 0">
-                    <telerik:RadDateRangePicker telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="250"/>
+                    <telerik:RadDateRangePicker 
+                        x:Name="radDateRangePicker"
+                        telerik:StyleManager.Theme="Fluent" 
+                        HorizontalAlignment="Left" 
+                        Height="24" 
+                        VerticalAlignment="Top" 
+                        Width="250" 
+                        StartDate="{Binding SelectedStartDate, Mode=TwoWay}" />
+
                     <telerik:RadButton Style="{StaticResource ButtonStyle}" Margin="308 0 20 0" Click="AddAnOrderButton_Click">
                         <Grid>
                             <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
@@ -79,12 +87,12 @@
                         
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding Number}" Width="64" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="OrderID" DataMemberBinding="{Binding OrderID}" Width="100" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Customer" DataMemberBinding="{Binding Customer}" Width="150" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding OrderIndex}" Width="64" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="OrderID" DataMemberBinding="{Binding OrderId}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Customer Name" DataMemberBinding="{Binding CustomerName}" Width="150" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Quantity" DataMemberBinding="{Binding Quantity}" Width="90" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Cost Total" DataMemberBinding="{Binding CostTotal}" Width="108" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Ordered Time" DataMemberBinding="{Binding OrderedTime}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Total Amount" DataMemberBinding="{Binding TotalAmount}" Width="108" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Order Date" DataMemberBinding="{Binding OrderDate}" Width="120" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="90" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
@@ -93,7 +101,7 @@
                                             <Button Style="{StaticResource EditButtonStyle}" Click="UpdateOrderButton_Click">
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}">
+                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}" Click="RemoveOrderButton_Click">
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
                                         </StackPanel>
