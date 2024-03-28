@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flora.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,31 @@ namespace Flora.View
     /// </summary>
     public partial class Products : UserControl
     {
+        private ProductVM productVM { get; set; }   
         public Products()
         {
             InitializeComponent();
+            productVM = DataContext as ProductVM;
+        }
+
+        private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void SortButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddProductTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

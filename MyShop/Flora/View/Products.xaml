@@ -5,18 +5,124 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Flora.View"
              xmlns:vm="clr-namespace:Flora.ViewModel"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1030"
              Style="{StaticResource PageStyle}">
     <UserControl.DataContext>
         <vm:ProductVM />
     </UserControl.DataContext>
-    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SortDropdownButton.xaml" />
+                <ResourceDictionary Source="/Styles/ResultPerPageDropdownButton.xaml" />
+                <ResourceDictionary Source="/Styles/ProductTypePage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
-        
-        <StackPanel Height="200">
-            <TextBlock Text="PRODUCTS" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" FontWeight="Bold" />
-        </StackPanel>
+        <Grid>
+            <StackPanel Orientation="Vertical" Margin="60,30,60,0">
+                
+                <!-- Search Bar and Sort -->
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- Sort Button -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Search Bar -->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Sort Dropdown -->
+                    <telerik:RadRibbonDropDownButton x:Name="SortType" Style="{StaticResource SortDropDownStyles}" VerticalAlignment="Center">
+                        <telerik:RadRibbonDropDownButton.Content>
+                            <TextBlock Text="&#xf160;" Style="{StaticResource IconSortBarStyle}"/>
+                        </telerik:RadRibbonDropDownButton.Content>
+                        <telerik:RadRibbonDropDownButton.DropDownContent>
+                            <ListBox ItemsSource="{Binding SortTypeList}" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="10" FontSize="12"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </telerik:RadRibbonDropDownButton.DropDownContent>
+                    </telerik:RadRibbonDropDownButton>
+                    <!-- Search Bar -->
+                    <Border Grid.Column="1" BorderBrush="#285A43" BorderThickness="1" CornerRadius="20" Padding="20" VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- For the search icon -->
+                                <ColumnDefinition Width="*"/>
+                                <!-- For the search textbox, * means take the remaining space -->
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="&#xf002;" Style="{StaticResource IconSideBarStyle}" Foreground="#285A43" Padding="0 0 10 0" HorizontalAlignment="Stretch" Margin="0,0,0,0"/>
+
+                            <telerik:RadWatermarkTextBox Grid.Column="1" x:Name="txtSearchOrders" BorderThickness="0" FontSize="16" WatermarkContent="Search..." VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Functional Section -->
+
+                <Grid Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Button to add a new product type -->
+                    <Button VerticalAlignment="Center" Name="AddProductTypeButton" Click="AddProductTypeButton_Click" Background="Transparent">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Border" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"  Padding="5,5,5,5"
+                                        CornerRadius="5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="#D3D3D3"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xf055;" Style="{StaticResource IconAddBarStyle}"  />
+                            <TextBlock Text="Add a new product type" TextAlignment="Center" VerticalAlignment="Center" Foreground="#285A43"></TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
+
+                    <!-- Container for result per page dropdown and label, aligned to the right -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                        <TextBlock Text="Result per page" VerticalAlignment="Center" Margin="5" TextAlignment="Center"/>
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <telerik:RadRibbonDropDownButton.Content>
+                                <TextBlock Text="3" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                            </telerik:RadRibbonDropDownButton.Content>
+                            <telerik:RadRibbonDropDownButton.DropDownContent>
+                                <ListBox ItemsSource="{Binding PagesNumberList}" ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="16" TextAlignment="Left" Margin="10,0,10,0" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </telerik:RadRibbonDropDownButton.DropDownContent>
+                        </telerik:RadRibbonDropDownButton>
+                    </StackPanel>
+                </Grid>
+
+                <!-- List of product type -->
+
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

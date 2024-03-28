@@ -69,7 +69,6 @@ namespace Flora.View
             detailOrder.Show();
         }
 
-
         private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
             if (DateTime.TryParse("2024-01-01", out DateTime start))
