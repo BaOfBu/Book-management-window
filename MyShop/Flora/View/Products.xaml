@@ -192,10 +192,18 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
-          
                 <StackPanel>
-                    <telerik:RadDataPager Name="dataPager" Source="{Binding PlantTypesList}" PageSize="{Binding PageSize}" Margin="0 10 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                    <telerik:RadDataPager Name="dataPager" 
+                          Source="{Binding PlantTypesList}" 
+                          PageSize="{Binding PageSize}" 
+                          Margin="0 10 0 0" 
+                          telerik:StyleManager.Theme="Fluent" 
+                          DisplayMode="All" 
+                          Background="#F5F5F5"
+                          PageIndexChanged="DataPager_PageIndexChanged">
+                    </telerik:RadDataPager>
                 </StackPanel>
+
             </StackPanel>
         </Grid>
     </Grid>

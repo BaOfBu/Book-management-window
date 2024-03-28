@@ -1,6 +1,7 @@
 ﻿using Flora.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
+using Telerik.Windows.Controls;
 
 namespace Flora.View
 {
@@ -40,6 +41,13 @@ namespace Flora.View
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
+        {
+            // e.OldPageIndex gives you the previous page index
+            // e.NewPageIndex gives you the new current page index
+
+            // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
         }
     }
 }
