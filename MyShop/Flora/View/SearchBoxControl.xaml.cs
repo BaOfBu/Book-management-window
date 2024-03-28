@@ -24,5 +24,10 @@ namespace Flora.View
         {
             InitializeComponent();
         }
+
+        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -67,5 +67,10 @@ namespace Flora.View
             DetailOrder detailOrder = new DetailOrder();
             detailOrder.Show();
         }
+
+        private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
