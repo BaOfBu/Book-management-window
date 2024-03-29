@@ -15,7 +15,11 @@
               <ResourceDictionary Source="Styles/GridView.xaml" />
               <ResourceDictionary Source="Styles/InputField.xaml" />
               <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
-          </ResourceDictionary.MergedDictionaries>
+              <ResourceDictionary Source="Styles/Products/Text.xaml"/>
+              <ResourceDictionary Source="Styles/Products/Icon.xaml"/>
+              <ResourceDictionary Source="Styles/Products/Button.xaml"/>
+              <ResourceDictionary Source="Styles/Products/Dropdown.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
     </Application.Resources>
 </Application>

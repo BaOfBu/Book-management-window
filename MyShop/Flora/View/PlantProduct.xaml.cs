@@ -7,26 +7,27 @@ using Telerik.Windows.Controls;
 namespace Flora.View
 {
     /// <summary>
-    /// Interaction logic for Products.xaml
+    /// Interaction logic for PlantProduct.xaml
     /// </summary>
-    public partial class Products : UserControl
+    public partial class PlantProduct : Window
     {
-        private ProductVM productVM { get; set; }
 
-        public Products()
+
+        private PlantProductVM plantProductVM { get; set; }
+
+        public PlantProduct()
         {
             InitializeComponent();
-            productVM = DataContext as ProductVM;
-        }
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
+            plantProductVM = DataContext as PlantProductVM;
         }
         private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
 
+        }
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedListBoxItem = (sender as ListBox).SelectedItem;
@@ -50,9 +51,9 @@ namespace Flora.View
 
                 if (int.TryParse(selectedItem, out pageSize))
                 {
-                    if (productVM != null)
+                    if (plantProductVM != null)
                     {
-                        productVM.PageSize = pageSize;
+                        plantProductVM.PageSize = pageSize;
                     }
                 }
             }
@@ -76,27 +77,13 @@ namespace Flora.View
         {
 
         }
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // Cast sender to ListViewItem to access properties
-            ListViewItem listViewItem = sender as ListViewItem;
 
-            // Retrieve the name of the selected item
-            if (listViewItem != null && listViewItem.Content != null)
-            {
-                // Assuming PlantType is the type of the items in PlantTypesList
-                PlantCategory selectedPlantType = listViewItem.Content as PlantCategory;
-
-                if (selectedPlantType != null)
-                {
-                    string selectedName = selectedPlantType.CategoryName;
-                    // Create a new instance of the PlantProduct UserControl
-                    PlantProduct plantProduct = new PlantProduct();
-                    // For example, if you have a ContentControl named "contentControl":
-                    plantProduct.Show();
-                }
-            }
         }
 
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)

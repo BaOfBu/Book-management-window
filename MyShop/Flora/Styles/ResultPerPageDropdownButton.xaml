@@ -5,7 +5,7 @@
         <Setter Property="BorderBrush" Value="#285A43"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Padding" Value="5,10,5,10"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -22,11 +22,6 @@
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!-- Trigger for Selected State -->
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#285A43"/>
-                            <Setter Property="Foreground" Value="White"/>
-                        </Trigger>
                         <!-- Trigger for Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="#D3D3D3"/>
