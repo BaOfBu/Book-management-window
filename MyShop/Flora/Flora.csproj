@@ -49,6 +49,12 @@
   <Page Include="Styles\Page.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Plants\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\Products\Button.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -91,6 +97,9 @@
   <Page Include="View\Orders.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\PlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\Products.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -125,6 +134,7 @@
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
+  <Compile Include="ViewModel\PlantProductVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
@@ -132,6 +142,7 @@
   <Compile Include="View\DetailOrder.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />
+  <Compile Include="View\PlantProduct.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
   <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />

@@ -53,7 +53,7 @@
                         </telerik:RadRibbonDropDownButton.DropDownContent>
                     </telerik:RadRibbonDropDownButton>
                     <!-- Search Bar -->
-                    <Border Grid.Column="1" BorderBrush="#285A43" BorderThickness="1" CornerRadius="20" Padding="20" VerticalAlignment="Center">
+                    <Border Grid.Column="1" BorderBrush="#285A43" BorderThickness="1" CornerRadius="20" Padding="15" VerticalAlignment="Center">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -85,17 +85,6 @@
                                 </StackPanel>
                             </telerik:RadRibbonDropDownButton.Content>
                             <telerik:RadRibbonDropDownButton.DropDownContent>
-                                <!--<ListBox ItemsSource="{Binding AddList}" ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Margin="5,0,5,0" 
-                                                           Text="{Binding Icon}" Style="{StaticResource IconAddStyle}" />
-                                                <TextBlock Text="{Binding Text}" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>-->
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel.Style>
@@ -123,7 +112,7 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </StackPanel.Style>
-                                        <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
                                         <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -156,10 +145,10 @@
                 <!-- List of product type -->
                 <Grid>
                     <ListView Height="490" ItemsSource="{Binding PlantTypesList}" 
-                              Name="plantTypeListView"  HorizontalAlignment="Stretch" 
-                              VerticalAlignment="Center" Margin="0,5,0,0"  
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                              ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
+          Name="plantTypeListView"  HorizontalAlignment="Stretch" 
+          VerticalAlignment="Center" Margin="0,5,0,0"  
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+          ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
@@ -173,6 +162,8 @@
                                 </Setter>
                                 <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="BorderBrush" Value="Transparent"/>
+                                <!-- Set event handler for MouseLeftButtonUp event -->
+                                <EventSetter Event="MouseLeftButtonUp" Handler="ListViewItem_MouseLeftButtonUp"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemsPanel>
@@ -183,7 +174,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="0,10,10,0" BorderBrush="#e6e6e6" 
-                                        BorderThickness="0.5" CornerRadius="10" Padding="0,0,0,10">
+                    BorderThickness="0.5" CornerRadius="10" Padding="0,0,0,10">
                                     <Grid Height="220" Width="210">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -191,9 +182,9 @@
                                         </Grid.RowDefinitions>
 
                                         <Image Grid.Row="0" Source="{Binding Image , 
-                                            Converter={StaticResource absoluteConverter}}" 
-                                               Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
-                                               Margin="0,0,0,10"/>
+                        Converter={StaticResource absoluteConverter}}" 
+                           Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
+                           Margin="0,0,0,10"/>
 
                                         <DockPanel Grid.Row="1">
                                             <Grid Margin="10,0,10,0" DockPanel.Dock="Top">

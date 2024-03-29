@@ -18,5 +18,10 @@
     <DataTemplate DataType="{x:Type vm:VoucherVM}">
         <view:Vouchers />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type vm:PlantProductVM}">
+        <view:PlantProduct />
+    </DataTemplate>
+
+
 </ResourceDictionary>
