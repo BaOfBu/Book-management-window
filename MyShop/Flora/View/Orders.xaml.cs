@@ -82,5 +82,10 @@ namespace Flora.View
             PreviewOrder selectedOrder = (PreviewOrder)gridView.SelectedItem;
             orderVM.OrderSelected = selectedOrder;
         }
+
+        private void gridView_SelectionChanged(object sender, SelectionChangeEventArgs e)
+        {
+
+        }
     }
 }

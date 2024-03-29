@@ -52,6 +52,24 @@
   <Page Include="Styles\Page.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Plants\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Button.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Dropdown.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Icon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\ProductTypePage.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -82,6 +100,9 @@
   <Page Include="View\Orders.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\PlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\Products.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -102,6 +123,7 @@
   </Compile>
   <Compile Include="Model\Coupon.cs" />
   <Compile Include="Model\Customer.cs" />
+  <Compile Include="Model\ListItemModel.cs" />
   <Compile Include="Model\HomeProductPreview.cs" />
   <Compile Include="Model\Order.cs" />
   <Compile Include="Model\OrderDetail.cs" />
@@ -110,11 +132,13 @@
   <Compile Include="Model\PreviewOrder.cs" />
   <Compile Include="Model\UserAccount.cs" />
   <Compile Include="Utilities\ButtonCustom.cs" />
+  <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
+  <Compile Include="ViewModel\PlantProductVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
@@ -122,6 +146,7 @@
   <Compile Include="View\DetailOrder.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />
+  <Compile Include="View\PlantProduct.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
   <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />
@@ -154,6 +179,9 @@
     </Content>
     <Content Include="Images\product-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\search-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

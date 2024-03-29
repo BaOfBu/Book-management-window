@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Lê Tuấn Bình -->
+    <Style x:Key="IconSortStyle" TargetType="TextBlock">
+
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+
+    </Style>
+    <Style x:Key="IconAddStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#285A43"/>
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+    <Style x:Key="MoreInfoIconStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#A0A0A0"/>
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Thin"/>
+        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+</ResourceDictionary>
