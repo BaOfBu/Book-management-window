@@ -34,6 +34,9 @@
     <Page Update="Styles\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\HomeElement.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\DropdownButton.xaml">
       <SubType>Designer</SubType>
     </Page>
