@@ -96,7 +96,8 @@ namespace Flora.ViewModel
                 query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
             }
 
-            return query.ToList();
+            var result = query.ToList();
+            return result;
         }
 
         private ObservableCollection<PreviewOrder> CreatePreviewOrdersList(List<Order> orders)

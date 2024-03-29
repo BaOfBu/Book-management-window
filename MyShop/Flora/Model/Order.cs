@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Flora;
 
@@ -23,4 +22,6 @@ public partial class Order
     public virtual Coupon Coupon { get; set; }
 
     public virtual Customer Customer { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

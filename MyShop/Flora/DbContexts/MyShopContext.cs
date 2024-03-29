@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flora;
@@ -28,10 +29,11 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<PlantCategory> PlantCategories { get; set; }
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.; Trusted_Connection=Yes; Initial Catalog=MyShop; TrustServerCertificate=True");
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+        optionsBuilder.UseSqlServer(connectionString);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -95,12 +97,12 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.PlantId).HasColumnName("PlantID");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.Order).WithMany()
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Order__47DBAE45");
 
-            entity.HasOne(d => d.Plant).WithMany()
+            entity.HasOne(d => d.Plant).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.PlantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Plant__44FF419A");
@@ -108,7 +110,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Plant>(entity =>
         {
-            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC05C0C94F");
+            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BCE9714BF6");
 
             entity.Property(e => e.PlantId)
                 .ValueGeneratedNever()
@@ -118,20 +120,22 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.PlantImage).HasColumnType("text");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Plants)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Plants__Category__47DBAE45");
+                .HasConstraintName("FK__Plants__Category__48CFD27E");
         });
 
         modelBuilder.Entity<PlantCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2B2F2A2E37");
+            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2B4C6577D2");
 
             entity.Property(e => e.CategoryId)
                 .ValueGeneratedNever()
                 .HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryImages).HasColumnType("text");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -139,9 +143,9 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC5FF23053");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC3C49266B");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E413B0DB2A").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E49CD1BB36").IsUnique();
 
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()

@@ -15,7 +15,7 @@
               <ResourceDictionary Source="Styles/GridView.xaml" />
               <ResourceDictionary Source="Styles/InputField.xaml" />
               <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
-          </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
     </Application.Resources>
 </Application>

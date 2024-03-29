@@ -59,8 +59,23 @@ namespace Flora.View
         }
         private void AddAnOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            AddOrder addOrderWindow = new AddOrder();
-            addOrderWindow.Show();
+            var screen = new AddOrder();
+            if (screen.ShowDialog() == true)
+            {
+                Order newOrder = screen.GetNewOrder();
+
+                PreviewOrder newPreviewOrder = new PreviewOrder() {
+                    OrderIndex = orderVM.OrderList.Count(),
+                    OrderId = newOrder.OrderId,
+                    CustomerName = newOrder.Customer.Name,
+                    Quantity = newOrder.Quantity,
+                    TotalAmount = newOrder.TotalAmount,
+                    OrderDate = newOrder.OrderDate,
+                    Status = newOrder.Status
+                };
+                MessageBox.Show("Insert an order successfully");
+                orderVM.OrderList.Add(newPreviewOrder);
+            }
         }
 
         private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
