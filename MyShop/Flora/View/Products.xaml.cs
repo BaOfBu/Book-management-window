@@ -93,10 +93,23 @@ namespace Flora.View
                     string selectedName = selectedPlantType.CategoryName;
                     // Create a new instance of the PlantProduct UserControl
                     PlantProduct plantProduct = new PlantProduct();
-                    // For example, if you have a ContentControl named "contentControl":
-                    plantProduct.Show();
+                    var navigationVM = GetNavigationVMFromMainWindow();
+
+                    if (navigationVM != null)
+                    {
+                        navigationVM.PlantsCommand.Execute(null);
+                    }
                 }
             }
+        }
+        private NavigationVM GetNavigationVMFromMainWindow()
+        {
+            var mainWindow = Application.Current.MainWindow;
+            if (mainWindow.DataContext is NavigationVM navigationVM)
+            {
+                return navigationVM;
+            }
+            return null;
         }
 
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
@@ -106,5 +119,8 @@ namespace Flora.View
 
             // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
         }
+
+
+
     }
 }
