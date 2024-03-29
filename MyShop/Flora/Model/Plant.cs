@@ -1,4 +1,6 @@
-﻿namespace Flora;
+﻿using System.Collections.Generic;
+
+namespace Flora;
 
 public partial class Plant
 {
@@ -14,7 +16,9 @@ public partial class Plant
 
     public int? CategoryId { get; set; }
 
-    public string Image { get; set; }
+    public string PlantImage { get; set; }
 
     public virtual PlantCategory Category { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

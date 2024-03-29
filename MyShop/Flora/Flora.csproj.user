@@ -5,6 +5,9 @@
     <Compile Update="View\AddOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\AddProductCategory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\AddVoucher.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
     <Page Update="Styles\Plants\CircularButtonTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Plants\RadiusButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Plants\Text.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -86,6 +92,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\AddOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddProductCategory.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\AddVoucher.xaml">

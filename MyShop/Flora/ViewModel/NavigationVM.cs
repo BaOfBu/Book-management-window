@@ -36,14 +36,15 @@ namespace Flora.ViewModel
         public ICommand ProductsCommand { get; set; }
         public ICommand OrdersCommand { get; set; }
         public ICommand VouchersCommand { get; set; }
-
         public ICommand PlantsCommand { get; set; }
+        public ICommand AddProductCategoryCommand { get; set; }
 
         private void Home(object obj) => CurrentView = new HomeVM();
         private void Product(object obj) => CurrentView = new ProductVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Voucher(object obj) => CurrentView = new VoucherVM();
         private void Plant(object obj) => CurrentView = new PlantProductVM();
+        private void AddPlantCategory(object obj) => CurrentView = new AddProductCategoryVM();
         public NavigationVM()
         {
             HomeCommand = new RelayCommand(Home);
@@ -51,15 +52,12 @@ namespace Flora.ViewModel
             OrdersCommand = new RelayCommand(Order);
             VouchersCommand = new RelayCommand(Voucher);
             PlantsCommand = new RelayCommand(param => this.ChangeViewMethodForPlant());
+            AddProductCategoryCommand = new RelayCommand(AddPlantCategory);
             CurrentView = new HomeVM();
         }
         public void ChangeViewMethodForPlant()
         {
-            // Trigger the transition
             BeforeViewChange?.Invoke(this, EventArgs.Empty);
-
-            // The actual view change happens after the animation. 
-            // This will be handled by the subscriber of the BeforeViewChange event.
         }
 
     }

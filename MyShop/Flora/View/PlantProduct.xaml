@@ -141,7 +141,7 @@
                                 <telerik:RadRibbonDropDownButton.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
-                                        <TextBlock Text="Add product type" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Add product" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </telerik:RadRibbonDropDownButton.Content>
                                 <telerik:RadRibbonDropDownButton.DropDownContent>
@@ -158,7 +158,7 @@
                                                 </Style>
                                             </StackPanel.Style>
                                             <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="AddNewProductType_Click"/>
-                                            <TextBlock Text="Add a new product type" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewProductType_Click"/>
+                                            <TextBlock Text="Add a new product" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewProductType_Click"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
@@ -245,7 +245,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <Image Grid.Row="0" Source="{Binding Image, Converter={StaticResource absoluteConverter}}" 
+                                        <Image Grid.Row="0" Source="{Binding PlantImage, Converter={StaticResource absoluteConverter}}" 
                  Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
                  Margin="0,0,0,10"/>
 

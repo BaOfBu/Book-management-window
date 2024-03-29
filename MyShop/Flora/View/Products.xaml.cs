@@ -70,7 +70,13 @@ namespace Flora.View
 
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
         {
+            AddProductCategory addPlantProduct = new AddProductCategory();
+            var navigationVM = GetNavigationVMFromMainWindow();
 
+            if (navigationVM != null)
+            {
+                navigationVM.AddProductCategoryCommand.Execute(null);
+            }
         }
         private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -119,7 +125,6 @@ namespace Flora.View
 
             // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
         }
-
 
 
     }

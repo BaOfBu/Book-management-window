@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Flora;
+﻿namespace Flora;
 
 public partial class OrderDetail
 {
-    public int? OrderId { get; set; }
+    public int OrderId { get; set; }
 
-    public int? PlantId { get; set; }
+    public int PlantId { get; set; }
 
     public int? Quantity { get; set; }
 

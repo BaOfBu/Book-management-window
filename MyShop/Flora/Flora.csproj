@@ -52,6 +52,9 @@
   <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Plants\RadiusButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\Plants\Text.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -83,6 +86,9 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\AddOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\AddProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\AddVoucher.xaml">
@@ -131,6 +137,7 @@
   <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
+  <Compile Include="ViewModel\AddProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
@@ -138,6 +145,7 @@
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
+  <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />

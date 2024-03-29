@@ -23,5 +23,9 @@
         <view:PlantProduct />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:AddProductCategoryVM}">
+        <view:AddProductCategory />
+    </DataTemplate>
+
 
 </ResourceDictionary>

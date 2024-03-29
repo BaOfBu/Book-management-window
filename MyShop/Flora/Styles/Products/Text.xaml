@@ -10,4 +10,9 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="FontSize" Value="12"/>
     </Style>
+    <Style x:Key="ProductNameAddTitle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#424242"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
 </ResourceDictionary>
