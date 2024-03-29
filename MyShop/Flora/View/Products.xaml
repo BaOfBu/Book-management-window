@@ -106,7 +106,7 @@
                         <TextBlock Text="Result per page" VerticalAlignment="Center" Margin="5" TextAlignment="Center" FontSize="16"/>
                         <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
                             <telerik:RadRibbonDropDownButton.Content>
-                                <TextBlock Text="3" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="8" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
                             </telerik:RadRibbonDropDownButton.Content>
                             <telerik:RadRibbonDropDownButton.DropDownContent>
                                 <ListBox ItemsSource="{Binding PagesNumberList}" ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
@@ -169,7 +169,7 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" Style="{StaticResource ProductTypeNameTitle}" HorizontalAlignment="Left" />
+                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding CategoryName}" Style="{StaticResource ProductTypeNameTitle}" HorizontalAlignment="Left" />
                                                 <TextBlock Grid.Column="1" Grid.Row="0" Name="MoreInformationIcon" Text="&#xf141;"  Style="{StaticResource MoreInfoIconStyle}" HorizontalAlignment="Right" FontWeight="Thin" />
                                             </Grid>
                                             <Grid Margin="10,0,10,0" DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  >

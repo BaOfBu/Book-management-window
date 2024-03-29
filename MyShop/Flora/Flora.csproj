@@ -109,16 +109,11 @@
   <Compile Include="Model\Coupon.cs" />
   <Compile Include="Model\Customer.cs" />
   <Compile Include="Model\Order.cs" />
-<<<<<<< HEAD
-  <Compile Include="Model\PlantType.cs" />
-  <Compile Include="Model\Voucher.cs" />
-=======
   <Compile Include="Model\OrderDetail.cs" />
   <Compile Include="Model\Plant.cs" />
   <Compile Include="Model\PlantCategory.cs" />
   <Compile Include="Model\PreviewOrder.cs" />
   <Compile Include="Model\UserAccount.cs" />
->>>>>>> main
   <Compile Include="Utilities\ButtonCustom.cs" />
   <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />

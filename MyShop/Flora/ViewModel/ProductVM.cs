@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Flora.ViewModel
@@ -11,7 +10,7 @@ namespace Flora.ViewModel
 
         public int PageSize { get; set; }
 
-        public BindingList<PlantType> PlantTypesList { get; set; }
+        public BindingList<PlantCategory> PlantTypesList { get; set; }
 
         public ProductVM()
         {
@@ -20,23 +19,23 @@ namespace Flora.ViewModel
                                                     "Sort by name descending",
                                                  };
             PageSize = 8;
-            PlantTypesList = new BindingList<PlantType> {
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 1, Name = "Indoor Plants"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 2, Name = "Outdoor Plants"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 3, Name = "Flowering Plants"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 4, Name = "Succulents"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 5, Name = "Herbs"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 6, Name = "Fruit Trees"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"},
-                    new PlantType(){Image ="Images/ProductTypes/1.png", ID = 7, Name = "Vegetables"}
+            PlantTypesList = new BindingList<PlantCategory> {
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 1, CategoryName = "Indoor Plants"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 2, CategoryName = "Outdoor Plants"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 3, CategoryName = "Flowering Plants"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 4, CategoryName = "Succulents"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 5, CategoryName = "Herbs"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 6, CategoryName = "Fruit Trees"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"},
+                    new PlantCategory(){Image ="Images/ProductTypes/1.png", CategoryId = 7, CategoryName = "Vegetables"}
 
                 };
         }

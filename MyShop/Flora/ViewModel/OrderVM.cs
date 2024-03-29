@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Flora.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using Flora.Model;
-using Microsoft.EntityFrameworkCore;
 
 namespace Flora.ViewModel
 {
@@ -95,6 +95,8 @@ namespace Flora.ViewModel
             {
                 query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
             }
+
+            Debug.WriteLine(query.ToList());
 
             return query.ToList();
         }
