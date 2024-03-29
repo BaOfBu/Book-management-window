@@ -9,7 +9,7 @@ namespace Flora.View
     /// <summary>
     /// Interaction logic for PlantProduct.xaml
     /// </summary>
-    public partial class PlantProduct : Window
+    public partial class PlantProduct : UserControl
     {
 
 

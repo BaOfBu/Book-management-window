@@ -128,7 +128,6 @@
                             </telerik:RadRibbonDropDownButton.Content>
                             <telerik:RadRibbonDropDownButton.DropDownContent>
                                 <ListBox    ItemsSource="{Binding PagesNumberList}" 
-                                            SelectedItem="{Binding SelectedItem}"
                                             SelectionChanged="SelectedListBoxItem_Click"
                                             ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
                                     <ListBox.ItemTemplate>
