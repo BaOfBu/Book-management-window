@@ -79,7 +79,11 @@ namespace Flora.View
         }
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var navigationVM = GetNavigationVMFromMainWindow();
+            if (navigationVM != null)
+            {
+                navigationVM.NavigateBack();
+            }
         }
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -92,6 +96,15 @@ namespace Flora.View
             // e.NewPageIndex gives you the new current page index
 
             // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
+        }
+        private NavigationVM GetNavigationVMFromMainWindow()
+        {
+            var mainWindow = Application.Current.MainWindow;
+            if (mainWindow.DataContext is NavigationVM navigationVM)
+            {
+                return navigationVM;
+            }
+            return null;
         }
     }
 }
