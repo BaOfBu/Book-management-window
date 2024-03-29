@@ -7,17 +7,48 @@ using Flora.Model;
 using System.Threading.Tasks;
 using Flora.View;
 using Microsoft.EntityFrameworkCore;
+using Telerik.Windows.Controls.FieldList;
+using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.ChartView;
+using Telerik.Windows.Documents.Model.Drawing.Charts;
 
 namespace Flora.ViewModel
 {
     class HomeVM : Utilities.ViewModelBase
     {
         private MyShopContext _shopContext;
+
         public ObservableCollection<HomeProductPreview> Plants { get; set; }
+
+        public class PlotInfo
+        {
+            public double Category { get; set; }
+            public double Value { get; set; }
+        }
+
+        //....... 
+        public ObservableCollection<PlotInfo> Points { get; set; }
         public HomeVM()
         {
+            Points = new ObservableCollection<PlotInfo>
+            {
+                new PlotInfo() { Category = 1, Value = 2},
+                new PlotInfo() { Category = 2, Value = 3},
+                new PlotInfo() { Category = 3, Value = 5},
+                new PlotInfo() { Category = 4, Value = 7},
+                new PlotInfo() { Category = 5, Value = 6},
+                new PlotInfo() { Category = 6, Value = 8},
+                new PlotInfo() { Category = 7, Value = 9},
+                new PlotInfo() { Category = 8, Value = 10},
+                new PlotInfo() { Category = 9, Value = 12},
+                new PlotInfo() { Category = 10, Value = 13},
+                new PlotInfo() { Category = 11, Value = 15},
+                new PlotInfo() { Category = 12, Value = 16},
+            };
+
             _shopContext = new MyShopContext();
             Plants = get5LeastProduct();
+            //myBarSeries.ItemSource = Points;
             
         }   
 
@@ -34,8 +65,8 @@ namespace Flora.ViewModel
         {
             var query = _shopContext.Plants
                         .OrderBy(p => p.StockQuantity)
-                        .Include(p => p.Category);
-            var products = query.Take(5).ToList();
+            .Include(p => p.Category);
+            var products = query.ToList();
             int productIndex = 1;
 
             var plants = new ObservableCollection<HomeProductPreview>();
@@ -53,6 +84,7 @@ namespace Flora.ViewModel
             }
 
             return plants;
+            //return new ObservableCollection<HomeProductPreview>();
         }
     }
 }

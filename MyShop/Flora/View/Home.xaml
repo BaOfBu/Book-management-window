@@ -15,7 +15,7 @@
     </UserControl.DataContext>
 
     <StackPanel>
-        <Grid Background="White">
+        <Grid Margin="30 0 30 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -25,18 +25,47 @@
 
             <StackPanel Grid.Column="1" Margin="20 10 20 0">
                 <DockPanel>
-                    <Button Style="{StaticResource EditButtonStyle}" DockPanel.Dock="Right">
-                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                    <Border Background="#285A43" Width="2" DockPanel.Dock="Left"/>
+                    <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
+                        <Icon:PackIconMaterial Kind="Account" Style="{StaticResource ButtonIconMaterialStyle}"/>
                     </Button>
-                    <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
                         <TextBlock Text="Customer" Style="{StaticResource HomeTitle}"/>
                         <TextBlock Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
                     </StackPanel>
                 </DockPanel>
-                <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}"/>
+                <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
             </StackPanel>
-
+            <StackPanel Grid.Column="0" Margin="20 10 20 0">
+                <DockPanel>
+                    <Border Background="#285A43" Width="2" DockPanel.Dock="Left"/>
+                    <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
+                        <Icon:PackIconMaterial Kind="Account" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                    </Button>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
+                        <TextBlock Text="Customer" Style="{StaticResource HomeTitle}"/>
+                        <TextBlock Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
+                    </StackPanel>
+                </DockPanel>
+                <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
+            </StackPanel>
         </Grid>
+        <StackPanel>
+            <telerik:RadCartesianChart Palette="Windows8">
+                <telerik:RadCartesianChart.HorizontalAxis>
+                    <telerik:LinearAxis ShowLabels="True"/>
+                </telerik:RadCartesianChart.HorizontalAxis>
+
+                <telerik:RadCartesianChart.VerticalAxis>
+                    <telerik:LinearAxis />
+                </telerik:RadCartesianChart.VerticalAxis>
+
+
+                <telerik:RadCartesianChart.Series>
+                    <telerik:ScatterLineSeries x:Name="scatterLine" XValueBinding="Category" YValueBinding="Value" ItemsSource="{Binding Points}" />
+                </telerik:RadCartesianChart.Series>
+            </telerik:RadCartesianChart>
+        </StackPanel>
         <StackPanel>
             <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}">
                 <telerik:RadGridView.Resources>

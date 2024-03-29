@@ -63,7 +63,7 @@
         <Setter Property="Height" Value="30" />
         <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome" />
         <Setter Property="FontSize" Value="24" />
-        <Setter Property="Foreground" Value="DarkGray" />
+        <Setter Property="Foreground" Value="#285A43" />
         <Setter Property="Margin" Value="0,0,0,0" />
     </Style>
     <Style x:Key="HomeIncrease" TargetType="TextBlock">
@@ -74,6 +74,27 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="DarkSlateBlue" />
         <Setter Property="Margin" Value="0,0,0,0" />
+    </Style>
+
+    <Style x:Key="CustomerIcon" TargetType="Button">
+        <Setter Property="Background" Value="#285A43" />
+        <Setter Property="BorderBrush" Value="#285A43" />
+        <Setter Property="Foreground" Value="#ffffff" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="20">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
