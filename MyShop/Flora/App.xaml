@@ -17,7 +17,8 @@
               <ResourceDictionary Source="Utilities/DataTemplate.xaml" />
               <ResourceDictionary Source="Styles/Products/Text.xaml"/>
               <ResourceDictionary Source="Styles/Products/Icon.xaml"/>
-                <ResourceDictionary Source="Styles/Products/Button.xaml"/>
+              <ResourceDictionary Source="Styles/Products/Button.xaml"/>
+              <ResourceDictionary Source="Styles/Products/Dropdown.xaml"/>
             </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
     </Application.Resources>

@@ -52,6 +52,9 @@
     <Page Update="Styles\Products\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Products\Dropdown.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Products\Icon.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -71,36 +71,65 @@
 
                 <!-- Functional Section -->
 
-                <Grid Margin="0,15,0,0">
+                <Grid Margin="0,15,0,0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                        <telerik:RadRibbonDropDownButton x:Name="AddFunction" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <telerik:RadRibbonDropDownButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
+                                    <TextBlock Text="Add product type" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </telerik:RadRibbonDropDownButton.Content>
+                            <telerik:RadRibbonDropDownButton.DropDownContent>
+                                <!--<ListBox ItemsSource="{Binding AddList}" ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="5,0,5,0" 
+                                                           Text="{Binding Icon}" Style="{StaticResource IconAddStyle}" />
+                                                <TextBlock Text="{Binding Text}" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>-->
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightGray"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="AddNewProductType_Click"/>
+                                        <TextBlock Text="Add a new product type" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewProductType_Click"/>
+                                    </StackPanel>
 
-                    <!-- Button to add a new product type -->
-                    <Button VerticalAlignment="Center" Name="AddProductTypeButton" Click="AddProductTypeButton_Click" Background="Transparent">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border x:Name="Border" Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"  Padding="5,5,5,5"
-                                        CornerRadius="5">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#D3D3D3"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
-                            <TextBlock Text="Add a new product type" TextAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="#285A43"></TextBlock>
-                        </StackPanel>
-                    </Button>
-
-
-
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightGray"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                        <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </telerik:RadRibbonDropDownButton.DropDownContent>
+                        </telerik:RadRibbonDropDownButton>
+                    </StackPanel>
                     <!-- Container for result per page dropdown and label, aligned to the right -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
                         <TextBlock Text="Result per page" VerticalAlignment="Center" Margin="5" TextAlignment="Center" FontSize="16"/>
@@ -109,7 +138,10 @@
                                 <TextBlock Text="8" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
                             </telerik:RadRibbonDropDownButton.Content>
                             <telerik:RadRibbonDropDownButton.DropDownContent>
-                                <ListBox ItemsSource="{Binding PagesNumberList}" ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
+                                <ListBox    ItemsSource="{Binding PagesNumberList}" 
+                                            SelectedItem="{Binding SelectedItem}"
+                                            SelectionChanged="SelectedListBoxItem_Click"
+                                            ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding}" FontSize="16" TextAlignment="Left" Margin="10,0,10,0" />

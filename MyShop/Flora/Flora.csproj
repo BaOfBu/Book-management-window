@@ -52,6 +52,9 @@
   <Page Include="Styles\Products\Button.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Products\Dropdown.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\Products\Icon.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -108,6 +111,7 @@
   </Compile>
   <Compile Include="Model\Coupon.cs" />
   <Compile Include="Model\Customer.cs" />
+  <Compile Include="Model\ListItemModel.cs" />
   <Compile Include="Model\Order.cs" />
   <Compile Include="Model\OrderDetail.cs" />
   <Compile Include="Model\Plant.cs" />

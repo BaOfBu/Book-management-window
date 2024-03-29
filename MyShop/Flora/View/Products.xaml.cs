@@ -17,10 +17,44 @@ namespace Flora.View
             InitializeComponent();
             productVM = DataContext as ProductVM;
         }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedListBoxItem = (sender as ListBox).SelectedItem;
+
+            if (selectedListBoxItem != null && selectedListBoxItem is string)
+            {
+                string selectedItem = selectedListBoxItem as string;
+
+                // Create a new TextBlock
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = selectedItem;
+                textBlock.FontSize = 16;
+                textBlock.TextAlignment = TextAlignment.Center;
+                textBlock.Margin = new Thickness(10, 0, 10, 0);
+                textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+
+                // Set the Content of ResultsPerPage to the newly created TextBlock
+                ResultsPerPage.Content = textBlock;
+
+                int pageSize = -1;
+
+                if (int.TryParse(selectedItem, out pageSize))
+                {
+                    if (productVM != null)
+                    {
+                        productVM.PageSize = pageSize;
+                    }
+                }
+            }
         }
 
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
@@ -33,15 +67,16 @@ namespace Flora.View
 
         }
 
-        private void AddProductTypeButton_Click(object sender, RoutedEventArgs e)
+        private void AddNewProductType_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
 
-        }
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
         {
             // e.OldPageIndex gives you the previous page index
