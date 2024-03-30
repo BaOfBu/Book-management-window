@@ -23,7 +23,7 @@ namespace Flora.ViewModel
 {
     class AddOrderVM : Utilities.ViewModelBase
     {
-        private MyShopContext _shopContext;
+        private readonly MyShopContext _shopContext;
         public ObservableCollection<Plant> Plants { get; set; }
         public List<Coupon> Coupons { get; set; }
         public Coupon SelectedCoupon { get; set; }

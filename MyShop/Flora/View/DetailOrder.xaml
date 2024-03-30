@@ -215,7 +215,7 @@
                         Width="120" 
                         Height="30" 
                         VerticalContentAlignment="Center"
-                        SelectionChanged="comboBoxStatus_SelectionChanged"
+                        SelectionChanged="ComboBoxStatus_SelectionChanged"
                         FontFamily="/Flora;component/Fonts/#Poppins" />
                 </StackPanel>
                 <StackPanel Width="20" />

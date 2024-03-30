@@ -35,8 +35,10 @@ namespace Flora.View
         Order _oldData;
         public Orders()
         {
+            _oldData = new Order();
+            orderVM = new OrderVM();
             InitializeComponent();
-            orderVM = DataContext as OrderVM;
+            DataContext = orderVM;
         }
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
@@ -48,8 +50,7 @@ namespace Flora.View
 
                 ResultsPerPage.Content = selectedItem;
 
-                int pageSize;
-                if (int.TryParse(selectedItem, out pageSize))
+                if (int.TryParse(selectedItem, out int pageSize))
                 {
                     if (orderVM != null)
                     {
@@ -107,18 +108,37 @@ namespace Flora.View
                 MessageBox.Show("Choose an order");
             }
         }
-        private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
-        {
-            if (DateTime.TryParse("2024-01-01", out DateTime start))
-            {
-                radDateRangePicker.StartDate = start;
-            }
-        }
-
         private void RemoveOrderButton_Click(object sender, RoutedEventArgs e)
         {
             Order selectedOrder = (Order)gridView.SelectedItem;
             orderVM.RemoveOrderCommand.Execute(selectedOrder);
+        }
+        private void RadDateTimePickerStart_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedDate = (RadDateTimePicker)sender;
+            if (selectedDate.SelectedDate != null)
+            {
+                orderVM.StartDateChangedCommand.Execute(selectedDate.SelectedDate);
+            }
+        }
+        private void RadDateTimePickerEnd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var endDate = (RadDateTimePicker)sender;
+            if (endDate.SelectedDate != null)
+            {
+                orderVM.EndDateChangedCommand.Execute(endDate.SelectedDate);
+            }
+        }
+
+        private void FilterRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            orderVM.FilterOrderCommand.Execute(null);
+        }
+        private void ReloadRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            radDateTimePicker_Start.SelectedValue = default;
+            radDateTimePicker_End.SelectedValue = default;
+            orderVM.ReloadOrderCommand.Execute(null);
         }
     }
 }

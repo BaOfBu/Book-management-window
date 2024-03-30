@@ -85,7 +85,7 @@ namespace Flora.View
             }
         }
 
-        private void comboBoxStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             detailOrderVM.ComboBoxStatusSelectionChangedCommand.Execute(comboBox.SelectedItem);
