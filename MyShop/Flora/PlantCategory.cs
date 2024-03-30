@@ -9,5 +9,7 @@ public partial class PlantCategory
 
     public string CategoryName { get; set; }
 
+    public string CategoryImages { get; set; }
+
     public virtual ICollection<Plant> Plants { get; set; } = new List<Plant>();
 }
