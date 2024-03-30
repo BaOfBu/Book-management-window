@@ -32,11 +32,17 @@ namespace Flora.ViewModel
         }
 
         public ObservableCollection<PieInfo> PieValues { get; set; }
-
-        //....... 
         public ObservableCollection<BarInfo> TotalOrders { get; set; }
-
         public ObservableCollection<BarInfo> DeliveredOrders { get; set; }
+        public string totalCustomer { get; set; }
+        public string totalCustomerBuyThisMonth { get; set; }
+        public string totalCustomerText { get; set; }
+        public string totalDelivering { get; set; }
+        public string thisMonthRevenue { get; set; }
+        public string thisMonthRevenueText { get; set; }
+        public string lastMonthRevenue { get; set; }
+        public string increaseText { get; set; }
+        public string totalProduct { get; set; }
         public HomeVM()
         {
             _shopContext = new MyShopContext();
@@ -44,7 +50,31 @@ namespace Flora.ViewModel
             PieValues = getNumberOrdersOnStatus();
             TotalOrders = getInfo();
             DeliveredOrders = getInfoDelivered();
-            
+
+            totalCustomer = getTotalCustomer();
+            totalCustomerBuyThisMonth = getTotalCustomerBuyThisMonth();
+            totalCustomerText = $"{totalCustomerBuyThisMonth} customers have buy this month";
+
+            totalDelivering = getTotalDelivering();
+            thisMonthRevenue = getThisMonthRevenue();
+            thisMonthRevenueText = $"${thisMonthRevenue}";
+            lastMonthRevenue = getLastMonthRevenue();
+            totalProduct = getTotalAvailableProduct();
+
+
+            if(Convert.ToDouble(thisMonthRevenue) > Convert.ToDouble(lastMonthRevenue))
+            {
+                var increase = (Convert.ToDouble(thisMonthRevenue) - Convert.ToDouble(lastMonthRevenue)) / Convert.ToDouble(lastMonthRevenue) * 100;
+                string increaseString = increase.ToString("#.00");
+                increaseText = $"{increaseString}% Increase from last month";
+            }
+            else
+            {
+                var decrease = (Convert.ToDouble(lastMonthRevenue) - Convert.ToDouble(thisMonthRevenue)) / Convert.ToDouble(lastMonthRevenue) * 100;
+                string decreaseString = decrease.ToString("#.00");
+                increaseText = $"{decreaseString}% Decrease from last month";
+            }
+
         }   
 
         private ObservableCollection<HomeProductPreview> get5LeastProduct()
@@ -82,25 +112,21 @@ namespace Flora.ViewModel
 
             var values = new ObservableCollection<PieInfo>();
 
-
-            while(values.Count < 4)
+            values.Add(new PieInfo
             {
-                values.Add(new PieInfo
-                {
-                    Status = "Delivering",
-                    Count = 0
-                });
-                values.Add(new PieInfo
-                {
-                    Status = "Delivered",
-                    Count = 0
-                });
-                values.Add(new PieInfo
-                {
-                    Status = "Cancelled",
-                    Count = 0
-                });
-            }
+                Status = "Delivering",
+                Count = 0
+            });
+            values.Add(new PieInfo
+            {
+                Status = "Delivered",
+                Count = 0
+            });
+            values.Add(new PieInfo
+            {
+                Status = "Cancelled",
+                Count = 0
+            });
             foreach (var o in query)
             {
                 if(o.Status == "Delivering")
@@ -155,6 +181,40 @@ namespace Flora.ViewModel
                 });
             }
             return values;
+        }
+
+        private string getTotalCustomer()
+        {
+            return _shopContext.Customers.Count().ToString();
+        }
+        private string getTotalDelivering()
+        {
+            return _shopContext.Orders.Where(o => o.Status == "Delivering").Count().ToString();
+        }
+        private string getLastMonthRevenue()
+        {
+            var query = from o in _shopContext.Orders
+                        .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month - 1 && o.OrderDate.Value.Year == DateTime.Now.Year)
+                        select o.TotalAmount;
+            return query.Sum().ToString();
+        }
+        private string getThisMonthRevenue()
+        {
+            var query = from o in _shopContext.Orders
+                        .Where(o => o.OrderDate.Value.Month == DateTime.Now.Month && o.OrderDate.Value.Year == DateTime.Now.Year)
+                        select o.TotalAmount;
+            return query.Sum().ToString();
+        }
+        private string getTotalAvailableProduct()
+        {
+            return _shopContext.Plants.Where(p => p.StockQuantity > 0).Count().ToString();
+        }
+
+        private string getTotalCustomerBuyThisMonth()
+        {
+            var query = _shopContext.Orders.Where(o => o.OrderDate.Value.Month == DateTime.Now.Month && o.OrderDate.Value.Year == DateTime.Now.Year)
+                .Select(o => o.CustomerId).Distinct();
+            return query.Count().ToString();
         }
     }
 }

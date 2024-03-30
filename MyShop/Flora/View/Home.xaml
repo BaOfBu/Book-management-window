@@ -15,7 +15,8 @@
     </UserControl.DataContext>
 
     <StackPanel>
-        <Grid Margin="30 10 30 0">
+        <TextBlock Text="Summary of this month" Style="{StaticResource HomeTitle}" Margin="40 10 0 0"/>
+        <Grid Margin="30 0 30 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -31,10 +32,10 @@
                     </Button>
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
                         <TextBlock Text="Revenue" Style="{StaticResource HomeTitle}"/>
-                        <TextBlock x:Name="revenueText" Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
+                        <TextBlock x:Name="revenueText" Text="{Binding thisMonthRevenueText}" Style="{StaticResource HomeNumber}"></TextBlock>
                     </StackPanel>
                 </DockPanel>
-                <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
+                <TextBlock x:Name="revenueIncrease" Text="{Binding increaseText}" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
             </StackPanel>
             <StackPanel Grid.Column="0" Margin="20 10 20 0">
                 <DockPanel>
@@ -44,10 +45,36 @@
                     </Button>
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
                         <TextBlock Text="Customer" Style="{StaticResource HomeTitle}"/>
-                        <TextBlock x:Name="customerText" Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
+                        <TextBlock x:Name="customerText" Text="{Binding totalCustomer}" Style="{StaticResource HomeNumber}"></TextBlock>
                     </StackPanel>
                 </DockPanel>
-                <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
+                <TextBlock x:Name="customerIncrease" Text="{Binding totalCustomerText}" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="3" Margin="20 10 20 0">
+                <DockPanel>
+                    <Border Background="#283f5a" Width="2" DockPanel.Dock="Left"/>
+                    <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
+                        <Icon:PackIconMaterial Kind="Truck" Style="{StaticResource HomeButtonIconMaterialStyle}"/>
+                    </Button>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
+                        <TextBlock Text="Delivering Orders" Style="{StaticResource HomeTitle}"/>
+                        <TextBlock x:Name="deliveringText" Text="{Binding totalDelivering}" Style="{StaticResource HomeNumber}"></TextBlock>
+                    </StackPanel>
+                </DockPanel>
+                <!--<TextBlock x:Name="deliveringIncrease" Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>-->
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="20 10 20 0">
+                <DockPanel>
+                    <Border Background="#283f5a" Width="2" DockPanel.Dock="Left"/>
+                    <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
+                        <Icon:PackIconMaterial Kind="CashFast" Style="{StaticResource HomeButtonIconMaterialStyle}"/>
+                    </Button>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
+                        <TextBlock Text="Available Product" Style="{StaticResource HomeTitle}"/>
+                        <TextBlock x:Name="availableProductText" Text="{Binding totalProduct}" Style="{StaticResource HomeNumber}"></TextBlock>
+                    </StackPanel>
+                </DockPanel>
+                <!--<TextBlock x:Name="profitIncrease" Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>-->
             </StackPanel>
         </Grid>
         <StackPanel Orientation="Horizontal">
@@ -66,55 +93,85 @@
                                     <Setter Property="Fill" Value="#5a284d"/>
                                 </Style>
                             </telerik:DoughnutSeries.SliceStyles>
+                            <telerik:DoughnutSeries.LabelConnectorsSettings>
+                                <telerik:ChartSeriesLabelConnectorsSettings/>
+                            </telerik:DoughnutSeries.LabelConnectorsSettings>
+                            <telerik:PieSeries.LabelDefinitions>
+                                <telerik:ChartSeriesLabelDefinition Margin="-20">
+                                    <telerik:ChartSeriesLabelDefinition.Template>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Value}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="DarkGray"/>
+                                                        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#Poppins"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                        <Setter Property="FontSize" Value="18"/>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </telerik:ChartSeriesLabelDefinition.Template>
+                                </telerik:ChartSeriesLabelDefinition>
+                            </telerik:PieSeries.LabelDefinitions>
                         </telerik:DoughnutSeries>
                     </telerik:RadPieChart.Series>
                 </telerik:RadPieChart>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
                         <Rectangle Width="20" Height="20" Fill="#285a43"/>
-                        <TextBlock Text="Delivering" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                        <TextBlock Text="Delivering" FontSize="14" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
                         <Rectangle Width="20" Height="20" Fill="#5a4828"/>
-                        <TextBlock Text="Delivered" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                        <TextBlock Text="Delivered" FontSize="14" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
                         <Rectangle Width="20" Height="20" Fill="#5a284d"/>
-                        <TextBlock Text="Cancelled" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                        <TextBlock Text="Cancelled" FontSize="14" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <telerik:RadCartesianChart HoverMode="FadeOtherSeries"  Height="300" Width="600" Margin="10 0 0 0 ">
-                <telerik:RadCartesianChart.HorizontalAxis>
-                    <telerik:CategoricalAxis ShowLabels="True"/>
-                </telerik:RadCartesianChart.HorizontalAxis>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Orders" HorizontalAlignment="Center" Grid.Row="0" Style="{StaticResource GraphBarTitle}" Margin="0 10 0 0"/>
+                <telerik:RadCartesianChart HoverMode="FadeOtherSeries" Grid.Row="1"  Height="300" Width="600" Margin="10 0 0 0 ">
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <telerik:CategoricalAxis ShowLabels="True"/>
+                    </telerik:RadCartesianChart.HorizontalAxis>
 
-                <telerik:RadCartesianChart.VerticalAxis>
-                    <telerik:LinearAxis />
-                </telerik:RadCartesianChart.VerticalAxis>
+                    <telerik:RadCartesianChart.VerticalAxis>
+                        <telerik:LinearAxis />
+                    </telerik:RadCartesianChart.VerticalAxis>
 
-                <telerik:RadCartesianChart.Series>
-                    <telerik:BarSeries x:Name="barSeries" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding TotalOrders}">
-                        <telerik:BarSeries.DefaultVisualStyle>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="#285a43" />
-                            </Style>
-                        </telerik:BarSeries.DefaultVisualStyle>
-                    </telerik:BarSeries>
-                    <telerik:BarSeries x:Name="barSeries2" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding DeliveredOrders}">
-                        <telerik:BarSeries.DefaultVisualStyle>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="#283f5a" />
-                            </Style>
-                        </telerik:BarSeries.DefaultVisualStyle>
-                    </telerik:BarSeries>
+                    <telerik:RadCartesianChart.Series>
+                        <telerik:BarSeries x:Name="barSeries" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding TotalOrders}">
+                            <telerik:BarSeries.DefaultVisualStyle>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#285a43" />
+                                </Style>
+                            </telerik:BarSeries.DefaultVisualStyle>
+                        </telerik:BarSeries>
+                        <telerik:BarSeries x:Name="barSeries2" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding DeliveredOrders}">
+                            <telerik:BarSeries.DefaultVisualStyle>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#283f5a" />
+                                </Style>
+                            </telerik:BarSeries.DefaultVisualStyle>
+                        </telerik:BarSeries>
 
-                </telerik:RadCartesianChart.Series>
-            </telerik:RadCartesianChart>
+                    </telerik:RadCartesianChart.Series>
+                </telerik:RadCartesianChart>
+            </Grid>
+            
             
         </StackPanel>
-        <StackPanel>
-            <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}">
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Text="Products low on quantity" Style="{StaticResource HomeTitle}" Margin="40 10 0 0"/>
+            <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}" Margin="40 0 0 0 ">
                 <telerik:RadGridView.Resources>
                         <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
                             <Style.Triggers>
