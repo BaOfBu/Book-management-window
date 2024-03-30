@@ -10,9 +10,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1030"
              Loaded="UserControl_Loaded">
-    <UserControl.DataContext>
-        <vm:PlantProductVM />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="TickTemplate">

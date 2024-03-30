@@ -26,7 +26,7 @@
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <Grid>
-            <StackPanel Orientation="Vertical" Margin="60,30,60,0">
+            <StackPanel Orientation="Vertical" Margin="60,30,40,0">
                 
                 <!-- Search Bar and Sort -->
                 
@@ -143,9 +143,9 @@
 
                 <!-- List of product type -->
                 <Grid>
-                    <ListView Height="490" ItemsSource="{Binding PlantTypesList}" 
+                    <ListView Height="490" ItemsSource="{Binding PlantCategoryList}" 
                           Name="plantTypeListView"  HorizontalAlignment="Stretch" 
-                          VerticalAlignment="Center" Margin="0,5,0,0"  
+                          VerticalAlignment="Center" Margin="0,5,8,0"  
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
                         <ListView.ItemContainerStyle>
@@ -218,7 +218,7 @@
                 </Grid>
                 <StackPanel>
                     <telerik:RadDataPager Name="dataPager" 
-                          Source="{Binding PlantTypesList}" 
+                          Source="{Binding AllPlantCategoryList}" 
                           PageSize="{Binding PageSize}" 
                           Margin="0 10 0 0" 
                           telerik:StyleManager.Theme="Fluent" 
