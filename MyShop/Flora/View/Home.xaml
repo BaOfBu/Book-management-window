@@ -15,7 +15,7 @@
     </UserControl.DataContext>
 
     <StackPanel>
-        <Grid Margin="30 0 30 0">
+        <Grid Margin="30 10 30 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -27,44 +27,91 @@
                 <DockPanel>
                     <Border Background="#285A43" Width="2" DockPanel.Dock="Left"/>
                     <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
-                        <Icon:PackIconMaterial Kind="Account" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                        <Icon:PackIconMaterial Kind="Wallet" Style="{StaticResource HomeButtonIconMaterialStyle}"/>
                     </Button>
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
-                        <TextBlock Text="Customer" Style="{StaticResource HomeTitle}"/>
-                        <TextBlock Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
+                        <TextBlock Text="Revenue" Style="{StaticResource HomeTitle}"/>
+                        <TextBlock x:Name="revenueText" Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
                     </StackPanel>
                 </DockPanel>
                 <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
             </StackPanel>
             <StackPanel Grid.Column="0" Margin="20 10 20 0">
                 <DockPanel>
-                    <Border Background="#285A43" Width="2" DockPanel.Dock="Left"/>
+                    <Border Background="#283f5a" Width="2" DockPanel.Dock="Left"/>
                     <Button Style="{StaticResource CustomerIcon}" DockPanel.Dock="Right">
-                        <Icon:PackIconMaterial Kind="Account" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                        <Icon:PackIconMaterial Kind="Account" Style="{StaticResource HomeButtonIconMaterialStyle}"/>
                     </Button>
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="10 0 0 0">
                         <TextBlock Text="Customer" Style="{StaticResource HomeTitle}"/>
-                        <TextBlock Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
+                        <TextBlock x:Name="customerText" Text="10000" Style="{StaticResource HomeNumber}"></TextBlock>
                     </StackPanel>
                 </DockPanel>
                 <TextBlock Text="100% from yesterday" Style="{StaticResource HomeIncrease}" Margin="0 10 0 0"/>
             </StackPanel>
         </Grid>
-        <StackPanel>
-            <telerik:RadCartesianChart Palette="Windows8">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0">
+                <telerik:RadPieChart Palette="Windows8" Width="300" Height="250">
+                    <telerik:RadPieChart.Series >
+                        <telerik:DoughnutSeries SelectedPointOffset="0.32" ItemsSource="{Binding PieValues}" ValueBinding="Count" >
+                            <telerik:DoughnutSeries.SliceStyles>
+                                <Style TargetType="Path">
+                                    <Setter Property="Fill" Value="#285a43"/>
+                                </Style>
+                                <Style TargetType="Path">
+                                    <Setter Property="Fill" Value="#5a4828"/>
+                                </Style>
+                                <Style TargetType="Path">
+                                    <Setter Property="Fill" Value="#5a284d"/>
+                                </Style>
+                            </telerik:DoughnutSeries.SliceStyles>
+                        </telerik:DoughnutSeries>
+                    </telerik:RadPieChart.Series>
+                </telerik:RadPieChart>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
+                        <Rectangle Width="20" Height="20" Fill="#285a43"/>
+                        <TextBlock Text="Delivering" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
+                        <Rectangle Width="20" Height="20" Fill="#5a4828"/>
+                        <TextBlock Text="Delivered" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 0 0 10">
+                        <Rectangle Width="20" Height="20" Fill="#5a284d"/>
+                        <TextBlock Text="Cancelled" FontSize="18" Foreground="DarkGray" FontFamily="/Flora;component/Fonts/#Poppins" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <telerik:RadCartesianChart HoverMode="FadeOtherSeries"  Height="300" Width="600" Margin="10 0 0 0 ">
                 <telerik:RadCartesianChart.HorizontalAxis>
-                    <telerik:LinearAxis ShowLabels="True"/>
+                    <telerik:CategoricalAxis ShowLabels="True"/>
                 </telerik:RadCartesianChart.HorizontalAxis>
 
                 <telerik:RadCartesianChart.VerticalAxis>
                     <telerik:LinearAxis />
                 </telerik:RadCartesianChart.VerticalAxis>
 
-
                 <telerik:RadCartesianChart.Series>
-                    <telerik:ScatterLineSeries x:Name="scatterLine" XValueBinding="Category" YValueBinding="Value" ItemsSource="{Binding Points}" />
+                    <telerik:BarSeries x:Name="barSeries" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding TotalOrders}">
+                        <telerik:BarSeries.DefaultVisualStyle>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#285a43" />
+                            </Style>
+                        </telerik:BarSeries.DefaultVisualStyle>
+                    </telerik:BarSeries>
+                    <telerik:BarSeries x:Name="barSeries2" ValueBinding="Value" CategoryBinding="Category" ItemsSource="{Binding DeliveredOrders}">
+                        <telerik:BarSeries.DefaultVisualStyle>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#283f5a" />
+                            </Style>
+                        </telerik:BarSeries.DefaultVisualStyle>
+                    </telerik:BarSeries>
+
                 </telerik:RadCartesianChart.Series>
             </telerik:RadCartesianChart>
+            
         </StackPanel>
         <StackPanel>
             <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}">

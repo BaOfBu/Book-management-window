@@ -20,53 +20,39 @@ namespace Flora.ViewModel
 
         public ObservableCollection<HomeProductPreview> Plants { get; set; }
 
-        public class PlotInfo
+        public class BarInfo
         {
-            public double Category { get; set; }
+            public string Category { get; set; }
             public double Value { get; set; }
         }
+        public class PieInfo
+        {
+            public string Status { get; set; }
+            public int Count { get; set; }
+        }
+
+        public ObservableCollection<PieInfo> PieValues { get; set; }
 
         //....... 
-        public ObservableCollection<PlotInfo> Points { get; set; }
+        public ObservableCollection<BarInfo> TotalOrders { get; set; }
+
+        public ObservableCollection<BarInfo> DeliveredOrders { get; set; }
         public HomeVM()
         {
-            Points = new ObservableCollection<PlotInfo>
-            {
-                new PlotInfo() { Category = 1, Value = 2},
-                new PlotInfo() { Category = 2, Value = 3},
-                new PlotInfo() { Category = 3, Value = 5},
-                new PlotInfo() { Category = 4, Value = 7},
-                new PlotInfo() { Category = 5, Value = 6},
-                new PlotInfo() { Category = 6, Value = 8},
-                new PlotInfo() { Category = 7, Value = 9},
-                new PlotInfo() { Category = 8, Value = 10},
-                new PlotInfo() { Category = 9, Value = 12},
-                new PlotInfo() { Category = 10, Value = 13},
-                new PlotInfo() { Category = 11, Value = 15},
-                new PlotInfo() { Category = 12, Value = 16},
-            };
-
             _shopContext = new MyShopContext();
             Plants = get5LeastProduct();
-            //myBarSeries.ItemSource = Points;
+            PieValues = getNumberOrdersOnStatus();
+            TotalOrders = getInfo();
+            DeliveredOrders = getInfoDelivered();
             
         }   
-
-        //private List<Plant> get5LeastProduct()
-        //{
-        //    var query = from p in _shopContext.Plants
-        //                orderby p.StockQuantity
-        //                select p;
-
-        //    return query.Take(5).ToList();
-        //}
 
         private ObservableCollection<HomeProductPreview> get5LeastProduct()
         {
             var query = _shopContext.Plants
                         .OrderBy(p => p.StockQuantity)
             .Include(p => p.Category);
-            var products = query.ToList();
+            var products = query.Take(5).ToList();
             int productIndex = 1;
 
             var plants = new ObservableCollection<HomeProductPreview>();
@@ -82,9 +68,93 @@ namespace Flora.ViewModel
                     CategoryName = o.Category.CategoryName
                 });
             }
-
             return plants;
-            //return new ObservableCollection<HomeProductPreview>();
+        }
+
+        private ObservableCollection<PieInfo> getNumberOrdersOnStatus()
+        {
+            var query = from o in _shopContext.Orders
+                        .GroupBy(o => o.Status)
+                        .Select(g => new { Status = g.Key, Count = g.Count() })
+                        select o;
+            var orders = query.ToList();
+
+
+            var values = new ObservableCollection<PieInfo>();
+
+
+            while(values.Count < 4)
+            {
+                values.Add(new PieInfo
+                {
+                    Status = "Delivering",
+                    Count = 0
+                });
+                values.Add(new PieInfo
+                {
+                    Status = "Delivered",
+                    Count = 0
+                });
+                values.Add(new PieInfo
+                {
+                    Status = "Cancelled",
+                    Count = 0
+                });
+            }
+            foreach (var o in query)
+            {
+                if(o.Status == "Delivering")
+                {
+                    values[0].Count = o.Count;
+                }
+                else if (o.Status == "Delivered")
+                {
+                    values[1].Count = o.Count;
+                }
+                else if (o.Status == "Cancelled")
+                {
+                    values[2].Count = o.Count;
+                }
+            }
+            return values;
+        }
+        private ObservableCollection<BarInfo> getInfo()
+        {
+            var ordersByMonth = _shopContext.Orders
+                            .GroupBy(order => new { orderDate = order.OrderDate.Value.Month, orderDateYear = order.OrderDate.Value.Year })
+                            .Select(group => new { Month = group.Key.orderDate, Year = group.Key.orderDateYear, Count = group.Count() })
+                            .OrderBy(o => o.Year)
+                            .ToList();
+            var values = new ObservableCollection<BarInfo>();
+            foreach (var o in ordersByMonth)
+            {
+                values.Add(new BarInfo
+                {
+                    Category = o.Month.ToString() + "/" + o.Year.ToString(),
+                    Value = o.Count
+                });
+            }
+            return values;
+        }
+        private ObservableCollection<BarInfo> getInfoDelivered()
+        {
+            var ordersByMonth = _shopContext.Orders
+                            .Where(order => order.Status == "Delivered")
+                            .GroupBy(order => new { orderDate = order.OrderDate.Value.Month, orderDateYear = order.OrderDate.Value.Year })
+                            .Select(group => new { Month = group.Key.orderDate, Year = group.Key.orderDateYear, Count = group.Count() })
+                            .OrderBy(o => o.Year)
+                            
+                            .ToList();
+            var values = new ObservableCollection<BarInfo>();
+            foreach (var o in ordersByMonth)
+            {
+                values.Add(new BarInfo
+                {
+                    Category = o.Month.ToString() + "/" + o.Year.ToString(),
+                    Value = o.Count
+                });
+            }
+            return values;
         }
     }
 }

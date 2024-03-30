@@ -10,4 +10,12 @@
         <Setter Property="Foreground" Value="DarkGray" />
         <Setter Property="Margin" Value="22,0,0,0" />
     </Style>
+
+    <Style TargetType="Border">
+        <Setter Property="Background" Value="#5a2f28"/>
+        <Setter Property="BorderThickness" Value="2"/>
+    </Style>
+    <Style TargetType="Path">
+        <Setter Property="Fill" Value="#5a2f28"/>
+    </Style>
 </ResourceDictionary>
