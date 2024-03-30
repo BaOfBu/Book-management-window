@@ -129,7 +129,6 @@ namespace Flora.View
                 orderVM.EndDateChangedCommand.Execute(endDate.SelectedDate);
             }
         }
-
         private void FilterRadButton_Click(object sender, RoutedEventArgs e)
         {
             orderVM.FilterOrderCommand.Execute(null);

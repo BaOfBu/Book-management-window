@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace Flora.View
 {
@@ -22,12 +23,14 @@ namespace Flora.View
     public partial class Vouchers : UserControl
     {
         private VoucherVM voucherVM { get; set; }
+        Coupon _oldData;
         public Vouchers()
         {
+            _oldData = new Coupon();
+            voucherVM = new VoucherVM();
             InitializeComponent();
-            voucherVM = DataContext as VoucherVM;
+            DataContext = voucherVM;
         }
-
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedListBoxItem = (sender as ListBox).SelectedItem;
@@ -38,8 +41,7 @@ namespace Flora.View
 
                 ResultsPerPage.Content = selectedItem;
 
-                int pageSize;
-                if (int.TryParse(selectedItem, out pageSize))
+                if (int.TryParse(selectedItem, out int pageSize))
                 {
                     if (voucherVM != null)
                     {
@@ -48,11 +50,53 @@ namespace Flora.View
                 }
             }
         }
-
         private void AddAVoucher_Click(object sender, RoutedEventArgs e)
         {
-            AddVoucher addVoucherWindow = new AddVoucher();
-            addVoucherWindow.Show();
+            var screen = new AddVoucher();
+            if(screen.ShowDialog() == true)
+            {
+
+                MessageBox.Show("Insert a coupon successfully");
+            }
+        }
+        private void RemoveCouponButton_Click(object sender, RoutedEventArgs e)
+        {
+            Coupon selectedCoupon = (Coupon)gridView.SelectedItem;
+            if (selectedCoupon.Status.Equals("Pending"))
+            {
+                voucherVM.RemoveVoucherCommand.Execute(selectedCoupon);
+                MessageBox.Show("Remove a coupon successfully");
+            }
+            else
+            {
+                MessageBox.Show("Please choose a coupon in pending status");
+            }
+        }
+        private void RadDateTimePickerStart_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedDate = (RadDateTimePicker)sender;
+            if (selectedDate.SelectedDate != null)
+            {
+                voucherVM.StartDateChangedCommand.Execute(selectedDate.SelectedDate);
+            }
+        }
+        private void RadDateTimePickerEnd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var endDate = (RadDateTimePicker)sender;
+            if (endDate.SelectedDate != null)
+            {
+                voucherVM.EndDateChangedCommand.Execute(endDate.SelectedDate);
+            }
+        }
+        private void FilterRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            voucherVM.FilterVoucherCommand.Execute(null);
+        }
+        private void ReloadRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            radDateTimePicker_Start.SelectedValue = default;
+            radDateTimePicker_End.SelectedValue = default;
+            voucherVM.ReloadVoucherCommand.Execute(null);
         }
     }
 }

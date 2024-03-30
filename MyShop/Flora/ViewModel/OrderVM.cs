@@ -44,7 +44,7 @@ namespace Flora.ViewModel
             SearchOrderCommand = new RelayCommand(SearchHandle);
             FilterOrderCommand = new RelayCommand(FilterByRangeDate);
             RemoveOrderCommand = new RelayCommand(RemoveOrder);
-            ReloadOrderCommand = new RelayCommand(ReloadOrder);
+            ReloadOrderCommand = new RelayCommand(ReloadOrders);
             StartDateChangedCommand = new RelayCommand(StartDateChanged);
             EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
@@ -99,7 +99,7 @@ namespace Flora.ViewModel
                 OrderList?.Remove(selectedItem);
             }
         }
-        private void ReloadOrder(object obj)
+        private void ReloadOrders(object obj)
         {
             SelectedStartDate = default;
             SelectedEndDate = default;
