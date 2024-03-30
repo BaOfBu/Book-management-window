@@ -38,6 +38,8 @@ namespace Flora.ViewModel
         public ICommand VouchersCommand { get; set; }
         public ICommand PlantsCommand { get; set; }
         public ICommand AddProductCategoryCommand { get; set; }
+        public ICommand AddPlantProductCommand { get; set; }
+        public ICommand EditProductCategoryCommand { get; set; }
 
         private void Home(object obj) => CurrentView = new HomeVM();
         private void Product(object obj) => CurrentView = new ProductVM();
@@ -45,20 +47,27 @@ namespace Flora.ViewModel
         private void Voucher(object obj) => CurrentView = new VoucherVM();
         private void Plant(object obj) => CurrentView = new PlantProductVM();
         private void AddPlantCategory(object obj) => CurrentView = new AddProductCategoryVM();
+        private void AddPlantProduct(object obj) => CurrentView = new AddPlantProductVM();
+        private void EditPlantCategory(object obj) => CurrentView = new EditProductCategoryVM();
         public NavigationVM()
         {
             HomeCommand = new RelayCommand(Home);
-            ProductsCommand = new RelayCommand(Product);
+            ProductsCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(ProductVM)));
             OrdersCommand = new RelayCommand(Order);
             VouchersCommand = new RelayCommand(Voucher);
-            PlantsCommand = new RelayCommand(param => this.ChangeViewMethodForPlant());
-            AddProductCategoryCommand = new RelayCommand(AddPlantCategory);
+            PlantsCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(PlantProductVM)));
+            AddProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddProductCategoryVM)));
+            AddPlantProductCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddPlantProductVM)));
+            EditProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(EditProductCategoryVM)));
             CurrentView = new HomeVM();
+
         }
-        public void ChangeViewMethodForPlant()
+        public void ChangeViewMethod(Type viewModelType)
         {
             BeforeViewChange?.Invoke(this, EventArgs.Empty);
+            var viewModelInstance = Activator.CreateInstance(viewModelType);
+            if (viewModelInstance != null)
+                CurrentView = viewModelInstance;
         }
-
     }
 }

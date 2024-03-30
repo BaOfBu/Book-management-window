@@ -39,6 +39,5 @@ namespace Flora.ViewModel
 
     };
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

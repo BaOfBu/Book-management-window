@@ -52,6 +52,9 @@
   <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Plants\HoverButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\Plants\RadiusButton.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -88,6 +91,9 @@
   <Page Include="View\AddOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\AddPlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\AddProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -95,6 +101,9 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\DetailOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\EditProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Home.xaml">
@@ -137,7 +146,9 @@
   <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
+  <Compile Include="ViewModel\AddPlantProductVM.cs" />
   <Compile Include="ViewModel\AddProductCategoryVM.cs" />
+  <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
@@ -145,9 +156,11 @@
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
+  <Compile Include="View\AddPlantProduct.xaml.cs" />
   <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
+  <Compile Include="View\EditProductCategory.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />
   <Compile Include="View\PlantProduct.xaml.cs" />

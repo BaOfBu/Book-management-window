@@ -26,6 +26,13 @@
     <DataTemplate DataType="{x:Type vm:AddProductCategoryVM}">
         <view:AddProductCategory />
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type vm:AddPlantProductVM}">
+        <view:AddPlantProduct />
+    </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:EditProductCategoryVM}">
+        <view:EditProductCategory />
+    </DataTemplate>
 
 </ResourceDictionary>

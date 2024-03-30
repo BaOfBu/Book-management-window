@@ -97,7 +97,6 @@ namespace Flora.View
                 if (selectedPlantType != null)
                 {
                     string selectedName = selectedPlantType.CategoryName;
-                    // Create a new instance of the PlantProduct UserControl
                     PlantProduct plantProduct = new PlantProduct();
                     var navigationVM = GetNavigationVMFromMainWindow();
 
@@ -126,6 +125,23 @@ namespace Flora.View
             // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
         }
 
+        private void MoreDetail_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag is ListViewItem listViewItem)
+            {
+                var item = listViewItem.Content as PlantCategory;
 
+                if (item != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
+
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditProductCategoryCommand.Execute(null);
+                    }
+                }
+            }
+        }
     }
 }

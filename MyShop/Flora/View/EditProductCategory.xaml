@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Flora.View.AddProductCategory"
+﻿<UserControl x:Class="Flora.View.EditProductCategory"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,15 +20,14 @@
                 <ResourceDictionary Source="/Styles/Plants/RadiusButton.xaml"/>
                 <ResourceDictionary Source="/Styles/Products/Text.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <StackPanel Orientation="Vertical" Margin="65,60,60,0">
-            <TextBlock TextAlignment="Left" VerticalAlignment="Center"   Grid.Column="1" Text="ADD A NEW PRODUCT TYPE" Style="{StaticResource ProductTypeNameHeader}" Margin="0,0,0,26"></TextBlock>
+            <TextBlock TextAlignment="Left" VerticalAlignment="Center"   Grid.Column="1" Text="{Binding plantCategory.CategoryName}" Style="{StaticResource ProductTypeNameHeader}" Margin="0,0,0,26"></TextBlock>
             <Button x:Name="ReturnButton" Width="222" HorizontalAlignment="Left" Height="32" Background="#F3FFFC" Foreground="#285A43" 
-                    Cursor="Hand" Style="{StaticResource RoundedButtonStyle}" Click="ReturnButton_Click">
+                Cursor="Hand" Style="{StaticResource RoundedButtonStyle}" Click="ReturnButton_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xf060;" Margin="0,0,10,0" Style="{StaticResource IconSideBarStyleNoMargin}"></TextBlock>
@@ -36,8 +35,8 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <TextBlock Margin="0,26,0,0" Text="CREATE A NEW PRODUCT TYPE" FontSize="20" 
-                       Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <TextBlock Margin="0,26,0,0" Text="DETAIL INFORMATION" FontSize="20" 
+                   Foreground="#285A43" FontWeight="Bold"></TextBlock>
             <Border  Background="#ebebeb" Height="1" Margin="0,5,0,25"/>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -48,47 +47,37 @@
                     <StackPanel Margin="0,0,0,20">
                         <TextBlock Margin="0,0,0,10" Text="Name of product type" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
                         <TextBox x:Name="myTextBoxName" Height="39" 
-                             Padding="5,0,0,0"
-                             telerik:CornerRadiusHelper.ClipRadius="5"
-                             VerticalContentAlignment="Center"
-                             Text="Enter text here..." 
-                             FontStyle="Normal" 
-                             Foreground="Gray"
-                             GotFocus="TextBox_GotFocus_Generic"
-                             LostFocus="TextBox_LostFocus_Generic">
+                         Padding="5,0,0,0"
+                         telerik:CornerRadiusHelper.ClipRadius="5"
+                         VerticalContentAlignment="Center"
+                         Text="{Binding plantCategory.CategoryName}" 
+                         FontStyle="Normal" 
+                         Foreground="Black"
+                         GotFocus="TextBox_GotFocus_Generic"
+                         LostFocus="TextBox_LostFocus_Generic">
                         </TextBox>
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,20">
-                        <TextBlock Margin="0,0,0,10" Text="Description" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                        <TextBox x:Name="myTextBoxDescription" Height="39" 
-                              Padding="5,0,0,0"
-                              telerik:CornerRadiusHelper.ClipRadius="5"
-                              VerticalContentAlignment="Center"
-                              Text="Enter text here..." 
-                              FontStyle="Normal" 
-                              Foreground="Gray"
-                              GotFocus="TextBox_GotFocus_Generic"
-                              LostFocus="TextBox_LostFocus_Generic">
+                        <TextBlock Margin="0,0,0,10" Text="Category ID" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <TextBox x:Name="myTextBoxCategoryID" Height="39" 
+                          Padding="5,0,0,0"
+                          telerik:CornerRadiusHelper.ClipRadius="5"
+                          VerticalContentAlignment="Center"
+                          Text="{Binding plantCategory.CategoryId }" 
+                          FontStyle="Normal" 
+                          Foreground="Black"
+                          GotFocus="TextBox_GotFocus_Generic"
+                          LostFocus="TextBox_LostFocus_Generic">
                         </TextBox>
                     </StackPanel>
 
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
-                    <Border BorderBrush="#d5d5d5" BorderThickness="1" Height="200" CornerRadius="5"
-        Background="#FAFAFA" AllowDrop="True" Margin="0,0,0,20"
-        DragEnter="UploadArea_DragEnter" Drop="UploadArea_Drop">
+                    <Border BorderBrush="#d5d5d5" BorderThickness="1" Height="250" CornerRadius="5"
+    Background="#FAFAFA" AllowDrop="True" Margin="0,0,0,20">
                         <Grid>
-                            <!-- Use a Grid to overlap the Image with the StackPanel -->
-                            <!-- Image control to display the uploaded (and cropped) image -->
-                            <Image x:Name="displayedImage" Stretch="UniformToFill" Visibility="Collapsed" />
-
-                            <!-- StackPanel with the upload instructions -->
-                            <StackPanel x:Name="uploadInstructionsStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock HorizontalAlignment="Center" Text="&#xf093;" FontSize="30" Foreground="#7E7E7E" Style="{StaticResource IconSideBarStyleNoMargin}"/>
-                                <TextBlock HorizontalAlignment="Center" Text="JPG, PNG or WebP. Less than 10MB" Margin="0,15,0,0"/>
-                                <TextBlock HorizontalAlignment="Center" Text="Drag and drop here or Browse" FontStyle="Normal"/>
-                            </StackPanel>
+                            <Image x:Name="displayedImage" Stretch="Fill"  Source="{Binding plantCategory.CategoryImages,Converter={StaticResource absoluteConverter}}"/>
                         </Grid>
                     </Border>
                     <Border CornerRadius="5" BorderBrush="#d5d5d5" BorderThickness="1" Background="#FAFAFA" Padding="1">
@@ -100,25 +89,25 @@
                 </StackPanel>
             </Grid>
             <StackPanel Margin="0,40,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
-                <Button Style="{StaticResource NoHoverButtonStyle}" Cursor="Hand" Margin="0,0,20,0" Background="#285A43" x:Name="AddNewProductCategoryType" Padding="20,10,20,10" Click="AddNewProductCategoryType_Click">
+                <Button Style="{StaticResource NoHoverButtonStyle}" Cursor="Hand" Margin="0,0,20,0" Background="#285A43" x:Name="EditButton" Padding="20,10,20,10" Click="EditButton_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="0,0,15,0" Foreground="White" Text="&#xf055;" Style="{StaticResource IconAddStyle}"></TextBlock>
-                            <TextBlock FontSize="14" Foreground="White" VerticalAlignment="Center" Text="Add"></TextBlock>
+                            <TextBlock Margin="0,0,15,0" Foreground="White" Text="&#xf058;" Style="{StaticResource IconAddStyle}"></TextBlock>
+                            <TextBlock FontSize="14" Foreground="White" VerticalAlignment="Center" Text="Accept"></TextBlock>
                         </StackPanel>
 
                     </Button.Content>
                 </Button>
-                <Button Style="{StaticResource NoHoverButtonStyle}" Background="#f5f5f5" Cursor="Hand" Padding="20,10,20,10"  x:Name="ClearButton" Click="ClearButton_Click">
+                <Button Style="{StaticResource NoHoverButtonStyle}" Background="#f5f5f5" Cursor="Hand" Padding="20,10,20,10"  x:Name="DeleteButton" Click="DeleteButton_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="0,0,15,0" Foreground="#424242" Text="&#xf12d;"  Style="{StaticResource IconAddStyle}"></TextBlock>
-                            <TextBlock FontSize="14" VerticalAlignment="Center" Foreground="#424242" Text="Clear" Margin="0,0,0,0"></TextBlock>
+                            <TextBlock FontSize="14" VerticalAlignment="Center" Foreground="#424242" Text="Delete" Margin="0,0,0,0"></TextBlock>
                         </StackPanel>
                     </Button.Content>
                 </Button>
             </StackPanel>
-            
+
         </StackPanel>
     </Grid>
 </UserControl>

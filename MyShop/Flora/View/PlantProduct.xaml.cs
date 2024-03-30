@@ -72,10 +72,14 @@ namespace Flora.View
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
         {
 
+            var navigationVM = GetNavigationVMFromMainWindow();
+            if (navigationVM != null)
+            {
+                navigationVM.AddPlantProductCommand.Execute(null);
+            }
         }
         private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
         {
-
         }
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
@@ -106,5 +110,6 @@ namespace Flora.View
             }
             return null;
         }
+
     }
 }
