@@ -59,6 +59,19 @@ namespace Flora.View
                 MessageBox.Show("Insert a coupon successfully");
             }
         }
+        private void UpdateCouponButton_Click(object sender, RoutedEventArgs e)
+        {
+            var coupon = gridView.SelectedItem as Coupon;
+            if (coupon != null)
+            {
+                voucherVM.UpdateVoucherCommand.Execute(coupon);
+                MessageBox.Show("Update the coupon successfully");
+            }
+            else
+            {
+                MessageBox.Show("Please choose a coupon");
+            }
+        }
         private void RemoveCouponButton_Click(object sender, RoutedEventArgs e)
         {
             Coupon selectedCoupon = (Coupon)gridView.SelectedItem;

@@ -25,6 +25,7 @@ namespace Flora.ViewModel
         public System.Windows.Input.ICommand FilterVoucherCommand { get; set; }
         public System.Windows.Input.ICommand ReloadVoucherCommand { get; set; }
         public System.Windows.Input.ICommand RemoveVoucherCommand { get; set; }
+        public System.Windows.Input.ICommand UpdateVoucherCommand { get; set; }
         public System.Windows.Input.ICommand StartDateChangedCommand { get; set; }
         public System.Windows.Input.ICommand EndDateChangedCommand { get; set; }
         public VoucherVM()
@@ -43,6 +44,7 @@ namespace Flora.ViewModel
             FilterVoucherCommand = new RelayCommand(FilterByRangeDate);
             ReloadVoucherCommand = new RelayCommand(ReloadCoupons);
             RemoveVoucherCommand = new RelayCommand(RemoveCoupon);
+            UpdateVoucherCommand = new RelayCommand(UpdateCoupon);
             StartDateChangedCommand = new RelayCommand(StartDateChanged);
             EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
@@ -88,6 +90,20 @@ namespace Flora.ViewModel
                 _shopContext.SaveChanges();
 
                 CouponList?.Remove(selectedItem);
+            }
+        }
+        private void UpdateCoupon(object selectedCoupon)
+        {
+            var selectedItem = selectedCoupon as Coupon;
+            if(selectedItem != null)
+            {
+                var existingCoupon = _shopContext.Coupons.FirstOrDefault(c => c.CouponId == selectedItem.CouponId);
+                if(existingCoupon != null)
+                {
+                    existingCoupon.CouponCode = selectedItem.CouponCode;
+                    existingCoupon.Status = selectedItem.Status;
+                    _shopContext.SaveChanges();
+                }
             }
         }
         private void ReloadCoupons(object obj)

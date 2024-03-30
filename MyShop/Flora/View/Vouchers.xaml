@@ -124,16 +124,16 @@
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Coupon ID" DataMemberBinding="{Binding CouponId}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="200" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="200" IsReadOnly="False" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount}" Width="80" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate}" Width="120" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="False" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource EditButtonStyle}">
+                                            <Button Style="{StaticResource EditButtonStyle}" Click="UpdateCouponButton_Click">
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
                                             <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}" Click="RemoveCouponButton_Click">
