@@ -103,6 +103,9 @@
   <Page Include="View\DetailOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\EditPlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\EditProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -148,6 +151,7 @@
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddPlantProductVM.cs" />
   <Compile Include="ViewModel\AddProductCategoryVM.cs" />
+  <Compile Include="ViewModel\EditPlantProductVM.cs" />
   <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
@@ -160,6 +164,7 @@
   <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
+  <Compile Include="View\EditPlantProduct.xaml.cs" />
   <Compile Include="View\EditProductCategory.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />

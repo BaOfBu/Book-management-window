@@ -91,7 +91,27 @@ namespace Flora.View
         }
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Cast sender to ListViewItem to access properties
+            ListViewItem listViewItem = sender as ListViewItem;
 
+            // Retrieve the name of the selected item
+            if (listViewItem != null && listViewItem.Content != null)
+            {
+                // Assuming PlantType is the type of the items in PlantTypesList
+                Plant selectedPlantType = listViewItem.Content as Plant;
+
+                if (selectedPlantType != null)
+                {
+                    string selectedName = selectedPlantType.Name;
+                    PlantProduct plantProduct = new PlantProduct();
+                    var navigationVM = GetNavigationVMFromMainWindow();
+
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditPlantProductCommand.Execute(null);
+                    }
+                }
+            }
         }
 
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
@@ -111,5 +131,22 @@ namespace Flora.View
             return null;
         }
 
+        private void MoreDetail_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag is ListViewItem listViewItem)
+            {
+                var item = listViewItem.Content as Plant;
+
+                if (item != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditPlantProductCommand.Execute(null);
+                    }
+                }
+            }
+        }
     }
 }

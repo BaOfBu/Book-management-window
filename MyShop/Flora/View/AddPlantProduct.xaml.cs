@@ -57,6 +57,7 @@ namespace Flora.View
             {
                 warningTextBlock.Visibility = Visibility.Collapsed;
             }
+
         }
         private void TextBox_LostFocus_Generic(object sender, RoutedEventArgs e)
         {

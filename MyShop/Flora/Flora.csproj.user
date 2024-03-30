@@ -17,6 +17,9 @@
     <Compile Update="View\DetailOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\EditPlantProduct.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\EditProductCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +116,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DetailOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\EditPlantProduct.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\EditProductCategory.xaml">
