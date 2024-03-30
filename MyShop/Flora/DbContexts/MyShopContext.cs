@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flora;
 
@@ -27,6 +29,7 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<PlantCategory> PlantCategories { get; set; }
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -108,7 +111,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Plant>(entity =>
         {
-            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BCE9714BF6");
+            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC697755A8");
 
             entity.Property(e => e.PlantId)
                 .ValueGeneratedNever()
@@ -128,7 +131,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<PlantCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2B4C6577D2");
+            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2BDD5BF905");
 
             entity.Property(e => e.CategoryId)
                 .ValueGeneratedNever()
@@ -141,9 +144,9 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC3C49266B");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACF29E35FF");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E49CD1BB36").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E4DD1B542F").IsUnique();
 
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
@@ -151,11 +154,14 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.Entropy)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.FullName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(100)
+                .HasMaxLength(2048)
                 .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
