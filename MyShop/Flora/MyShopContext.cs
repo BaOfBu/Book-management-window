@@ -31,7 +31,7 @@ public partial class MyShopContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.; Trusted_Connection=Yes; Initial Catalog=MyShop; TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-MMNOUHJ7; Trusted_Connection=Yes; Initial Catalog=MyShop; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -108,7 +108,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Plant>(entity =>
         {
-            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC05C0C94F");
+            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC66BF4042");
 
             entity.Property(e => e.PlantId)
                 .ValueGeneratedNever()
@@ -118,20 +118,22 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.PlantImage).HasColumnType("text");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Plants)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Plants__Category__47DBAE45");
+                .HasConstraintName("FK__Plants__Category__48CFD27E");
         });
 
         modelBuilder.Entity<PlantCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2B2F2A2E37");
+            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2BF233F37C");
 
             entity.Property(e => e.CategoryId)
                 .ValueGeneratedNever()
                 .HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryImages).HasColumnType("text");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -139,9 +141,9 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC5FF23053");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC22C7993E");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E413B0DB2A").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E4F147A9E2").IsUnique();
 
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
