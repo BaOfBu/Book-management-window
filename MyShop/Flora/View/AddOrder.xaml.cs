@@ -55,10 +55,10 @@ namespace Flora.View
         }
         private void ClearRadButton_Click(object sender, RoutedEventArgs e)
         {
-            ((TextBox)customerName.Content).Text = string.Empty;
-            ((TextBox)customerEmail.Content).Text = string.Empty;
-            ((TextBox)customerPhoneNumber.Content).Text = string.Empty;
-            ((TextBox)customerDeliveryAddress.Content).Text = string.Empty;
+            customerName.Text = string.Empty;
+            customerEmail.Text = string.Empty;
+            customerPhoneNumber.Text = string.Empty;
+            customerDeliveryAddress.Text = string.Empty;
 
             comboBoxVouchers.SelectedIndex = -1;
 
@@ -68,10 +68,10 @@ namespace Flora.View
         {
             Customer customer = new Customer()
             {
-                Name = ((TextBox)customerName.Content).Text,
-                Email = ((TextBox)customerEmail.Content).Text,
-                Phone = ((TextBox)customerPhoneNumber.Content).Text,
-                Address = ((TextBox)customerDeliveryAddress.Content).Text,
+                Name = customerName.Text,
+                Email = customerEmail.Text,
+                Phone = customerPhoneNumber.Text,
+                Address = customerDeliveryAddress.Text,
             };
 
             addOrderVM.CreateOrderCommand.Execute(customer);

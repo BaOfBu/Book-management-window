@@ -30,6 +30,7 @@ namespace Flora.ViewModel
         public decimal TotalAmount { get; set; }
         public ObservableCollection<ItemViewModel> Items { get; set; }
         public Order NewOrder { get; set; }
+        public DateOnly OrderDate { get; set; }
         public ObservableCollection<Plant> SelectedPlants { get; set; } 
         public System.Windows.Input.ICommand AddItemPanelCommand { get; set; }
         public System.Windows.Input.ICommand RemoveItemPanelCommand { get; set; }
@@ -38,9 +39,11 @@ namespace Flora.ViewModel
         public System.Windows.Input.ICommand ComboBoxVoucherSelectionChangedCommand { get; set; }
         public System.Windows.Input.ICommand ClearRadButtonCommand { get; set; }
         public System.Windows.Input.ICommand CreateOrderCommand { get; set; }
+
         public AddOrderVM()
         {
             _shopContext = new MyShopContext();
+            OrderDate = DateOnly.FromDateTime(DateTime.Today);
             LoadPlants();
             LoadCoupons();
             SelectedPlants = new ObservableCollection<Plant>();
@@ -153,6 +156,12 @@ namespace Flora.ViewModel
 
                 selectedItemViewModel.SelectedPlant = selectedPlant;
                 selectedItemViewModel.ListQuantity = AvailableQuantityForItem(selectedPlant);
+            }
+
+            if(selectedItemViewModel.IsEnabledQuantityComboBox == true && selectedItemViewModel.SelectedQuantity != -1)
+            {
+                selectedItemViewModel.TotalPrice = CalculateTotalPriceItem(selectedItemViewModel.SelectedPlant, selectedItemViewModel.SelectedQuantity);
+                TotalAmount = GetTotalAmount();
             }
         }
         private List<int> AvailableQuantityForItem(Plant plant)
