@@ -59,7 +59,7 @@ namespace Flora.ViewModel
         {
             if (_shopContext.Database.CanConnect())
             {
-                return _shopContext.Plants.ToList();
+                return _shopContext.Plants.Include(o => o.OrderDetails).ToList();
             }
             return Enumerable.Empty<Plant>();
         }
@@ -93,24 +93,35 @@ namespace Flora.ViewModel
             {
                  ItemLabel = "Item " + (Items.Count + 1),
                  Plants = GetAvailablePlants(),
+                 SelectedPlant = null,
+                 SelectedPlantIndex = -1,
                  IsEnabledQuantityComboBox = false,
                  ListQuantity = new List<int>(),
                  TotalPrice = 0,
             });
         }
-        private List<Plant> GetAvailablePlants()
+        private ObservableCollection<Plant> GetAvailablePlants()
         {
-            List<Plant> plantsNotSelected = Plants.Except(SelectedPlants).ToList();
+            ObservableCollection<Plant> plantsNotSelected = new ObservableCollection<Plant>(Plants.Except(SelectedPlants).ToList());
             return plantsNotSelected;
         }
         private void RemoveItemPanel(object selectedItem)
         {
             var selected = selectedItem as ItemViewModel;
             Items.Remove(selected);
+            SelectedPlants.Remove(selected.SelectedPlant);
 
-            foreach(var item in Items)
+            foreach (var item in Items)
             {
-                item.ItemLabel = "Item " + (Items.IndexOf(item) + 1);
+                if(item != selected)
+                {
+                    item.ItemLabel = "Item " + (Items.IndexOf(item) + 1);
+                    var oldPlants = item.Plants;
+
+                    oldPlants.Add(selected.SelectedPlant);
+                    item.Plants = oldPlants;
+                    OnPropertyChanged(nameof(Plant));
+                }
             }
 
             TotalAmount = GetTotalAmount();
@@ -134,7 +145,7 @@ namespace Flora.ViewModel
                         var oldSelectedPlant = item.SelectedPlant;
 
                         SelectedPlants.Remove(oldSelectedPlant);
-                        item.Plants = oldPlants.Except(SelectedPlants).ToList();
+                        item.Plants = new ObservableCollection<Plant>(oldPlants.Except(SelectedPlants).ToList());
                         item.SelectedPlant = oldSelectedPlant;
                         SelectedPlants.Add(oldSelectedPlant);
                     }
@@ -207,11 +218,13 @@ namespace Flora.ViewModel
                 OrderDate = DateOnly.FromDateTime(DateTime.Today),
                 CouponId = SelectedCoupon.CouponId,
                 Status = "Pending",
+                Coupon = SelectedCoupon,
                 Customer = customer,
             };
 
             int orderId = InsertOrder(NewOrder);
-
+            
+            var orderDetails = new List<OrderDetail>();
             foreach (var item in Items)
             {
                 OrderDetail orderDetail = new OrderDetail()
@@ -219,11 +232,14 @@ namespace Flora.ViewModel
                     OrderId = orderId,
                     PlantId = item.SelectedPlant.PlantId,
                     Quantity = item.SelectedQuantity,
-                    Price = item.TotalPrice
+                    Price = item.TotalPrice,
+                    Order = NewOrder,
+                    Plant = item.SelectedPlant
                 };
-
+                orderDetails.Add(orderDetail);
                 InsertOrderDetail(orderDetail);
             }
+            NewOrder.OrderDetails = orderDetails;
         }
         private int InsertCustomer(Customer customer)
         {

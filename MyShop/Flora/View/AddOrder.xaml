@@ -8,11 +8,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         x:Class="Flora.View.AddOrder"
         mc:Ignorable="d"
-        Title="AddOrder" Height="620" Width="800">
-
-    <Window.DataContext>
-        <vm:AddOrderVM />
-    </Window.DataContext>
+        Title="Add Order" Height="620" Width="800">
 
     <Window.Resources>
         <local:CurrencyConverter x:Key="CurrencyConverter" />
@@ -97,7 +93,7 @@
                                     Height="30" 
                                     Width="80" 
                                     Text="{Binding TotalPrice, Converter={StaticResource CurrencyConverter}}" 
-                                    IsEnabled="True" 
+                                    IsEnabled="False" 
                                     VerticalContentAlignment="Center" 
                                     FontFamily="/Flora;component/Fonts/#Poppins" />
                             </StackPanel>
@@ -133,6 +129,7 @@
                     Width="550" 
                     Height="30" 
                     Style="{StaticResource ComboBoxStyle2}"
+                    VerticalContentAlignment="Center"
                     SelectionChanged="ComboBoxVoucher_SelectionChanged">
 
                         <ComboBox.ItemTemplate>
@@ -147,15 +144,20 @@
                     </ComboBox>
                 </StackPanel>
                 <telerik:DataFormDataField 
-                Width="200"
-                Label="Total Amount" 
-                LabelPosition="Above" 
-                IsReadOnly="True" 
-                Style="{StaticResource InputFieldStyle}" >
+                    Width="200"
+                    Label="Total Amount" 
+                    LabelPosition="Above" 
+                    Style="{StaticResource InputFieldStyle}" >
 
-                    <Border BorderBrush="LightGray" BorderThickness="1" Padding="5">
-                        <TextBlock x:Name="totalAmount" Text="{Binding TotalAmount, Converter={StaticResource CurrencyConverter}}" />
-                    </Border>
+                    <TextBox 
+                        Height="30" 
+                        Width="140" 
+                        Text="{Binding TotalAmount, Converter={StaticResource CurrencyConverter}}" 
+                        IsEnabled="False" 
+                        VerticalContentAlignment="Center" 
+                        FontFamily="/Flora;component/Fonts/#Poppins" />
+                    
+
                 </telerik:DataFormDataField>
             </StackPanel>
 

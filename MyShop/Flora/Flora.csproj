@@ -100,6 +100,7 @@
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddOrderVM.cs" />
+  <Compile Include="ViewModel\DetailOrderVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\ItemViewModel.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
@@ -109,6 +110,7 @@
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
+  <Compile Include="View\DateConverter.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\Orders.xaml.cs" />

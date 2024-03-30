@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using Flora.Model;
+using Flora.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flora.ViewModel
@@ -12,9 +13,7 @@ namespace Flora.ViewModel
     {
         private MyShopContext _shopContext;
         private string _searchText;
-        private PreviewOrder _orderSelected;
-
-        public ObservableCollection<PreviewOrder> OrderList { get; set; }
+        public ObservableCollection<Order> OrderList { get; set; }
         public ObservableCollection<string> PagesNumberList { get; set; }
         public int PageSize { get; set; }
 
@@ -28,20 +27,6 @@ namespace Flora.ViewModel
                     _searchText = value;
                     OnPropertyChanged(nameof(SearchText));
                     SearchHandle();
-                }
-            }
-        }
-
-        public PreviewOrder OrderSelected
-        {
-            get => _orderSelected;
-            set
-            {
-                if (_orderSelected != value)
-                {
-                    _orderSelected = value;
-                    OnPropertyChanged(nameof(OrderSelected));
-                    RemoveOrder();
                 }
             }
         }
@@ -76,19 +61,25 @@ namespace Flora.ViewModel
             }
         }
 
+        public System.Windows.Input.ICommand RemoveOrderCommand { get; set; }
         public OrderVM()
         {
             _shopContext = new MyShopContext();
             PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
             PageSize = 8;
-            OrderList = new ObservableCollection<PreviewOrder>();
+            OrderList = new ObservableCollection<Order>();
             LoadOrders("");
+
+            RemoveOrderCommand = new RelayCommand(RemoveOrder);
         }
 
         private List<Order> GetOrdersFromDatabase(string keyword)
         {
             var query = _shopContext.Orders
+                        .Include(o => o.Coupon)
                         .Include(o => o.Customer)
+                        .Include(o => o.OrderDetails)
+                            .ThenInclude(od => od.Plant)
                         .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword));
 
             if (_selectedStartDate != null && _selectedEndDate != null)
@@ -100,30 +91,10 @@ namespace Flora.ViewModel
             return result;
         }
 
-        private ObservableCollection<PreviewOrder> CreatePreviewOrdersList(List<Order> orders)
-        {
-            var previewOrders = new ObservableCollection<PreviewOrder>();
-            int orderIndex = 1;
-            foreach (var o in orders)
-            {
-                previewOrders.Add(new PreviewOrder
-                {
-                    OrderIndex = orderIndex++,
-                    OrderId = o.OrderId,
-                    CustomerName = o.Customer.Name,
-                    Quantity = o.Quantity,
-                    TotalAmount = o.TotalAmount,
-                    OrderDate = o.OrderDate,
-                    Status = o.Status
-                });
-            }
-            return previewOrders;
-        }
-
         private void LoadOrders(string keyword)
         {
             var orders = GetOrdersFromDatabase(keyword);
-            OrderList = CreatePreviewOrdersList(orders);
+            OrderList = new ObservableCollection<Order>(orders);
         }
 
         private void SearchHandle()
@@ -131,21 +102,20 @@ namespace Flora.ViewModel
             LoadOrders(SearchText);
         }
 
-        private void RemoveOrder()
+        private void RemoveOrder(object selectedOrder)
         {
-            var orderToRemove = _shopContext.Orders.SingleOrDefault(o => _orderSelected != null && o.OrderId == _orderSelected.OrderId);
-
-            if (orderToRemove != null)
+            var selectedItem = selectedOrder as Order;
+            if (selectedItem != null)
             {
-                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == orderToRemove.OrderId).ToList();
+                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == selectedItem.OrderId).ToList();
                 _shopContext.OrderDetails.RemoveRange(orderDetails);
 
-                _shopContext.Orders.Remove(orderToRemove);
+                _shopContext.Orders.Remove(selectedItem);
                 _shopContext.SaveChanges();
 
                 if (OrderList != null)
                 {
-                    OrderList.Remove(_orderSelected);
+                    OrderList.Remove(selectedItem);
                 }
             }
         }

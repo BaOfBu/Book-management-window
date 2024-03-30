@@ -26,8 +26,9 @@ namespace Flora.View
         private AddOrderVM addOrderVM { get; set; }
         public AddOrder()
         {
+            addOrderVM = new AddOrderVM();
             InitializeComponent();
-            addOrderVM = DataContext as AddOrderVM;
+            DataContext = addOrderVM;
         }
         public Order GetNewOrder()
         {

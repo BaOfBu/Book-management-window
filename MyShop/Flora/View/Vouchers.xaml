@@ -35,7 +35,6 @@
                             <telerik:RadRibbonDropDownButton.DropDownContent>
 
                                 <ListBox ItemsSource="{Binding PagesNumberList}" 
-                                     SelectedItem="{Binding SelectedItem}"
                                      SelectionChanged="SelectedListBoxItem_Click">
                                 </ListBox>
 

@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Documents.Fixed.UI;
 using Telerik.Windows.Documents.FormatProviders.Html.Parsing.Dom;
 
@@ -31,12 +32,12 @@ namespace Flora.View
     public partial class Orders : UserControl
     {
         private OrderVM orderVM { get; set; }
+        Order _oldData;
         public Orders()
         {
             InitializeComponent();
             orderVM = DataContext as OrderVM;
         }
-
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedListBoxItem = (sender as ListBox).SelectedItem;
@@ -64,27 +65,48 @@ namespace Flora.View
             {
                 Order newOrder = screen.GetNewOrder();
 
-                PreviewOrder newPreviewOrder = new PreviewOrder() {
-                    OrderIndex = orderVM.OrderList.Count(),
-                    OrderId = newOrder.OrderId,
-                    CustomerName = newOrder.Customer.Name,
-                    Quantity = newOrder.Quantity,
-                    TotalAmount = newOrder.TotalAmount,
-                    OrderDate = newOrder.OrderDate,
-                    Status = newOrder.Status
-                };
                 MessageBox.Show("Insert an order successfully");
-                orderVM.OrderList.Add(newPreviewOrder);
+                orderVM.OrderList.Add(newOrder);
             }
         }
-
         private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            DetailOrder detailOrder = new DetailOrder();
-            detailOrder.Show();
+            var selectedOrder = gridView.SelectedItem as Order;
+            if (selectedOrder != null)
+            {
+                _oldData = (Order)selectedOrder.Clone();
+
+                var screen = new DetailOrder(selectedOrder);
+
+                if (screen.ShowDialog() == true)
+                {
+                    var order = screen.GetOrder();
+
+                    if (order != null)
+                    {
+                        MessageBox.Show("Update an order successfully");
+                        for (int i = 0; i < orderVM.OrderList.Count; i++)
+                        {
+                            if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
+                            {
+                                orderVM.OrderList[i] = selectedOrder;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Remove the order successfully");
+                        orderVM.OrderList.Remove(selectedOrder);
+                    }
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Choose an order");
+            }
         }
-
-
         private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
             if (DateTime.TryParse("2024-01-01", out DateTime start))
@@ -95,8 +117,8 @@ namespace Flora.View
 
         private void RemoveOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            PreviewOrder selectedOrder = (PreviewOrder)gridView.SelectedItem;
-            orderVM.OrderSelected = selectedOrder;
+            Order selectedOrder = (Order)gridView.SelectedItem;
+            orderVM.RemoveOrderCommand.Execute(selectedOrder);
         }
     }
 }
