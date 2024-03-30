@@ -9,7 +9,7 @@
             plantCategory = new PlantCategory()
             {
                 CategoryId = 1,
-                CategoryImages = "/Images/ProductTypes/1.png",
+                CategoryImages = "/Images/ProductTypes/ProductCategory01.png",
                 CategoryName = "Vegetable",
                 Plants = null
             };

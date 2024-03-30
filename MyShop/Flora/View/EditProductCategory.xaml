@@ -75,10 +75,8 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
                     <Border BorderBrush="#d5d5d5" BorderThickness="1" Height="250" CornerRadius="5"
-    Background="#FAFAFA" AllowDrop="True" Margin="0,0,0,20">
-                        <Grid>
-                            <Image x:Name="displayedImage" Stretch="Fill"  Source="{Binding plantCategory.CategoryImages,Converter={StaticResource absoluteConverter}}"/>
-                        </Grid>
+    Background="#FAFAFA" AllowDrop="True" Margin="0,0,0,20" HorizontalAlignment="Center">
+                        <Image HorizontalAlignment="Center" x:Name="displayedImage" Stretch="Fill"  Source="{Binding plantCategory.CategoryImages,Converter={StaticResource absoluteConverter}}"/>
                     </Border>
                     <Border CornerRadius="5" BorderBrush="#d5d5d5" BorderThickness="1" Background="#FAFAFA" Padding="1">
                         <DockPanel LastChildFill="True" Height="50">

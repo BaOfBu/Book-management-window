@@ -181,7 +181,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <Image Grid.Row="0" Source="{Binding CategoryImages , 
+                                        <Image Stretch="Fill" Grid.Row="0" Source="{Binding CategoryImages , 
                         Converter={StaticResource absoluteConverter}}" 
                            Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
                            Margin="0,0,0,10"/>

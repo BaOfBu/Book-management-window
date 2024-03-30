@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Flora;
+﻿namespace Flora;
 
 public partial class UserAccount
 {
@@ -16,4 +13,5 @@ public partial class UserAccount
     public string FullName { get; set; }
 
     public string Role { get; set; }
+    public string Entropy { get; set; }
 }
