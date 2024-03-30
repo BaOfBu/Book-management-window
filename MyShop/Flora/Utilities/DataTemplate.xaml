@@ -26,4 +26,8 @@
     <DataTemplate DataType="{x:Type vm:DetailOrderVM}">
         <view:DetailOrder />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AddVoucherVM}">
+        <view:AddVoucher />
+    </DataTemplate>
 </ResourceDictionary>

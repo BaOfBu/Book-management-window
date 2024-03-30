@@ -14,6 +14,11 @@
         <vm:VoucherVM />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <local:CurrencyConverter x:Key="CurrencyConverter" />
+        <local:DateConverter x:Key="DateConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" >
         </Border>
@@ -30,6 +35,7 @@
                         VerticalAlignment="Center" 
                         Width="120"
                         SelectionChanged="RadDateTimePickerStart_SelectionChanged"
+                        DateTimeWatermarkContent="Enter start date"
                         InputMode="DatePicker"
                         DisplayFormat="Short" />
 
@@ -42,6 +48,7 @@
                         VerticalAlignment="Center" 
                         Width="120"
                         SelectionChanged="RadDateTimePickerEnd_SelectionChanged"
+                        DateTimeWatermarkContent="Enter end date"
                         InputMode="DatePicker"
                         DisplayFormat="Short" />
 
@@ -124,10 +131,10 @@
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Coupon ID" DataMemberBinding="{Binding CouponId}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="200" IsReadOnly="False" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount}" Width="80" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="180" IsReadOnly="False" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount, Converter={StaticResource CurrencyConverter}}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate, Converter={StaticResource DateConverter}}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate, Converter={StaticResource DateConverter}}" Width="120" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="False" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>

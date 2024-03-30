@@ -55,8 +55,10 @@ namespace Flora.View
             var screen = new AddVoucher();
             if(screen.ShowDialog() == true)
             {
+                Coupon newCoupon = screen.getNewCoupon();
 
                 MessageBox.Show("Insert a coupon successfully");
+                voucherVM.CouponList.Add(newCoupon);
             }
         }
         private void UpdateCouponButton_Click(object sender, RoutedEventArgs e)
