@@ -204,7 +204,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="(0 products)" Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="0" Grid.Row="0"  Text="{Binding Plants.Count, StringFormat='({0} products)'}"  Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 <Button  Click="MoreDetail_Click" 
         Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More Detail" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
                                             </Grid>

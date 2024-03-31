@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -20,6 +19,7 @@ namespace Flora.ViewModel
         public List<string> SortTypeList { get; } = new List<string> { "Sort by name ascending", "Sort by name descending" };
 
         private int _totalItemCount = 0;
+
         public int TotalItemCount
         {
             get => _totalItemCount;
@@ -42,7 +42,7 @@ namespace Flora.ViewModel
                     _pageNumber = 1;
                     _pageSize = value;
                     OnPropertyChanged(nameof(PageSize));
-                    LoadPlantsAsync();
+                    LoadPlantCategoryAsync();
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Flora.ViewModel
                 {
                     _pageNumber = value;
                     OnPropertyChanged(nameof(PageNumber));
-                    LoadPlantsAsync();
+                    LoadPlantCategoryAsync();
                 }
             }
         }
@@ -66,16 +66,30 @@ namespace Flora.ViewModel
         public ProductVM()
         {
             PlantCategoryList = new ObservableCollection<PlantCategory>();
-            LoadPlantsAsync();
+            LoadPagePlantsCategoryAsync();
         }
-
-        private async void LoadPlantsAsync()
+        private async void UpdateTotalItemCount()
+        {
+            TotalItemCount = await CalculateTotalItemCountAsync();
+        }
+        private async void LoadPlantCategoryAsync()
         {
             try
             {
                 PlantCategoryList.Clear();
                 PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
-                Debug.WriteLine(PlantCategoryList[0].Plants.Count());
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+        private async void LoadPagePlantsCategoryAsync()
+        {
+            try
+            {
+                PlantCategoryList.Clear();
+                PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
                 TotalItemCount = await CalculateTotalItemCountAsync();
 
             }
@@ -95,6 +109,7 @@ namespace Flora.ViewModel
         {
             int skip = (pageNumber - 1) * pageSize;
             var categories = await _shopContext.PlantCategories
+                                  .Include(o => o.Plants)
                                   .Skip(skip)
                                   .Take(pageSize)
                                   .ToListAsync();
