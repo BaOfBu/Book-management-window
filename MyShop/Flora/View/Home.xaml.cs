@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flora.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace Flora.View
     /// </summary>
     public partial class Home : UserControl
     {
+        private HomeVM homeVM { get; set; }
         public Home()
         {
             InitializeComponent();
+            homeVM = DataContext as HomeVM;
+            
         }
     }
 }

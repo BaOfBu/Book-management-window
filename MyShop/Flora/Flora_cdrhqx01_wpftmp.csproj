@@ -1,0 +1,502 @@
+<Project>
+  <PropertyGroup>
+    <AssemblyName>Flora</AssemblyName>
+    <IntermediateOutputPath>obj\Debug\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\</MSBuildProjectExtensionsPath>
+    <_TargetAssemblyProjectName>Flora</_TargetAssemblyProjectName>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Flora</RootNamespace>
+    <EnableDefaultItems>False</EnableDefaultItems>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DbContexts\MyShopContext.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Model\Coupon.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\ListItemModel.cs" />
+    <Compile Include="Model\HomeProductPreview.cs" />
+    <Compile Include="Model\Order.cs" />
+    <Compile Include="Model\OrderDetail.cs" />
+    <Compile Include="Model\Plant.cs" />
+    <Compile Include="Model\PlantCategory.cs" />
+    <Compile Include="Model\PreviewOrder.cs" />
+    <Compile Include="Model\UserAccount.cs" />
+    <Compile Include="Utilities\ButtonCustom.cs" />
+    <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
+    <Compile Include="Utilities\RelayCommand.cs" />
+    <Compile Include="Utilities\ViewModelBase.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\NavigationVM.cs" />
+    <Compile Include="ViewModel\OrderVM.cs" />
+    <Compile Include="ViewModel\PlantProductVM.cs" />
+    <Compile Include="ViewModel\ProductVM.cs" />
+    <Compile Include="ViewModel\VoucherVM.cs" />
+    <Compile Include="View\AddOrder.xaml.cs" />
+    <Compile Include="View\AddVoucher.xaml.cs" />
+    <Compile Include="View\DetailOrder.xaml.cs" />
+    <Compile Include="View\Home.xaml.cs" />
+    <Compile Include="View\Orders.xaml.cs" />
+    <Compile Include="View\PlantProduct.xaml.cs" />
+    <Compile Include="View\Products.xaml.cs" />
+    <Compile Include="View\SearchBoxControl.xaml.cs" />
+    <Compile Include="View\Vouchers.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\cart-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\code-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\home-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\product-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\search-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\Accessibility.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\azure.core\1.35.0\lib\net6.0\Azure.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\azure.identity\1.10.3\lib\netstandard2.0\Azure.Identity.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.BootstrapIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.BoxIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Codicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Coolicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Entypo.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.EvaIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.FeatherIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.FileIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Fontaudio.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.FontAwesome.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Fontisto.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.ForkAwesome.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Ionicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.JamIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Material.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.MaterialDesign.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.MaterialLight.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Microns.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Modern.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Octicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.PicolIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.PixelartIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.RadixIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.RemixIcon.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.RPGAwesome.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.SimpleIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Typicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Unicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.VaadinIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.WeatherIcons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\mahapps.metro.iconpacks\4.11.0\lib\net5.0-windows7.0\MahApps.Metro.IconPacks.Zondicons.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\MediaFoundation.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.bcl.asyncinterfaces\6.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.data.sqlclient\5.1.5\ref\net6.0\Microsoft.Data.SqlClient.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore.abstractions\8.0.3\lib\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore\8.0.3\lib\net8.0\Microsoft.EntityFrameworkCore.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore.relational\8.0.3\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore.sqlserver\8.0.3\lib\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.caching.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.caching.memory\8.0.0\lib\net8.0\Microsoft.Extensions.Caching.Memory.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.configuration.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.dependencyinjection\8.0.0\lib\net8.0\Microsoft.Extensions.DependencyInjection.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.logging.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.logging\8.0.0\lib\net8.0\Microsoft.Extensions.Logging.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.objectpool\5.0.10\lib\net5.0\Microsoft.Extensions.ObjectPool.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.options\8.0.0\lib\net8.0\Microsoft.Extensions.Options.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.primitives\8.0.0\lib\net8.0\Microsoft.Extensions.Primitives.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identity.client\4.56.0\lib\net6.0-windows7.0\Microsoft.Identity.Client.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identity.client.extensions.msal\4.56.0\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identity.client.nativeinterop\0.13.8\lib\netstandard2.0\Microsoft.Identity.Client.NativeInterop.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.abstractions\6.35.0\lib\net6.0\Microsoft.IdentityModel.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.jsonwebtokens\6.35.0\lib\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.logging\6.35.0\lib\net6.0\Microsoft.IdentityModel.Logging.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.protocols\6.35.0\lib\net6.0\Microsoft.IdentityModel.Protocols.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.protocols.openidconnect\6.35.0\lib\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.identitymodel.tokens\6.35.0\lib\net6.0\Microsoft.IdentityModel.Tokens.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.odata.client\7.8.3\lib\netstandard2.0\Microsoft.OData.Client.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.odata.core\7.8.3\lib\netstandard2.0\Microsoft.OData.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.odata.edm\7.8.3\lib\netstandard2.0\Microsoft.OData.Edm.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.spatial\7.8.3\lib\netstandard2.0\Microsoft.Spatial.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.sqlserver.server\1.0.0\lib\netstandard2.0\Microsoft.SqlServer.Server.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\Microsoft.VisualBasic.Core.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\Microsoft.VisualBasic.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\Microsoft.VisualBasic.Forms.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.web.webview2\1.0.864.35\lib\netcoreapp3.0\Microsoft.Web.WebView2.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.web.webview2\1.0.864.35\lib\netcoreapp3.0\Microsoft.Web.WebView2.WinForms.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\microsoft.web.webview2\1.0.864.35\lib\netcoreapp3.0\Microsoft.Web.WebView2.Wpf.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\Microsoft.Win32.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\Microsoft.Win32.Registry.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\Microsoft.Win32.Registry.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\Microsoft.Win32.SystemEvents.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\netstandard.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.Aero.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.Aero2.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.AeroLite.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.Classic.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.Luna.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationFramework.Royale.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\PresentationUI.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\propertychanged.fody\4.1.0\lib\netstandard2.1\PropertyChanged.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\ReachFramework.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.d3dcompiler\4.2.0\lib\netstandard1.1\SharpDX.D3DCompiler.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.direct2d1\4.2.0\lib\netstandard1.1\SharpDX.Direct2D1.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.direct3d10\4.2.0\lib\netstandard1.1\SharpDX.Direct3D10.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.direct3d9\4.2.0\lib\netstandard1.3\SharpDX.Direct3D9.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx\4.2.0\lib\netstandard1.1\SharpDX.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.dxgi\4.2.0\lib\netstandard1.1\SharpDX.DXGI.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\sharpdx.mathematics\4.2.0\lib\netstandard1.1\SharpDX.Mathematics.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.AppContext.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Buffers.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.CodeDom.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Collections.Immutable.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Collections.NonGeneric.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Collections.Specialized.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.componentmodel.composition\7.0.0\lib\net7.0\System.ComponentModel.Composition.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.componentmodel.composition.registration\7.0.0\lib\net7.0\System.ComponentModel.Composition.Registration.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.DataAnnotations.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ComponentModel.TypeConverter.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Configuration.ConfigurationManager.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Console.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Data.Common.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Data.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.data.odbc\7.0.0\lib\net7.0\System.Data.Odbc.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.data.oledb\7.0.0\lib\net7.0\System.Data.OleDb.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.data.sqlclient\4.8.5\ref\netcoreapp2.1\System.Data.SqlClient.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Design.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.DiagnosticSource.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.EventLog.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.FileVersionInfo.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.PerformanceCounter.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.Process.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.StackTrace.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.TextWriterTraceListener.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.TraceSource.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Diagnostics.Tracing.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.directoryservices.accountmanagement\7.0.0\lib\net7.0\System.DirectoryServices.AccountManagement.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.DirectoryServices.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.directoryservices.protocols\7.0.1\lib\net7.0\System.DirectoryServices.Protocols.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Drawing.Common.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Drawing.Design.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Drawing.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Formats.Asn1.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Formats.Tar.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Globalization.Calendars.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Globalization.Extensions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.identitymodel.tokens.jwt\6.35.0\lib\net6.0\System.IdentityModel.Tokens.Jwt.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Compression.Brotli.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Compression.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Compression.ZipFile.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.FileSystem.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.FileSystem.DriveInfo.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.FileSystem.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.FileSystem.Watcher.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.IsolatedStorage.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.MemoryMappedFiles.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.IO.Packaging.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Pipes.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.Pipes.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.io.ports\7.0.0\lib\net7.0\System.IO.Ports.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.IO.UnmanagedMemoryStream.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.management\7.0.2\lib\net7.0\System.Management.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.memory.data\1.0.2\lib\netstandard2.0\System.Memory.Data.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Memory.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Http.Json.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.HttpListener.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Mail.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.NameResolution.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Ping.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Quic.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Security.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.ServicePoint.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.Sockets.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.WebClient.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.WebHeaderCollection.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.WebProxy.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.WebSockets.Client.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Net.WebSockets.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Numerics.Vectors.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Printing.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.reflection.context\7.0.0\lib\net7.0\System.Reflection.Context.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.DispatchProxy.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Metadata.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Reflection.TypeExtensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Resources.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Resources.Reader.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Resources.Writer.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.runtime.caching\7.0.0\lib\net7.0\System.Runtime.Caching.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.CompilerServices.Unsafe.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.CompilerServices.VisualC.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Handles.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.InteropServices.JavaScript.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Intrinsics.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Loader.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Serialization.Formatters.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Claims.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Algorithms.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Cng.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Csp.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.OpenSsl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Pkcs.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.ProtectedData.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.X509Certificates.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Security.Cryptography.Xml.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Security.Permissions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.Principal.Windows.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Security.SecureString.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.primitives\4.9.0\ref\net6.0\System.ServiceModel.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.duplex\4.9.0\ref\net6.0\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.http\4.9.0\ref\net6.0\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.nettcp\4.9.0\ref\net6.0\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.primitives\4.9.0\ref\net6.0\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.security\4.9.0\ref\net6.0\System.ServiceModel.Security.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.servicemodel.syndication\7.0.0\lib\net7.0\System.ServiceModel.Syndication.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ServiceModel.Web.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ServiceProcess.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.serviceprocess.servicecontroller\7.0.1\lib\net7.0\System.ServiceProcess.ServiceController.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.speech\7.0.0\lib\net7.0\System.Speech.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.Encoding.CodePages.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.Encodings.Web.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.Json.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Threading.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Channels.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Overlapped.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Tasks.Dataflow.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Tasks.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Thread.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.ThreadPool.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Threading.Timer.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Transactions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Transactions.Local.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.ValueTuple.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Web.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Web.HttpUtility.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\system.web.services.description\4.9.0\lib\netstandard2.0\System.Web.Services.Description.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Controls.Ribbon.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Windows.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Forms.Design.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Forms.Design.Editors.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Forms.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Input.Manipulations.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Windows.Presentation.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.XmlDocument.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.XmlSerializer.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.XPath.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\ref\net8.0\System.Xml.XPath.XDocument.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Documents.SpreadsheetStreaming.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Pivot.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Pivot.DataProviders.Adomd.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Pivot.DataProviders.Queryable.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Pivot.DataProviders.Xmla.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Cloud.Controls.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Cloud.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Chart.Direct2D.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Chart.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Charting.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.ConversationalUI.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Data.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.DataServices.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.DataVisualization.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Diagrams.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Diagrams.Extensions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Diagrams.Ribbon.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Docking.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.EntityFrameworkCore.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Expressions.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.FileDialogs.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.FixedDocumentViewers.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.FixedDocumentViewersUI.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.GanttView.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.GridView.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.GridView.Export.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.ImageEditor.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Input.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Media.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Navigation.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Pivot.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.PivotFieldList.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.RibbonView.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.RichTextBox.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.ScheduleView.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.Spreadsheet.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.SpreadsheetUI.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.SyntaxEditor.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Controls.VirtualGrid.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Data.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Diagrams.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.CMapUtils.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.DrawingML.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Fixed.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Flow.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Flow.FormatProviders.Doc.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Proofing.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Spreadsheet.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.MediaFoundation.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.PersistenceFramework.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Scheduling.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.SyntaxEditor.Core.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Zip.dll" />
+    <ReferencePath Include="C:\Users\Asus\.nuget\packages\telerik.ui.for.wpf.70.xaml.trial\2024.1.130\lib\net7.0-windows\Telerik.Windows.Zip.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\UIAutomationClient.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\UIAutomationClientSideProviders.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\UIAutomationProvider.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\UIAutomationTypes.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\ref\net8.0\WindowsFormsIntegration.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\MainWindow.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\AddOrder.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\AddVoucher.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\DetailOrder.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\Home.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\Orders.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\PlantProduct.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\Products.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\SearchBoxControl.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\View\Vouchers.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\App.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\Flora_Content.g.cs" />
+    <Compile Include="C:\Users\Asus\Source\Repos\BaOfBu\Shop-management-window\MyShop\Flora\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="C:\Program Files\dotnet\sdk\8.0.202\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\sdk\8.0.202\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.NetAnalyzers.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore.analyzers\8.0.3\analyzers\dotnet\cs\Microsoft.EntityFrameworkCore.Analyzers.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.logging.abstractions\8.0.0\analyzers\dotnet\roslyn4.4\cs\Microsoft.Extensions.Logging.Generators.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\microsoft.extensions.options\8.0.0\analyzers\dotnet\roslyn4.4\cs\Microsoft.Extensions.Options.SourceGeneration.dll" />
+    <Analyzer Include="C:\Users\Asus\.nuget\packages\propertychanged.fody\4.1.0\analyzers\dotnet\cs\PropertyChanged.Fody.Analyzer.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/Microsoft.Interop.ComInterfaceGenerator.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/Microsoft.Interop.JavaScript.JSImportGenerator.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/Microsoft.Interop.LibraryImportGenerator.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/Microsoft.Interop.SourceGeneration.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/System.Text.Json.SourceGeneration.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.3\analyzers/dotnet/cs/System.Text.RegularExpressions.Generator.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\analyzers/dotnet/System.Windows.Forms.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.3\analyzers/dotnet/cs/System.Windows.Forms.Analyzers.CSharp.dll" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

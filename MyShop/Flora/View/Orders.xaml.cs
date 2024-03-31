@@ -105,7 +105,7 @@ namespace Flora.View
                 {
                     Reflection.CopyProperties(_oldData, selectedOrder);
                 }
-                
+
             }
             else
             {

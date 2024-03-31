@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flora;
@@ -29,11 +28,10 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<PlantCategory> PlantCategories { get; set; }
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-        optionsBuilder.UseSqlServer(connectionString);
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-MMNOUHJ7; Trusted_Connection=Yes; Initial Catalog=MyShop; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -110,7 +108,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Plant>(entity =>
         {
-            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC697755A8");
+            entity.HasKey(e => e.PlantId).HasName("PK__Plants__98FE46BC66BF4042");
 
             entity.Property(e => e.PlantId)
                 .ValueGeneratedNever()
@@ -130,7 +128,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<PlantCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2BDD5BF905");
+            entity.HasKey(e => e.CategoryId).HasName("PK__PlantCat__19093A2BF233F37C");
 
             entity.Property(e => e.CategoryId)
                 .ValueGeneratedNever()
@@ -143,9 +141,9 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<UserAccount>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCACF29E35FF");
+            entity.HasKey(e => e.UserId).HasName("PK__UserAcco__1788CCAC22C7993E");
 
-            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E4DD1B542F").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__UserAcco__536C85E4F147A9E2").IsUnique();
 
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
@@ -153,14 +151,11 @@ public partial class MyShopContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Entropy)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.FullName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(2048)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(50)

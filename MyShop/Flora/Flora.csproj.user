@@ -17,6 +17,9 @@
     <Compile Update="View\Orders.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PlantProduct.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\Products.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
     <Page Update="Styles\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\HomeElement.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\DropdownButton.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -47,6 +53,33 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Plants\CircularButtonTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Plants\Text.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Products\Button.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Products\Dropdown.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Products\Icon.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Products\Text.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\ProductTypePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\ResultPerPageDropdownButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\SortDropdownButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Text.xaml">
@@ -71,6 +104,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Orders.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PlantProduct.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Products.xaml">

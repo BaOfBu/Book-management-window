@@ -13,7 +13,14 @@
     <Window.DataContext>
         <vm:NavigationVM />
     </Window.DataContext>
-
+    <Window.Resources>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" From="0" To="1" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+    </Window.Resources>
     <Grid>
         <Border Background="#285A43" />
         <Grid>

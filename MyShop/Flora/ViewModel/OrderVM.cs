@@ -25,7 +25,7 @@ namespace Flora.ViewModel
         public DateOnly? SelectedStartDate { get; set; }
 
         public DateOnly? SelectedEndDate { get; set; }
-        public System.Windows.Input.ICommand SearchOrderCommand {  get; set; }
+        public System.Windows.Input.ICommand SearchOrderCommand { get; set; }
         public System.Windows.Input.ICommand FilterOrderCommand { get; set; }
         public System.Windows.Input.ICommand ReloadOrderCommand { get; set; }
         public System.Windows.Input.ICommand RemoveOrderCommand { get; set; }
@@ -41,7 +41,7 @@ namespace Flora.ViewModel
             TotalItems = 32;
             LoadOrders();
 
-            SelectedStartDate = default; 
+            SelectedStartDate = default;
             SelectedEndDate = default;
 
             SearchOrderCommand = new RelayCommand(SearchHandle);
@@ -66,7 +66,7 @@ namespace Flora.ViewModel
             {
                 query = query.Where(o => (o.OrderDate >= SelectedStartDate) && (o.OrderDate < SelectedEndDate));
             }
-            
+
             return query.ToList();
         }
 
@@ -112,7 +112,7 @@ namespace Flora.ViewModel
         {
             var date = (DateTime)startDate;
             SelectedStartDate = DateOnly.FromDateTime(date.Date);
-        } 
+        }
         private void EndDateChanged(object endDate)
         {
             var date = (DateTime)endDate;
