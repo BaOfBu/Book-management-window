@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Telerik.Windows.Controls;
 
 namespace Flora.View
 {
@@ -117,12 +116,19 @@ namespace Flora.View
             return null;
         }
 
-        private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
+        private void DataPager_PageIndexChanged(object sender, Telerik.Windows.Controls.PageIndexChangedEventArgs e)
         {
-            // e.OldPageIndex gives you the previous page index
-            // e.NewPageIndex gives you the new current page index
-
-            // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
+            // Get the ProductVM from the DataContext
+            var viewModel = DataContext as ProductVM;
+            if (viewModel != null)
+            {
+                // Set the PageNumber to the new page index + 1 (if your page numbering is 1-based)
+                viewModel.PageNumber = e.NewPageIndex + 1;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("ViewModel is not available.");
+            }
         }
 
         private void MoreDetail_Click(object sender, RoutedEventArgs e)
