@@ -1,4 +1,5 @@
 ﻿using Flora.ViewModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +20,17 @@ namespace Flora.View
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-
+            productVM = DataContext as ProductVM;
+            if (productVM != null)
+            {
+                // Now it's safe to interact with productVM
+                Debug.WriteLine(productVM.TotalItemCount);
+                UpdateRadDataPagerItemCount();
+            }
+            else
+            {
+                Debug.WriteLine("ViewModel is not available.");
+            }
         }
         private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -56,7 +67,10 @@ namespace Flora.View
                 }
             }
         }
+        private void UpdateRadDataPagerItemCount()
+        {
 
+        }
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -122,7 +136,6 @@ namespace Flora.View
             var viewModel = DataContext as ProductVM;
             if (viewModel != null)
             {
-                // Set the PageNumber to the new page index + 1 (if your page numbering is 1-based)
                 viewModel.PageNumber = e.NewPageIndex + 1;
             }
             else

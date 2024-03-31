@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -18,6 +19,19 @@ namespace Flora.ViewModel
         public List<string> PagesNumberList { get; } = new List<string> { "8", "16", "24", "32", "64", "96" };
         public List<string> SortTypeList { get; } = new List<string> { "Sort by name ascending", "Sort by name descending" };
 
+        private int _totalItemCount = 0;
+        public int TotalItemCount
+        {
+            get => _totalItemCount;
+            set
+            {
+                if (_totalItemCount != value)
+                {
+                    _totalItemCount = value;
+                    OnPropertyChanged(nameof(TotalItemCount));
+                }
+            }
+        }
         public int PageSize
         {
             get => _pageSize;
@@ -25,6 +39,7 @@ namespace Flora.ViewModel
             {
                 if (_pageSize != value)
                 {
+                    _pageNumber = 1;
                     _pageSize = value;
                     OnPropertyChanged(nameof(PageSize));
                     LoadPlantsAsync();
@@ -48,12 +63,9 @@ namespace Flora.ViewModel
 
         public ObservableCollection<PlantCategory> PlantCategoryList { get; set; }
 
-        public ObservableCollection<PlantCategory> AllPlantCategoryList { get; set; }
-
         public ProductVM()
         {
             PlantCategoryList = new ObservableCollection<PlantCategory>();
-            AllPlantCategoryList = new ObservableCollection<PlantCategory>();
             LoadPlantsAsync();
         }
 
@@ -61,14 +73,11 @@ namespace Flora.ViewModel
         {
             try
             {
-                // Load all categories only initially or when needed, not on every page change
-                if (AllPlantCategoryList == null || !AllPlantCategoryList.Any())
-                {
-                    AllPlantCategoryList = await LoadAllPlantCategoriesAsync();
-                }
-
-                // Always update PlantCategoryList when LoadPlantsAsync is called
+                PlantCategoryList.Clear();
                 PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
+                Debug.WriteLine(PlantCategoryList[0].Plants.Count());
+                TotalItemCount = await CalculateTotalItemCountAsync();
+
             }
             catch (System.Exception ex)
             {
@@ -92,11 +101,17 @@ namespace Flora.ViewModel
             return new ObservableCollection<PlantCategory>(categories);
         }
 
+        public async Task<int> CalculateTotalItemCountAsync()
+        {
+            return await _shopContext.PlantCategories.CountAsync();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }
