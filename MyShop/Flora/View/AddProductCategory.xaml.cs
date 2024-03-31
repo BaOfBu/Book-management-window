@@ -18,6 +18,7 @@ namespace Flora.View
         public AddProductCategory()
         {
             InitializeComponent();
+            DataContext = new AddProductCategoryVM();
             addProductCategoryVM = DataContext as AddProductCategoryVM;
         }
 
@@ -96,8 +97,8 @@ namespace Flora.View
             if (files != null && files.Length > 0)
             {
                 string fileName = files[0];
-                DisplayImage(fileName); // Show the first dropped file as image
-                textBlockStatus.Text = Path.GetFileName(fileName); // Update text to show file name
+                DisplayImage(fileName);
+                textBlockStatus.Text = Path.GetFileName(fileName);
             }
         }
 
@@ -115,11 +116,70 @@ namespace Flora.View
             uploadInstructionsStackPanel.Visibility = Visibility.Collapsed; // Hide the upload instructions
         }
 
-        private void AddNewProductCategoryType_Click(object sender, RoutedEventArgs e)
+        private async void AddNewProductCategoryType_Click(object sender, RoutedEventArgs e)
         {
+            //// Check if the category name is null or empty
+            if (string.IsNullOrWhiteSpace(myTextBoxName.Text) || myTextBoxName.Text == "Enter text here...")
+            {
+                MessageBox.Show("Please enter a category name.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            //// Check if an image has been loaded
+            if (displayedImage.Source is not BitmapImage bitmapImage)
+            {
+                MessageBox.Show("Please select an image to add with the new category.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var categoryName = myTextBoxName.Text;
+            var categoryId = myTextBoxCategory.Text.ToString();
+            if (displayedImage.Source is BitmapImage)
+            {
+                try
+                {
+                    // Construct the path to the target directory
+                    string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string targetDirectory = Path.Combine(appDirectory, "Images", "ProductTypes");
+                    string targetFileName = "ProductCategory" + categoryId + ".png";
+                    string targetPath = Path.Combine(targetDirectory, targetFileName);
+
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string imagesDirectory = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\Images\ProductTypes"));
+                    string imageFilePath = Path.Combine(imagesDirectory, targetFileName);
+                    // Ensure the target directory exists
+                    Directory.CreateDirectory(targetDirectory);
+
+                    //// Save the image
+                    SaveImage(bitmapImage, targetPath);
+                    SaveImage(bitmapImage, imageFilePath);
+
+                    addProductCategoryVM.CategoryName = categoryName;
+                    addProductCategoryVM.CategoryImages = targetPath.Replace(appDirectory, "");
+                    await addProductCategoryVM.SaveCategoryAsync();
+                    MessageBox.Show("The category and image have been successfully added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+                catch (Exception ex)
+                {
+                    textBlockStatus.Text = "Failed to save image.";
+                }
+            }
         }
+        private void ClearAll()
+        {
+            myTextBoxName.Text = "Enter text here...";
+        }
+        private void SaveImage(BitmapImage sourceImage, string outputPath)
+        {
+            // Ensure the source image is loaded
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(sourceImage.UriSource));
 
+            using (var fileStream = new FileStream(outputPath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
 

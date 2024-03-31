@@ -19,6 +19,7 @@ namespace Flora.ViewModel
         private string _searchText = string.Empty;
         public List<string> PagesNumberList { get; } = new List<string> { "8", "16", "24", "32", "64", "96" };
         public List<string> SortTypeList { get; } = new List<string> { "Sort by name ascending", "Sort by name descending" };
+        public ObservableCollection<PlantCategory> PlantCategoryList { get; set; }
 
         public string CurrentSortOrder
         {
@@ -91,18 +92,12 @@ namespace Flora.ViewModel
             }
         }
 
-
-        public ObservableCollection<PlantCategory> PlantCategoryList { get; set; }
-
         public ProductVM()
         {
             PlantCategoryList = new ObservableCollection<PlantCategory>();
-            LoadPagePlantsCategoryAsync();
+            LoadPlantCategoryAsync();
         }
-        private async void UpdateTotalItemCount()
-        {
-            TotalItemCount = await CalculateTotalItemCountAsync();
-        }
+
         private async void LoadPlantCategoryAsync()
         {
             try
@@ -116,26 +111,6 @@ namespace Flora.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
             }
-        }
-        private async void LoadPagePlantsCategoryAsync()
-        {
-            try
-            {
-                PlantCategoryList.Clear();
-                PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
-                TotalItemCount = await CalculateTotalItemCountAsync();
-
-            }
-            catch (System.Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
-            }
-        }
-
-        public async Task<ObservableCollection<PlantCategory>> LoadAllPlantCategoriesAsync()
-        {
-            var categories = await _shopContext.PlantCategories.ToListAsync();
-            return new ObservableCollection<PlantCategory>(categories);
         }
 
         public async Task<ObservableCollection<PlantCategory>> LoadAllPlantCategoriesAsync(int pageNumber, int pageSize)

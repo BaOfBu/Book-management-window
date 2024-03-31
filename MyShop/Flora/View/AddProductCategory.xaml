@@ -10,6 +10,9 @@
       xmlns:local="clr-namespace:Flora.View"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1030" Loaded="UserControl_Loaded">
+    <!--<UserControl.DataContext>
+        <vm:AddProductCategoryVM/>
+    </UserControl.DataContext>-->
     <UserControl.Resources>
         <ResourceDictionary>
             <utils:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
@@ -46,6 +49,20 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical" >
                     <StackPanel Margin="0,0,0,20">
+                        <TextBlock Margin="0,0,0,10" Text="Category ID" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <TextBox x:Name="myTextBoxCategory" Height="39" 
+                              Padding="5,0,0,0"
+                              telerik:CornerRadiusHelper.ClipRadius="5"
+                              VerticalContentAlignment="Center"
+                              FontStyle="Normal" 
+                              Foreground="Gray"
+                              Text="{Binding NextCategoryId}"
+                              IsReadOnly="True"
+                              GotFocus="TextBox_GotFocus_Generic"
+                              LostFocus="TextBox_LostFocus_Generic">
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,20">
                         <TextBlock Margin="0,0,0,10" Text="Name of product type" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
                         <TextBox x:Name="myTextBoxName" Height="39" 
                              Padding="5,0,0,0"
@@ -59,19 +76,6 @@
                         </TextBox>
                     </StackPanel>
 
-                    <StackPanel Margin="0,0,0,20">
-                        <TextBlock Margin="0,0,0,10" Text="Description" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                        <TextBox x:Name="myTextBoxDescription" Height="39" 
-                              Padding="5,0,0,0"
-                              telerik:CornerRadiusHelper.ClipRadius="5"
-                              VerticalContentAlignment="Center"
-                              Text="Enter text here..." 
-                              FontStyle="Normal" 
-                              Foreground="Gray"
-                              GotFocus="TextBox_GotFocus_Generic"
-                              LostFocus="TextBox_LostFocus_Generic">
-                        </TextBox>
-                    </StackPanel>
 
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
