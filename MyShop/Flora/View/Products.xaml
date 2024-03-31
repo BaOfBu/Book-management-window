@@ -64,7 +64,14 @@
 
                             <TextBlock Grid.Column="0" Text="&#xf002;" Style="{StaticResource IconSideBarStyle}" Foreground="#285A43" Padding="0 0 10 0" HorizontalAlignment="Stretch" Margin="0,0,0,0"/>
 
-                            <telerik:RadWatermarkTextBox Grid.Column="1" x:Name="txtSearchOrders" BorderThickness="0" FontSize="16" WatermarkContent="Search..." VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                            <telerik:RadWatermarkTextBox Grid.Column="1" 
+                             x:Name="txtSearchOrders" 
+                             BorderThickness="0" 
+                             FontSize="16" 
+                             WatermarkContent="Search..." 
+                             VerticalAlignment="Center" 
+                             HorizontalAlignment="Stretch"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -181,7 +188,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <Image Stretch="Fill" Grid.Row="0" Source="{Binding CategoryImages , 
+                                        <Image Stretch="Fill"  Grid.Row="0" Source="{Binding CategoryImages , 
                         Converter={StaticResource absoluteConverter}}" 
                            Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
                            Margin="0,0,0,10"/>
@@ -206,7 +213,7 @@
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Column="0" Grid.Row="0"  Text="{Binding Plants.Count, StringFormat='({0} products)'}"  Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 <Button  Click="MoreDetail_Click" 
-        Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More Detail" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
+        Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More details" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
                                             </Grid>
                                         </DockPanel>
                                     </Grid>
@@ -218,7 +225,7 @@
                 </Grid>
                 <StackPanel>
                     <telerik:RadDataPager Name="dataPager" 
-                          ItemCount="{Binding TotalItemCount}"
+                          ItemCount="{Binding TotalItemCount, UpdateSourceTrigger=PropertyChanged}"
                           PageSize="{Binding PageSize}" 
                           Margin="0 10 0 0" 
                           telerik:StyleManager.Theme="Fluent" 

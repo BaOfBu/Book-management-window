@@ -73,7 +73,12 @@ namespace Flora.View
         }
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            var textBox = sender as Telerik.Windows.Controls.RadWatermarkTextBox;
+            if (textBox != null)
+            {
+                var searchText = txtSearchOrders.Text;
+                productVM.SearchText = searchText;
+            }
         }
 
         private void SortButton_Click(object sender, RoutedEventArgs e)

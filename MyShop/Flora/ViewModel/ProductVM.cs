@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Flora.ViewModel
                 {
                     _totalItemCount = value;
                     OnPropertyChanged(nameof(TotalItemCount));
+                    LoadPlantCategoryAsync();
                 }
             }
         }
@@ -60,6 +62,23 @@ namespace Flora.ViewModel
                 }
             }
         }
+        private string _searchText = string.Empty;
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (_searchText != value)
+                {
+                    _pageNumber = 1;
+                    _searchText = value;
+                    OnPropertyChanged(nameof(SearchText));
+                    LoadPlantCategoryAsync();
+                }
+            }
+        }
+
 
         public ObservableCollection<PlantCategory> PlantCategoryList { get; set; }
 
@@ -78,6 +97,12 @@ namespace Flora.ViewModel
             {
                 PlantCategoryList.Clear();
                 PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
+                if (SearchText == string.Empty || SearchText == "")
+                {
+
+                }
+                TotalItemCount = await CalculateTotalItemCountAsync();
+                Debug.WriteLine("TEST" + PageSize + "h" + TotalItemCount);
             }
             catch (System.Exception ex)
             {
@@ -108,17 +133,35 @@ namespace Flora.ViewModel
         public async Task<ObservableCollection<PlantCategory>> LoadAllPlantCategoriesAsync(int pageNumber, int pageSize)
         {
             int skip = (pageNumber - 1) * pageSize;
-            var categories = await _shopContext.PlantCategories
-                                  .Include(o => o.Plants)
-                                  .Skip(skip)
-                                  .Take(pageSize)
-                                  .ToListAsync();
+            IQueryable<PlantCategory> query = _shopContext.PlantCategories;
+
+            // Filter categories based on SearchText
+            if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
+            {
+                query = query.Where(c => c.CategoryName.Contains(SearchText));
+            }
+
+            var categories = await query
+                                    .Include(o => o.Plants)
+                                    .Skip(skip)
+                                    .Take(pageSize)
+                                    .ToListAsync();
             return new ObservableCollection<PlantCategory>(categories);
         }
 
         public async Task<int> CalculateTotalItemCountAsync()
         {
-            return await _shopContext.PlantCategories.CountAsync();
+            IQueryable<PlantCategory> query = _shopContext.PlantCategories;
+
+            if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
+            {
+                query = query.Where(c => c.CategoryName.Contains(SearchText));
+            }
+            else
+            {
+                return await query.CountAsync();
+            }
+            return await query.CountAsync();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
