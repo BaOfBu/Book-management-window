@@ -24,7 +24,7 @@
                 <ResourceDictionary Source="/Styles/Plants/CircularButtonTemplate.xaml"/>
                 <ResourceDictionary Source="/Styles/SortDropdownButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-     
+
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -115,7 +115,7 @@
                                 <TextBlock FontSize="14" Text="{Binding ElementName=RadSlider1, Path=SelectionEnd, StringFormat={}{0:F0}}" Margin="0,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!-- Sort -->
                         <telerik:RadRibbonDropDownButton x:Name="SortType" Style="{StaticResource SortDropDownSmallStyles}" VerticalAlignment="Center">
                             <telerik:RadRibbonDropDownButton.Content>
@@ -197,12 +197,12 @@
                                 </telerik:RadRibbonDropDownButton.DropDownContent>
                             </telerik:RadRibbonDropDownButton>
                         </StackPanel>
-                        
-                        
+
+
                     </StackPanel>
 
                 </Grid>
-                    
+
                 <!-- List product -->
                 <Grid Margin="0,0,0,0">
                     <ListView Height="490" ItemsSource="{Binding PlantList}" 
@@ -277,7 +277,7 @@ Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
-                    
+
                 <!-- Pagenation-->
                 <StackPanel>
                     <telerik:RadDataPager Name="dataPager" 

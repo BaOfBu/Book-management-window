@@ -19,6 +19,18 @@
         <view:Vouchers />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:AddOrderVM}">
+        <view:AddOrder />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:DetailOrderVM}">
+        <view:DetailOrder />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AddVoucherVM}">
+        <view:AddVoucher />
+    </DataTemplate>
+            
     <DataTemplate DataType="{x:Type vm:PlantProductVM}">
         <view:PlantProduct />
     </DataTemplate>

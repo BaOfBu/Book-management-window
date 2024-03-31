@@ -34,9 +34,6 @@
   <Page Include="Styles\Button.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
-  <Page Include="Styles\HomeElement.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
   <Page Include="Styles\DropdownButton.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -53,12 +50,6 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="Styles\Plants\HoverButton.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="Styles\Plants\RadiusButton.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Styles\Plants\Text.xaml">
@@ -97,22 +88,10 @@
   <Page Include="View\AddOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
-  <Page Include="View\AddPlantProduct.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="View\AddProductCategory.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
   <Page Include="View\AddVoucher.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\DetailOrder.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="View\EditPlantProduct.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="View\EditProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Home.xaml">
@@ -145,11 +124,11 @@
   <Compile Include="Model\Coupon.cs" />
   <Compile Include="Model\Customer.cs" />
   <Compile Include="Model\ListItemModel.cs" />
-  <Compile Include="Model\HomeProductPreview.cs" />
   <Compile Include="Model\Order.cs" />
   <Compile Include="Model\OrderDetail.cs" />
   <Compile Include="Model\Plant.cs" />
   <Compile Include="Model\PlantCategory.cs" />
+  <Compile Include="Model\PreviewOrder.cs" />
   <Compile Include="Model\UserAccount.cs" />
   <Compile Include="Utilities\ButtonCustom.cs" />
   <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
@@ -158,36 +137,30 @@
   <Compile Include="ViewModel\AddOrderVM.cs" />
   <Compile Include="ViewModel\AddVoucherVM.cs" />
   <Compile Include="ViewModel\DetailOrderVM.cs" />
-  <Compile Include="ViewModel\AddPlantProductVM.cs" />
-  <Compile Include="ViewModel\AddProductCategoryVM.cs" />
-  <Compile Include="ViewModel\EditPlantProductVM.cs" />
-  <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\ItemViewModel.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
   <Compile Include="ViewModel\PlantProductVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
-  <Compile Include="ViewModel\Reflection.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddressRule.cs" />
-  <Compile Include="View\AddPlantProduct.xaml.cs" />
-  <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
   <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
   <Compile Include="View\DateConverter.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
-  <Compile Include="View\EditPlantProduct.xaml.cs" />
-  <Compile Include="View\EditProductCategory.xaml.cs" />
   <Compile Include="View\EmailRule.cs" />
   <Compile Include="View\FullNameRule.cs" />
   <Compile Include="View\Home.xaml.cs" />
   <Compile Include="View\MoneyRule.cs" />
   <Compile Include="View\Orders.xaml.cs" />
+<<<<<<< HEAD
   <Compile Include="View\PhoneNumberRule.cs" />
+=======
   <Compile Include="View\PlantProduct.xaml.cs" />
+>>>>>>> origin
   <Compile Include="View\Products.xaml.cs" />
   <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />
@@ -221,67 +194,7 @@
     <Content Include="Images\product-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\ProductTypes\ProductCategory01.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory02.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory03.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory04.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory05.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory06.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory07.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory08.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory09.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory10.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory11.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory12.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory13.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory14.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory15.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory16.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory17.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory18.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory19.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory20.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ProductTypes\ProductCategory21.png">
+    <Content Include="Images\ProductTypes\1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\search-image.png">

@@ -13,4 +13,8 @@ public partial class OrderDetail
     public virtual Order Order { get; set; }
 
     public virtual Plant Plant { get; set; }
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

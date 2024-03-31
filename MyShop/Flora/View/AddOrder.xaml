@@ -3,43 +3,291 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Flora.ViewModel"
         xmlns:local="clr-namespace:Flora.View"
-        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"  
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         x:Class="Flora.View.AddOrder"
         mc:Ignorable="d"
-        Title="AddOrder" Height="440" Width="800">
+        Title="Add Order" Height="650" Width="800">
 
+    <Window.DataContext>
+        <vm:AddOrderVM />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <local:CurrencyConverter x:Key="CurrencyConverter" />
+        <local:DateConverter x:Key="DateConverter" />
+
+        
+    </Window.Resources>
+    
     <Grid>
         <StackPanel Orientation="Vertical">
             <telerik:RadButton Content="CREATE A NEW ORDER" telerik:StyleManager.Theme="Material" HorizontalContentAlignment="Center" Height="40" FontSize="16" Foreground="#285A43" FontFamily="/Flora;component/Fonts/#Lato" ></telerik:RadButton>
-            <telerik:DataFormDataField Label="Customer Name" LabelPosition="Above" Style="{StaticResource InputFieldStyle}" />
-            <TextBlock Text="Select items" Margin="5 0 0 0" Style="{StaticResource TextPlaceHolderStyle}"></TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel>
-                    <telerik:DataFormComboBoxField Label="Item 1" Width="550" Height="55" Style="{StaticResource ComboBoxStyle}" />
+
+            <TextBlock Text="Customer Contact Information" Margin="10 10 0 10" Style="{StaticResource TextPlaceHolderStyle}"></TextBlock>
+
+            <StackPanel >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Width="360">
+                        <TextBlock Text="Full name" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        <TextBox 
+                            x:Name="customerName" 
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            Width="360"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="FullName" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:FullNameRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        </StackPanel>
+                    
+                    <StackPanel Width="20" />
+                    
+                    <StackPanel Width="360">
+                        <TextBlock Text="Email" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        <TextBox 
+                            x:Name="customerEmail" 
+                            Width="360"
+                            Height="30"
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:EmailRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel>
-                    <telerik:DataFormComboBoxField Label="Quantity" Width="250" Height="55" Style="{StaticResource ComboBoxStyle}" />
+                
+                <StackPanel Height="20" />
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Width="200">
+                        <TextBlock Text="Phone Number" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        <TextBox 
+                            x:Name="customerPhoneNumber" 
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            Width="200"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="PhoneNumber" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:PhoneNumberRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+                    <StackPanel Width="20" />
+
+                    <StackPanel Width="510" Margin="10 0 0 0">
+                        <TextBlock Text="Delivery Address" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        <TextBox 
+                            x:Name="customerDeliveryAddress"
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            Width="560"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:AddressRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
                 </StackPanel>
             </StackPanel>
-            <telerik:RadButton telerik:StyleManager.Theme="Fluent"  Width="150" Margin="0 10 0 0">
-                <Grid>
-                    <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
-                    <TextBlock Text="Add an item" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
-                </Grid>
-            </telerik:RadButton>
-            <telerik:DataFormComboBoxField Label="Select an voucher" LabelPosition="Above" Style="{StaticResource ComboBoxStyle}" />
-            <telerik:DataFormDataField Label="Delivery Address" LabelPosition="Above" Style="{StaticResource InputFieldStyle}" />
-            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="160" Margin="5 0 0 0">
+
+
+            <Grid Margin="5 30 0 0" HorizontalAlignment="Center">
+                <Line X1="0" Y1="0" X2="300" Y2="0" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="5 5"/>
+            </Grid>
+
+            <TextBlock Text="Select items" Margin="10 10 0 10" Style="{StaticResource TextPlaceHolderStyle}"></TextBlock>
+            <ListView 
+                x:Name="ItemsListView" 
+                Width="740" 
+                Height="125"
+                ItemsSource="{Binding Items}" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="0 5 0 0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Label Content="{Binding ItemLabel}" Height="25" Width="90" FontFamily="/Flora;component/Fonts/#Poppins"/>
+                                <ComboBox 
+                                    ItemsSource="{Binding Plants}" 
+                                    Width="250" 
+                                    Height="30" 
+                                    SelectedItem="{Binding SelectedPlant}"
+                                    SelectionChanged="ComboBoxItem_SelectionChanged"
+                                    FontFamily="/Flora;component/Fonts/#Poppins"
+                                    VerticalContentAlignment="Center">
+
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock Text=" / " />
+                                                <TextBlock Text="{Binding Price, Converter={StaticResource CurrencyConverter}}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Label Content="Quantity" Height="25" FontFamily="/Flora;component/Fonts/#Poppins" />
+                                <ComboBox 
+                                    ItemsSource="{Binding ListQuantity}"
+                                    SelectedItem="{Binding SelectedQuantity}"
+                                    IsEnabled="{Binding IsEnabledQuantityComboBox}" 
+                                    Width="60" 
+                                    Height="30"
+                                    SelectionChanged="ComboBoxQuantity_SelectionChanged"
+                                    FontFamily="/Flora;component/Fonts/#Poppins"
+                                    VerticalContentAlignment="Center">
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Label Content="Total Price" Height="25" FontFamily="/Flora;component/Fonts/#Poppins" />
+                                <TextBox 
+                                    Height="30" 
+                                    Width="80" 
+                                    Text="{Binding TotalPrice, Converter={StaticResource CurrencyConverter}}" 
+                                    IsEnabled="False" 
+                                    VerticalContentAlignment="Center" 
+                                    FontFamily="/Flora;component/Fonts/#Poppins" />
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <telerik:RadButton telerik:StyleManager.Theme="Office_Blue"  Width="150" Margin="0 10 0 0" Click="AddItemButton_Click">
                     <Grid>
-                        <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
-                        <TextBlock Text="Create new a order" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                        <TextBlock Text="&#xf217;" Style="{StaticResource ButtonIconStyle}" />
+                        <TextBlock Text="Add an item" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
                     </Grid>
                 </telerik:RadButton>
-                <telerik:RadButton telerik:StyleManager.Theme="Vista"  Width="160" Margin="10 0 0 0">
+                
+                <telerik:RadButton telerik:StyleManager.Theme="Office_Silver"  Width="150" Margin="20 10 0 0" Click="RemoveItemButton_Click">
                     <Grid>
-                        <TextBlock Text="Clear its information" Style="{StaticResource ButtonTextStyle}"/>
+                        <TextBlock Text="&#xf1f8;" Style="{StaticResource ButtonIconStyle}" />
+                        <TextBlock Text="Remove an item" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                    </Grid>
+                </telerik:RadButton>
+            </StackPanel>
+
+            <Grid Margin="5 20 0 0" HorizontalAlignment="Center">
+                <Line X1="0" Y1="0" X2="300" Y2="0" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="5 5"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 20" HorizontalAlignment="Center">
+                <StackPanel Width="150">
+                    <TextBlock Text="Order Date" FontFamily="/Flora;component/Fonts/#Poppins" />
+                    <TextBox 
+                        x:Name="orderDate"
+                        Height="30"
+                        Padding="5 0 0 0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        IsEnabled="False"
+                        Text="{Binding OrderDate, Converter={StaticResource DateConverter}}"
+                        FontFamily="/Flora;component/Fonts/#Poppins" />
+                </StackPanel>
+                
+                <StackPanel Width="30" />
+                
+                <StackPanel Orientation="Vertical" Width="380" VerticalAlignment="Bottom">
+                    <TextBlock Text="Selected voucher" FontFamily="/Flora;component/Fonts/#Poppins"/>
+                    <ComboBox 
+                        x:Name="comboBoxVouchers"
+                        ItemsSource="{Binding Coupons}" 
+                        SelectedItem="{Binding SelectedCoupon}"
+                        Width="380" 
+                        Height="30" 
+                        VerticalContentAlignment="Center"
+                        SelectionChanged="ComboBoxVoucher_SelectionChanged"
+                        FontFamily="/Flora;component/Fonts/#Poppins" >
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding CouponCode}" />
+                                    <TextBlock Text=" - " />
+                                    <TextBlock Text="{Binding Discount, Converter={StaticResource CurrencyConverter}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Width="30" />
+                <StackPanel Width="150">
+                    <TextBlock Text="Total Amount" FontFamily="/Flora;component/Fonts/#Poppins" />
+                    <TextBox 
+                        x:Name="totalAmount"
+                        Height="30"
+                        Padding="5 0 0 0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        IsEnabled="False"
+                        Text="{Binding TotalAmount, Converter={StaticResource CurrencyConverter}}"
+                        FontFamily="/Flora;component/Fonts/#Poppins" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="180" Height="34"  Click="CreateOrderButton_Click" IsEnabled="{Binding IsCreateOrderEnabled}" >
+                    <Grid>
+                        <TextBlock Text="&#xf058;" Style="{StaticResource ButtonIconStyle}" />
+                        <TextBlock Text="Create a new order" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                    </Grid>
+                </telerik:RadButton>
+                <telerik:RadButton  telerik:StyleManager.Theme="Windows11" Width="160" Height="40" Margin="20 0 0 0" Click="ClearRadButton_Click">
+                    <Grid>
+                        <TextBlock Text="&#xf056;" Style="{StaticResource ButtonIconStyle}" />
+                        <TextBlock Text="Clear all its info" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0"/>
                     </Grid>
                 </telerik:RadButton>
             </StackPanel>

@@ -21,30 +21,68 @@
         <Grid>
             <StackPanel Orientation="Vertical">
                 <local:SearchBoxControl Margin="0 0 60 0" DataContext="{Binding}"/>
-                <StackPanel Orientation="Horizontal" Margin="86 24 0 0">
-                    <telerik:RadDateRangePicker 
-                        x:Name="radDateRangePicker"
+                <StackPanel Height="20" />
+                <StackPanel Orientation="Horizontal" Width="858">
+                    <telerik:RadDateTimePicker 
+                        x:Name="radDateTimePicker_Start"
                         telerik:StyleManager.Theme="Fluent" 
-                        HorizontalAlignment="Left" 
                         Height="24" 
-                        VerticalAlignment="Top" 
-                        Width="250" 
-                        StartDate="{Binding SelectedStartDate, Mode=TwoWay}" />
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        SelectionChanged="RadDateTimePickerStart_SelectionChanged"
+                        DateTimeWatermarkContent="Enter start date"
+                        InputMode="DatePicker"
+                        DisplayFormat="Short" />
 
-                    <telerik:RadButton Style="{StaticResource ButtonStyle}" Margin="308 0 20 0" Click="AddAnOrderButton_Click">
+                    <StackPanel Width="20" />
+                    
+                    <telerik:RadDateTimePicker 
+                        x:Name="radDateTimePicker_End"
+                        telerik:StyleManager.Theme="Fluent" 
+                        Height="24" 
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        SelectionChanged="RadDateTimePickerEnd_SelectionChanged"
+                        DateTimeWatermarkContent="Enter end date"
+                        InputMode="DatePicker"
+                        DisplayFormat="Short" />
+
+                    <StackPanel Width="20" />
+                    
+                    <telerik:RadButton  telerik:StyleManager.Theme="Office_Blue" Padding="0 0 8 0" Click="FilterRadButton_Click">
                         <Grid>
-                            <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
-                            <TextBlock Text="Add an order" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                            <TextBlock Text="&#xf0b0;" FontSize="20" Style="{StaticResource ButtonIconStyle}" />
+                            <TextBlock Text="Filter" Margin="30 0 0 0" VerticalAlignment="Center" FontFamily="/Flora;component/Fonts/#Poppins" />
                         </Grid>
                     </telerik:RadButton>
-                    <StackPanel Orientation="Horizontal">
+
+                    <StackPanel Width="20" />
+                    
+                    <telerik:RadButton  telerik:StyleManager.Theme="Office_Silver"  Padding="0 0 8 0" Click="ReloadRadButton_Click">
+                        <Grid>
+                            <TextBlock Text="&#xf01e;" FontSize="20" Style="{StaticResource ButtonIconStyle}" />
+                            <TextBlock Text="Reload" Margin="30 0 0 0" VerticalAlignment="Center" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        </Grid>
+                    </telerik:RadButton>
+
+                    <StackPanel Width="100" />
+                    
+                    <telerik:RadButton Style="{StaticResource ButtonStyle}" Height="30" Click="AddAnOrderButton_Click">
+                        <Grid>
+                            <Icon:PackIconMaterial Kind="PencilPlusOutline" Margin="10 0 0 0"  Style="{StaticResource ButtonIconMaterialStyle}"/>
+                            <TextBlock Text="Add an order" Style="{StaticResource ButtonTextStyle}" Margin="20 0 5 0" />
+                        </Grid>
+                        
+                    </telerik:RadButton>
+
+                    <StackPanel Orientation="Horizontal" Margin="2 0 0 0">
                         <TextBlock Text="Results per page" Foreground="#B3B6B6" Style="{StaticResource ButtonTextStyle}"/>
-                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Content="8" Style="{StaticResource DropdownButtonStyle}">
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Content="8" HorizontalContentAlignment="Stretch" Style="{StaticResource DropdownButtonStyle}">
                             <telerik:RadRibbonDropDownButton.DropDownContent>
                                 
-                                <ListBox ItemsSource="{Binding PagesNumberList}" 
-                                         SelectedItem="{Binding SelectedItem}"
+                                <ListBox ItemsSource="{Binding PagesNumberList}" Width="40"
                                          SelectionChanged="SelectedListBoxItem_Click">
+                                    
                                 </ListBox>
 
                             </telerik:RadRibbonDropDownButton.DropDownContent>
@@ -87,13 +125,12 @@
                         
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="#" DataMemberBinding="{Binding OrderIndex}" Width="64" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="OrderID" DataMemberBinding="{Binding OrderId}" Width="100" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Customer Name" DataMemberBinding="{Binding CustomerName}" Width="150" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Quantity" DataMemberBinding="{Binding Quantity}" Width="90" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Total Amount" DataMemberBinding="{Binding TotalAmount}" Width="108" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Order Date" DataMemberBinding="{Binding OrderDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="90" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Customer Name" DataMemberBinding="{Binding Customer.Name}" Width="200" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Quantity" DataMemberBinding="{Binding Quantity}" Width="94" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Total Amount" DataMemberBinding="{Binding TotalAmount}" Width="112" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Order Date" DataMemberBinding="{Binding OrderDate}" Width="124" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="94" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
@@ -113,7 +150,16 @@
                     
                 </StackPanel>
                 <StackPanel>
-                    <telerik:RadDataPager Name="dataPager" Source="{Binding OrderList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                    <telerik:RadDataPager Name="dataPager" 
+                                          PageSize="{Binding PageSize}" 
+                                          Width="858" 
+                                          Margin="0 20 0 0" 
+                                          telerik:StyleManager.Theme="Fluent" 
+                                          DisplayMode="All" 
+                                          Background="#F5F5F5"
+                                          Source="{Binding OrderList}"
+                                          >
+                    </telerik:RadDataPager>
                 </StackPanel>
             </StackPanel>
         </Grid>
