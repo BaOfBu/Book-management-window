@@ -56,6 +56,7 @@ namespace Flora.ViewModel
             Items = new ObservableCollection<ItemViewModel>();
             IsVisible = Visibility.Visible;
             IsEnabledInfo = true;
+
             switch (selectedOrder.Status)
             {
                 case "Pending":
@@ -93,6 +94,7 @@ namespace Flora.ViewModel
             ComboBoxStatusSelectionChangedCommand = new RelayCommand(ComboBoxStatusSelectionChanged);
             RemoveOrderCommand = new RelayCommand(RemoveOrder);
             CreateOrderCommand = new RelayCommand(UpdateOrder);
+
         }
         private IEnumerable<Plant> GetPlantsFromDatabase()
         {
@@ -363,7 +365,12 @@ namespace Flora.ViewModel
         {
             var customer = parameter as Customer;
 
-            if(SelectedOrder != null)
+            if (!ValidateData(customer))
+            {
+                SelectedOrder = new Order() { OrderId = -1};
+                return;
+            }
+            if (SelectedOrder != null)
             {
                 OldOlderData = (Order)SelectedOrder.Clone();
 
@@ -493,6 +500,41 @@ namespace Flora.ViewModel
                 }
                 _shopContext.SaveChanges();
             }
+        }
+
+        private bool ValidateData(Customer customer)
+        {
+            bool isValid = false;
+
+            if(!string.IsNullOrEmpty(customer.Email) &&
+               customer.Email.Length <= 100 &&
+               EmailRule.IsValidEmail(customer.Email) &&
+               !string.IsNullOrEmpty(customer.Phone) &&
+               PhoneNumberRule.IsValidPhoneNumber(customer.Phone) &&
+               !string.IsNullOrEmpty(customer.Address) &&
+               AddressRule.IsValidAddress(customer.Address) &&
+               !string.IsNullOrEmpty(customer.Name) &&
+               FullNameRule.IsValidFullName(customer.Name))
+            {
+                isValid = true;
+            }
+            else
+            {
+                MessageBox.Show("Update the plant's information failed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (isValid)
+            {
+                if (SelectedPlants == null || SelectedPlants.Count == 0)
+                {
+                    MessageBox.Show("Please choose at least a plant item.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
+            }
+
+            return false;
         }
     }
 }

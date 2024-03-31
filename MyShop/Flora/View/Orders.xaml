@@ -30,6 +30,7 @@
                         VerticalAlignment="Center" 
                         Width="120"
                         SelectionChanged="RadDateTimePickerStart_SelectionChanged"
+                        DateTimeWatermarkContent="Enter start date"
                         InputMode="DatePicker"
                         DisplayFormat="Short" />
 
@@ -42,6 +43,7 @@
                         VerticalAlignment="Center" 
                         Width="120"
                         SelectionChanged="RadDateTimePickerEnd_SelectionChanged"
+                        DateTimeWatermarkContent="Enter end date"
                         InputMode="DatePicker"
                         DisplayFormat="Short" />
 

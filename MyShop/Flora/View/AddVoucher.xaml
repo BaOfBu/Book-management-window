@@ -17,23 +17,67 @@
             <telerik:RadButton Content="CREATE A NEW VOUCHER" telerik:StyleManager.Theme="Material" HorizontalContentAlignment="Center" Height="40" FontSize="16" Foreground="#285A43" FontFamily="/Flora;component/Fonts/#Lato" ></telerik:RadButton>
             <StackPanel Height="20" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="15 0 0 0">
-                <telerik:DataFormDataField x:Name="couponNameField" Label="Coupon Code" FontSize="13" Width="350" HorizontalAlignment="Center" LabelPosition="Above" Style="{StaticResource InputFieldStyle}" />
-                <StackPanel Width="60" />
-                <telerik:DataFormDataField x:Name="discountField" Label="Discount ($)" FontSize="13" Width="350" HorizontalAlignment="Center" LabelPosition="Above" Style="{StaticResource InputFieldStyle}" />
+                <StackPanel Width="325">
+                    <TextBlock Text="Coupon Code" FontFamily="/Flora;component/Fonts/#Poppins" />
+                    <TextBox 
+                        x:Name="couponCode" 
+                        Padding="5 0 0 0"
+                        HorizontalContentAlignment="Left"
+                        Width="325"
+                        Height="30"
+                        VerticalContentAlignment="Center"
+                        FontFamily="/Flora;component/Fonts/#Lato" 
+                        Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                        Style="{StaticResource textBoxError}" >
+
+                        <TextBox.Text>
+                            <Binding Path="CouponCode" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:CouponCodeRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Width="135" />
+                <StackPanel Width="260">
+                    <TextBlock Text="Discount" FontFamily="/Flora;component/Fonts/#Poppins" />
+                    <TextBox 
+                        x:Name="discount" 
+                        Padding="5 0 0 0"
+                        HorizontalContentAlignment="Left"
+                        Width="260"
+                        Height="30"
+                        VerticalContentAlignment="Center"
+                        FontFamily="/Flora;component/Fonts/#Poppins" 
+                        Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                        Style="{StaticResource textBoxError}" >
+
+                        <TextBox.Text>
+                            <Binding Path="Discount" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:MoneyRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="35 10 0 0">
                 <StackPanel VerticalAlignment="Bottom">
                     <TextBlock Text="Validate Time" Style="{StaticResource TextPlaceHolderStyle}" Height="30" FontSize="13" Margin="5 0 0 0" Padding="0 10 0 0" />
-                    <telerik:RadDateRangePicker x:Name="validateTimeField" Culture="vi-VN" FormatString="d"  telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="27" VerticalAlignment="Bottom" Width="295" Margin="5 5 5 5"/>
+                    <telerik:RadDateRangePicker x:Name="validateTimeField" IsClearButtonVisible="False"
+                                                Culture="vi-VN" FormatString="d"  telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="27" VerticalAlignment="Bottom" Width="325" Margin="5 5 5 5"/>
                 </StackPanel>
-                <StackPanel Width="105" />
+                <StackPanel Width="130" />
+
                 <StackPanel>
                     <TextBlock Text="Status" Style="{StaticResource TextPlaceHolderStyle}" Height="30" FontSize="13" Margin="5 0 0 0" Padding="0 10 0 0" />
                     <ComboBox 
                         x:Name="comboBoxStatus"
                         ItemsSource="{Binding Status}" 
-                        Width="295" 
-                        Margin="5 5 5 5"
+                        SelectedIndex="0"
+                        Width="260" 
                         Height="30" 
                         VerticalContentAlignment="Center"
                         FontFamily="/Flora;component/Fonts/#Poppins" />
@@ -42,8 +86,8 @@
 
             <StackPanel Height="20" />
             
-            <StackPanel Orientation="Horizontal">
-                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="180" Height="34"  Click="CreateVoucherButton_Click">
+            <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="180" Height="34"  Click="CreateVoucherButton_Click" IsEnabled="{Binding IsCreateCouponEnabled}">
                     <Grid>
                         <TextBlock Text="&#xf058;" Style="{StaticResource ButtonIconStyle}" />
                         <TextBlock Text="Create a new voucher" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />

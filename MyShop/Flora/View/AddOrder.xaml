@@ -8,7 +8,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         x:Class="Flora.View.AddOrder"
         mc:Ignorable="d"
-        Title="Add Order" Height="620" Width="800">
+        Title="Add Order" Height="650" Width="800">
 
     <Window.DataContext>
         <vm:AddOrderVM />
@@ -17,8 +17,10 @@
     <Window.Resources>
         <local:CurrencyConverter x:Key="CurrencyConverter" />
         <local:DateConverter x:Key="DateConverter" />
-    </Window.Resources>
 
+        
+    </Window.Resources>
+    
     <Grid>
         <StackPanel Orientation="Vertical">
             <telerik:RadButton Content="CREATE A NEW ORDER" telerik:StyleManager.Theme="Material" HorizontalContentAlignment="Center" Height="40" FontSize="16" Foreground="#285A43" FontFamily="/Flora;component/Fonts/#Lato" ></telerik:RadButton>
@@ -36,7 +38,18 @@
                             Width="360"
                             Height="30"
                             VerticalContentAlignment="Center"
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="FullName" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:FullNameRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         </StackPanel>
                     
                     <StackPanel Width="20" />
@@ -50,48 +63,77 @@
                             Padding="5 0 0 0"
                             HorizontalContentAlignment="Left"
                             VerticalContentAlignment="Center"
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:EmailRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
                 </StackPanel>
                 
-                <StackPanel Height="10" />
+                <StackPanel Height="20" />
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel Width="150">
+                    <StackPanel Width="200">
                         <TextBlock Text="Phone Number" FontFamily="/Flora;component/Fonts/#Poppins" />
                         <TextBox 
-                x:Name="customerPhoneNumber" 
-                Padding="5 0 0 0"
-                HorizontalContentAlignment="Left"
-                Width="150"
-                Height="30"
-                VerticalContentAlignment="Center"
-                Text="{Binding SelectedOrder.Customer.Phone}" 
-                IsEnabled="{Binding IsEnabledInfo}"
-                FontFamily="/Flora;component/Fonts/#Lato" />
+                            x:Name="customerPhoneNumber" 
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            Width="200"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="PhoneNumber" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:PhoneNumberRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
 
                     <StackPanel Width="20" />
 
-                    <StackPanel Width="560" Margin="10 0 0 0">
+                    <StackPanel Width="510" Margin="10 0 0 0">
                         <TextBlock Text="Delivery Address" FontFamily="/Flora;component/Fonts/#Poppins" />
                         <TextBox 
-                x:Name="customerDeliveryAddress"
-                Padding="5 0 0 0"
-                HorizontalContentAlignment="Left"
-                Width="560"
-                Height="30"
-                VerticalContentAlignment="Center"
-                Text="{Binding SelectedOrder.Customer.Address}" 
-                IsEnabled="{Binding IsEnabledInfo}"
-                FontFamily="/Flora;component/Fonts/#Lato" />
+                            x:Name="customerDeliveryAddress"
+                            Padding="5 0 0 0"
+                            HorizontalContentAlignment="Left"
+                            Width="560"
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:AddressRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
 
                 </StackPanel>
             </StackPanel>
 
 
-            <Grid Margin="5 20 0 0" HorizontalAlignment="Center">
+            <Grid Margin="5 30 0 0" HorizontalAlignment="Center">
                 <Line X1="0" Y1="0" X2="300" Y2="0" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="5 5"/>
             </Grid>
 
@@ -236,7 +278,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="180" Height="34"  Click="CreateOrderButton_Click" Visibility="{Binding IsVisible}">
+                <telerik:RadButton Style="{StaticResource ButtonStyle}" Width="180" Height="34"  Click="CreateOrderButton_Click" IsEnabled="{Binding IsCreateOrderEnabled}" >
                     <Grid>
                         <TextBlock Text="&#xf058;" Style="{StaticResource ButtonIconStyle}" />
                         <TextBlock Text="Create a new order" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />

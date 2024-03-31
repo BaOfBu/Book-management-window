@@ -31,6 +31,7 @@ namespace Flora.ViewModel
         public ObservableCollection<ItemViewModel> Items { get; set; }
         public Order NewOrder { get; set; }
         public DateOnly OrderDate { get; set; }
+        public bool selectedQuantityFirst { get; set; }
         public ObservableCollection<Plant> SelectedPlants { get; set; } 
         public System.Windows.Input.ICommand AddItemPanelCommand { get; set; }
         public System.Windows.Input.ICommand RemoveItemPanelCommand { get; set; }
@@ -57,6 +58,14 @@ namespace Flora.ViewModel
             ComboBoxVoucherSelectionChangedCommand = new RelayCommand(ComboBoxVoucherSelectionChanged);
             ClearRadButtonCommand = new RelayCommand(ClearRadButton);
             CreateOrderCommand = new RelayCommand(CreateOrder);
+
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(FullName) || args.PropertyName == nameof(Email) || args.PropertyName == nameof(PhoneNumber) || args.PropertyName == nameof(Address) || args.PropertyName == nameof(selectedQuantityFirst))
+                {
+                    OnPropertyChanged(nameof(IsCreateOrderEnabled));
+                }
+            };
         }
         private IEnumerable<Plant> GetPlantsFromDatabase()
         {
@@ -170,6 +179,7 @@ namespace Flora.ViewModel
         }
         private void ComboBoxQuantitySelectionChanged(object selectedQuantity)
         {
+            selectedQuantityFirst = true;
             ItemViewModel selectedItem = selectedQuantity as ItemViewModel;
             int quantity = selectedItem.SelectedQuantity;
             selectedItem.TotalPrice = CalculateTotalPriceItem(selectedItem.SelectedPlant, quantity);
@@ -215,7 +225,12 @@ namespace Flora.ViewModel
         }
         private void CreateOrder(object parameter)
         {
-            var customer = parameter as Customer;
+            var customer = new Customer() {
+                Name = FullName,
+                Email = Email,
+                Phone = PhoneNumber,
+                Address = Address,
+            };
 
             int customerId = InsertCustomer(customer);
 
@@ -225,7 +240,7 @@ namespace Flora.ViewModel
                 Quantity = GetTotalQuantity(),
                 TotalAmount = TotalAmount,
                 OrderDate = DateOnly.FromDateTime(DateTime.Today),
-                CouponId = SelectedCoupon.CouponId,
+                CouponId = (SelectedCoupon)?.CouponId,
                 Status = "Pending",
                 Coupon = SelectedCoupon,
                 Customer = customer,
@@ -236,17 +251,20 @@ namespace Flora.ViewModel
             var orderDetails = new List<OrderDetail>();
             foreach (var item in Items)
             {
-                OrderDetail orderDetail = new OrderDetail()
+                if(item.SelectedQuantity > 0)
                 {
-                    OrderId = orderId,
-                    PlantId = item.SelectedPlant.PlantId,
-                    Quantity = item.SelectedQuantity,
-                    Price = item.TotalPrice,
-                    Order = NewOrder,
-                    Plant = item.SelectedPlant
-                };
-                orderDetails.Add(orderDetail);
-                InsertOrderDetail(orderDetail);
+                    OrderDetail orderDetail = new OrderDetail()
+                    {
+                        OrderId = orderId,
+                        PlantId = item.SelectedPlant.PlantId,
+                        Quantity = item.SelectedQuantity,
+                        Price = item.TotalPrice,
+                        Order = NewOrder,
+                        Plant = item.SelectedPlant
+                    };
+                    orderDetails.Add(orderDetail);
+                    InsertOrderDetail(orderDetail);
+                }
             }
             NewOrder.OrderDetails = orderDetails;
         }
@@ -280,5 +298,21 @@ namespace Flora.ViewModel
                 _shopContext.SaveChanges();
             }
         }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public bool IsCreateOrderEnabled
+            => !string.IsNullOrEmpty(Email) &&
+               Email.Length <= 100 &&
+               EmailRule.IsValidEmail(Email) &&
+               !string.IsNullOrEmpty(PhoneNumber) &&
+               PhoneNumberRule.IsValidPhoneNumber(PhoneNumber) &&
+               !string.IsNullOrEmpty(Address) &&
+               AddressRule.IsValidAddress(Address) &&
+               !string.IsNullOrEmpty(FullName) &&
+               FullNameRule.IsValidFullName(FullName)&&
+               selectedQuantityFirst;
+
     }
 }

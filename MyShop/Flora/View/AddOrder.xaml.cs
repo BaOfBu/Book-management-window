@@ -66,15 +66,7 @@ namespace Flora.View
         }
         private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            Customer customer = new Customer()
-            {
-                Name = customerName.Text,
-                Email = customerEmail.Text,
-                Phone = customerPhoneNumber.Text,
-                Address = customerDeliveryAddress.Text,
-            };
-
-            addOrderVM.CreateOrderCommand.Execute(customer);
+            addOrderVM.CreateOrderCommand.Execute(null);
             DialogResult = true;
         }
         private void RemoveItemButton_Click(object sender, RoutedEventArgs e)
@@ -83,6 +75,10 @@ namespace Flora.View
             if(selectedItem != null)
             {
                 addOrderVM.RemoveItemPanelCommand.Execute(selectedItem);
+            }
+            else
+            {
+                MessageBox.Show("Please choose a item", "Error");
             }
         }
 

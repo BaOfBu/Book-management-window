@@ -18,7 +18,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
   </ItemGroup>
   
@@ -50,6 +50,9 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Styles\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\ValidationTemplate.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="Utilities\DataTemplate.xaml">
@@ -109,12 +112,18 @@
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
+  <Compile Include="View\AddressRule.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
   <Compile Include="View\DateConverter.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
+  <Compile Include="View\EmailRule.cs" />
+  <Compile Include="View\FullNameRule.cs" />
   <Compile Include="View\Home.xaml.cs" />
+  <Compile Include="View\MoneyRule.cs" />
   <Compile Include="View\Orders.xaml.cs" />
+  <Compile Include="View\PhoneNumberRule.cs" />
   <Compile Include="View\Products.xaml.cs" />
   <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />

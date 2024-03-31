@@ -83,6 +83,10 @@ namespace Flora.View
             {
                 detailOrderVM.RemoveItemPanelCommand.Execute(selectedItem);
             }
+            else
+            {
+                MessageBox.Show("Please choose a item", "Error");
+            }
         }
 
         private void ComboBoxStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)

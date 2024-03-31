@@ -44,8 +44,18 @@
                             Height="30"
                             VerticalContentAlignment="Center"
                             IsEnabled="{Binding IsEnabledInfo}"
-                            Text="{Binding SelectedOrder.Customer.Name}" 
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato" 
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="SelectedOrder.Customer.Name" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:FullNameRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
                     <StackPanel Width="20" />
                     <StackPanel Width="360">
@@ -57,12 +67,22 @@
                             Padding="5 0 0 0"
                             HorizontalContentAlignment="Left"
                             VerticalContentAlignment="Center"
-                            Text="{Binding SelectedOrder.Customer.Email}" 
                             IsEnabled="{Binding IsEnabledInfo}"
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato"
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="SelectedOrder.Customer.Email" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:EmailRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Height="10" />
+                <StackPanel Height="20" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel Width="150">
                         <TextBlock Text="Phone Number" FontFamily="/Flora;component/Fonts/#Poppins" />
@@ -73,9 +93,19 @@
                             Width="150"
                             Height="30"
                             VerticalContentAlignment="Center"
-                            Text="{Binding SelectedOrder.Customer.Phone}" 
                             IsEnabled="{Binding IsEnabledInfo}"
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato"
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="SelectedOrder.Customer.Phone" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:PhoneNumberRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
 
                     <StackPanel Width="20" />
@@ -89,16 +119,26 @@
                             Width="560"
                             Height="30"
                             VerticalContentAlignment="Center"
-                            Text="{Binding SelectedOrder.Customer.Address}" 
                             IsEnabled="{Binding IsEnabledInfo}"
-                            FontFamily="/Flora;component/Fonts/#Lato" />
+                            FontFamily="/Flora;component/Fonts/#Lato"
+                            Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                            Style="{StaticResource textBoxError}" >
+
+                            <TextBox.Text>
+                                <Binding Path="SelectedOrder.Customer.Address" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:AddressRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
                     
                 </StackPanel>
             </StackPanel>
 
 
-            <Grid Margin="5 20 0 0" HorizontalAlignment="Center">
+            <Grid Margin="5 30 0 0" HorizontalAlignment="Center">
                 <Line X1="0" Y1="0" X2="300" Y2="0" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="5 5"/>
             </Grid>
 

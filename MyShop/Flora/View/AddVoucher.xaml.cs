@@ -26,15 +26,30 @@ namespace Flora.View
             addVoucherVM = new AddVoucherVM();
             InitializeComponent();
             DataContext = addVoucherVM;
+            validateTimeField.StartDate = DateTime.Now;
+            validateTimeField.EndDate = DateTime.Now;
         }
 
         private void CreateVoucherButton_Click(object sender, RoutedEventArgs e)
         {
+            DateTime startDate = (DateTime)validateTimeField.StartDate;
+            DateTime endDate = (DateTime)validateTimeField.EndDate;
+
+            if (startDate == default || startDate < DateTime.Now)
+            {
+                startDate = DateTime.Now;
+            }
+
+            if(endDate == default || endDate < startDate || endDate < DateTime.Now)
+            {
+                endDate = startDate.AddDays(7);
+            }
+
             Coupon coupon = new Coupon() { 
-                CouponCode = ((TextBox)couponNameField.Content).Text,
-                Discount = decimal.Parse(((TextBox)discountField.Content).Text),
-                StartDate = DateOnly.FromDateTime((DateTime)validateTimeField.StartDate),
-                ExpiryDate = DateOnly.FromDateTime((DateTime)validateTimeField.EndDate),
+                CouponCode = couponCode.Text,
+                Discount = decimal.Parse(discount.Text),
+                StartDate = DateOnly.FromDateTime(startDate),
+                ExpiryDate = DateOnly.FromDateTime(endDate),
                 Status = comboBoxStatus.SelectedItem.ToString(),
             };
 
@@ -44,8 +59,8 @@ namespace Flora.View
 
         private void ClearRadButton_Click(object sender, RoutedEventArgs e)
         {
-            ((TextBox)couponNameField.Content).Text = string.Empty;
-            ((TextBox)discountField.Content).Text = string.Empty;
+            couponCode.Text = string.Empty;
+            discount.Text = string.Empty;
             validateTimeField.StartDate = default;
             validateTimeField.EndDate = default;
             comboBoxStatus.SelectedIndex = -1;

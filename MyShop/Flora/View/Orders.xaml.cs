@@ -85,13 +85,16 @@ namespace Flora.View
 
                     if (order != null)
                     {
-                        MessageBox.Show("Update an order successfully");
-                        for (int i = 0; i < orderVM.OrderList.Count; i++)
+                        if (order.OrderId != -1)
                         {
-                            if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
+                            MessageBox.Show("Update an order successfully");
+                            for (int i = 0; i < orderVM.OrderList.Count; i++)
                             {
-                                orderVM.OrderList[i] = selectedOrder;
-                                break;
+                                if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
+                                {
+                                    orderVM.OrderList[i] = selectedOrder;
+                                    break;
+                                }
                             }
                         }
                     }
