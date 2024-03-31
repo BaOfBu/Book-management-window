@@ -1,0 +1,209 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Flora</RootNamespace>
+    <EnableDefaultItems>False</EnableDefaultItems>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
+    <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  <ApplicationDefinition Include="App.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </ApplicationDefinition>
+  <Page Include="MainWindow.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </Page>
+  <Page Include="Styles\Button.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\DropdownButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\GridView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Icon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\InputField.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Page.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Plants\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Button.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Dropdown.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Icon.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Products\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\ProductTypePage.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\ResultPerPageDropdownButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\SortDropdownButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Text.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\ValidationTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Utilities\DataTemplate.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\AddOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\AddVoucher.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\DetailOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Home.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Orders.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\PlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Products.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\SearchBoxControl.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Vouchers.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Compile Include="App.xaml.cs">
+    <DependentUpon>App.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="DbContexts\MyShopContext.cs" />
+  <Compile Include="MainWindow.xaml.cs">
+    <DependentUpon>MainWindow.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="Model\Coupon.cs" />
+  <Compile Include="Model\Customer.cs" />
+  <Compile Include="Model\ListItemModel.cs" />
+  <Compile Include="Model\Order.cs" />
+  <Compile Include="Model\OrderDetail.cs" />
+  <Compile Include="Model\Plant.cs" />
+  <Compile Include="Model\PlantCategory.cs" />
+  <Compile Include="Model\PreviewOrder.cs" />
+  <Compile Include="Model\UserAccount.cs" />
+  <Compile Include="Utilities\ButtonCustom.cs" />
+  <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
+  <Compile Include="Utilities\RelayCommand.cs" />
+  <Compile Include="Utilities\ViewModelBase.cs" />
+  <Compile Include="ViewModel\AddOrderVM.cs" />
+  <Compile Include="ViewModel\AddVoucherVM.cs" />
+  <Compile Include="ViewModel\DetailOrderVM.cs" />
+  <Compile Include="ViewModel\HomeVM.cs" />
+  <Compile Include="ViewModel\ItemViewModel.cs" />
+  <Compile Include="ViewModel\NavigationVM.cs" />
+  <Compile Include="ViewModel\OrderVM.cs" />
+  <Compile Include="ViewModel\PlantProductVM.cs" />
+  <Compile Include="ViewModel\ProductVM.cs" />
+  <Compile Include="ViewModel\VoucherVM.cs" />
+  <Compile Include="View\AddOrder.xaml.cs" />
+  <Compile Include="View\AddressRule.cs" />
+  <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\CouponCodeRule.cs" />
+  <Compile Include="View\CurrencyConverter.cs" />
+  <Compile Include="View\DateConverter.cs" />
+  <Compile Include="View\DetailOrder.xaml.cs" />
+  <Compile Include="View\EmailRule.cs" />
+  <Compile Include="View\FullNameRule.cs" />
+  <Compile Include="View\Home.xaml.cs" />
+  <Compile Include="View\MoneyRule.cs" />
+  <Compile Include="View\Orders.xaml.cs" />
+<<<<<<< HEAD
+  <Compile Include="View\PhoneNumberRule.cs" />
+=======
+  <Compile Include="View\PlantProduct.xaml.cs" />
+>>>>>>> origin
+  <Compile Include="View\Products.xaml.cs" />
+  <Compile Include="View\SearchBoxControl.xaml.cs" />
+  <Compile Include="View\Vouchers.xaml.cs" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="Fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Poppins.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Lato.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Images\cart-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\code-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\home-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\product-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\search-image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+
+</Project>
