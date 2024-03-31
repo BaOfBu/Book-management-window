@@ -167,5 +167,17 @@ namespace Flora.View
                 }
             }
         }
+
+        private void SortTypeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox listBox && listBox.SelectedItem != null)
+            {
+                string selectedSortType = listBox.SelectedItem.ToString();
+                if (DataContext is ProductVM viewModel)
+                {
+                    viewModel.CurrentSortOrder = selectedSortType;
+                }
+            }
+        }
     }
 }

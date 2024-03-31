@@ -18,6 +18,7 @@
                 </Grid>
             </DataTemplate>
             <utils:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+            <local:CurrencyConverter x:Key="currentConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ResultPerPageDropdownButton.xaml" />
                 <ResourceDictionary Source="/Styles/Plants/Text.xaml"/>
@@ -265,7 +266,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Price, StringFormat=\${0}}" Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Price, Converter={StaticResource currentConverter}}" Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 <Button  Click="MoreDetail_Click" 
 Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More Detail" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
                                             </Grid>

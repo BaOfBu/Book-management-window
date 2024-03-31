@@ -16,6 +16,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <utils:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+            <local:CurrencyConverter x:Key="currentConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/SortDropdownButton.xaml" />
                 <ResourceDictionary Source="/Styles/ResultPerPageDropdownButton.xaml" />
@@ -43,7 +44,7 @@
                             <TextBlock Text="&#xf160;" Style="{StaticResource IconSortStyle}"/>
                         </telerik:RadRibbonDropDownButton.Content>
                         <telerik:RadRibbonDropDownButton.DropDownContent>
-                            <ListBox ItemsSource="{Binding SortTypeList}" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
+                            <ListBox ItemsSource="{Binding SortTypeList}" SelectionChanged="SortTypeList_SelectionChanged" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}" Margin="10" FontSize="12"/>

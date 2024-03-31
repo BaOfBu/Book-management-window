@@ -12,14 +12,27 @@ namespace Flora.ViewModel
     public class ProductVM : INotifyPropertyChanged
     {
         private MyShopContext _shopContext = new MyShopContext();
-
         private int _pageSize = 8;
         private int _pageNumber = 1;
-
+        private int _totalItemCount = 0;
+        private string _currentSortOrder = string.Empty;
+        private string _searchText = string.Empty;
         public List<string> PagesNumberList { get; } = new List<string> { "8", "16", "24", "32", "64", "96" };
         public List<string> SortTypeList { get; } = new List<string> { "Sort by name ascending", "Sort by name descending" };
 
-        private int _totalItemCount = 0;
+        public string CurrentSortOrder
+        {
+            get => _currentSortOrder;
+            set
+            {
+                if (_currentSortOrder != value)
+                {
+                    _currentSortOrder = value;
+                    OnPropertyChanged(nameof(CurrentSortOrder));
+                    LoadPlantCategoryAsync();
+                }
+            }
+        }
 
         public int TotalItemCount
         {
@@ -62,7 +75,6 @@ namespace Flora.ViewModel
                 }
             }
         }
-        private string _searchText = string.Empty;
 
         public string SearchText
         {
@@ -97,10 +109,6 @@ namespace Flora.ViewModel
             {
                 PlantCategoryList.Clear();
                 PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
-                if (SearchText == string.Empty || SearchText == "")
-                {
-
-                }
                 TotalItemCount = await CalculateTotalItemCountAsync();
                 Debug.WriteLine("TEST" + PageSize + "h" + TotalItemCount);
             }
@@ -140,7 +148,17 @@ namespace Flora.ViewModel
             {
                 query = query.Where(c => c.CategoryName.Contains(SearchText));
             }
-
+            switch (CurrentSortOrder)
+            {
+                case "Sort by name ascending":
+                    query = query.OrderBy(c => c.CategoryName);
+                    break;
+                case "Sort by name descending":
+                    query = query.OrderByDescending(c => c.CategoryName);
+                    break;
+                default:
+                    break;
+            }
             var categories = await query
                                     .Include(o => o.Plants)
                                     .Skip(skip)

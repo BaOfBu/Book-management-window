@@ -1,21 +1,7 @@
-<<<<<<< HEAD
-﻿using System.Windows;
-=======
-﻿using Flora.ViewModel;
+
+using Flora.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
->>>>>>> main
 
 namespace Flora.View
 {
@@ -44,12 +30,13 @@ namespace Flora.View
                 startDate = DateTime.Now;
             }
 
-            if(endDate == default || endDate < startDate || endDate < DateTime.Now)
+            if (endDate == default || endDate < startDate || endDate < DateTime.Now)
             {
                 endDate = startDate.AddDays(7);
             }
 
-            Coupon coupon = new Coupon() { 
+            Coupon coupon = new Coupon()
+            {
                 CouponCode = couponCode.Text,
                 Discount = decimal.Parse(discount.Text),
                 StartDate = DateOnly.FromDateTime(startDate),
