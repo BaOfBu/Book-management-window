@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Flora.Utilities
+namespace Flora.View
 {
-    internal class RelativeToAbsoluteConveter : IValueConverter
+    public class DateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string relative = (string)value;
-            string folder = AppDomain.CurrentDomain.BaseDirectory;
-            string absolute = $"{folder}{relative}";
-            return absolute;
+            if (value is DateOnly date)
+            {
+                return date.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("vi-VN"));
+            }
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,5 +24,4 @@ namespace Flora.Utilities
             throw new NotImplementedException();
         }
     }
-
 }

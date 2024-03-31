@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.ViewModel;
+﻿using Flora.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Documents.Fixed.UI;
 using Telerik.Windows.Documents.FormatProviders.Html.Parsing.Dom;
 
@@ -31,12 +31,14 @@ namespace Flora.View
     public partial class Orders : UserControl
     {
         private OrderVM orderVM { get; set; }
+        Order _oldData;
         public Orders()
         {
+            _oldData = new Order();
+            orderVM = new OrderVM();
             InitializeComponent();
-            orderVM = DataContext as OrderVM;
+            DataContext = orderVM;
         }
-
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedListBoxItem = (sender as ListBox).SelectedItem;
@@ -47,8 +49,7 @@ namespace Flora.View
 
                 ResultsPerPage.Content = selectedItem;
 
-                int pageSize;
-                if (int.TryParse(selectedItem, out pageSize))
+                if (int.TryParse(selectedItem, out int pageSize))
                 {
                     if (orderVM != null)
                     {
@@ -59,33 +60,88 @@ namespace Flora.View
         }
         private void AddAnOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            AddOrder addOrderWindow = new AddOrder();
-            addOrderWindow.Show();
-        }
-
-        private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
-        {
-            DetailOrder detailOrder = new DetailOrder();
-            detailOrder.Show();
-        }
-
-        private void radDateRangePicker_ContextMenuClosing(object sender, ContextMenuEventArgs e)
-        {
-            if (DateTime.TryParse("2024-01-01", out DateTime start))
+            var screen = new AddOrder();
+            if (screen.ShowDialog() == true)
             {
-                radDateRangePicker.StartDate = start;
+                Order newOrder = screen.GetNewOrder();
+
+                MessageBox.Show("Insert an order successfully");
+                orderVM.OrderList.Add(newOrder);
             }
         }
+        private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedOrder = gridView.SelectedItem as Order;
+            if (selectedOrder != null)
+            {
+                _oldData = (Order)selectedOrder.Clone();
 
+                var screen = new DetailOrder(selectedOrder);
+
+                if (screen.ShowDialog() == true)
+                {
+                    var order = screen.GetOrder();
+                    Reflection.CopyProperties(order, selectedOrder);
+
+                    if (order != null)
+                    {
+                        System.Windows.MessageBox.Show("Update an order successfully");
+                        for (int i = 0; i < orderVM.OrderList.Count; i++)
+                        {
+                            if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
+                            {
+                                orderVM.OrderList[i] = order;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Remove the order successfully");
+                        orderVM.OrderList.Remove(selectedOrder);
+                    }
+                }
+                else
+                {
+                    Reflection.CopyProperties(_oldData, selectedOrder);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Choose an order");
+            }
+        }
         private void RemoveOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            PreviewOrder selectedOrder = (PreviewOrder)gridView.SelectedItem;
-            orderVM.OrderSelected = selectedOrder;
+            Order selectedOrder = (Order)gridView.SelectedItem;
+            orderVM.RemoveOrderCommand.Execute(selectedOrder);
         }
-
-        private void gridView_SelectionChanged(object sender, SelectionChangeEventArgs e)
+        private void RadDateTimePickerStart_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var selectedDate = (RadDateTimePicker)sender;
+            if (selectedDate.SelectedDate != null)
+            {
+                orderVM.StartDateChangedCommand.Execute(selectedDate.SelectedDate);
+            }
+        }
+        private void RadDateTimePickerEnd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var endDate = (RadDateTimePicker)sender;
+            if (endDate.SelectedDate != null)
+            {
+                orderVM.EndDateChangedCommand.Execute(endDate.SelectedDate);
+            }
+        }
+        private void FilterRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            orderVM.FilterOrderCommand.Execute(null);
+        }
+        private void ReloadRadButton_Click(object sender, RoutedEventArgs e)
+        {
+            radDateTimePicker_Start.SelectedValue = default;
+            radDateTimePicker_End.SelectedValue = default;
+            orderVM.ReloadOrderCommand.Execute(null);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Flora.View
 
             if (this.DataContext is OrderVM)
             {
-                ((OrderVM)this.DataContext).SearchText = keyword;
+                ((OrderVM)this.DataContext).SearchOrderCommand.Execute(keyword);
             }else if (this.DataContext is VoucherVM)
             {
                 ((VoucherVM)this.DataContext).SearchText = keyword;

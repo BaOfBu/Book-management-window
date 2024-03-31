@@ -5,7 +5,7 @@
     <Style x:Key="InputFieldStyle" TargetType="telerik:DataFormDataField">
         <Setter Property="FontFamily" Value="/Flora;component/Fonts/#Poppins" />
         <Setter Property="Width" Value="800" />
-        <Setter Property="Height" Value="55" />
+        <Setter Property="Height" Value="65" />
         <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
@@ -15,6 +15,12 @@
         <Setter Property="Width" Value="800" />
         <Setter Property="Height" Value="55" />
         <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    
+    <Style x:Key="ComboBoxStyle2" TargetType="ComboBox">
+        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#Poppins" />
+        <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 

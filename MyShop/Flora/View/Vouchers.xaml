@@ -14,6 +14,11 @@
         <vm:VoucherVM />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <local:CurrencyConverter x:Key="CurrencyConverter" />
+        <local:DateConverter x:Key="DateConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" >
         </Border>
@@ -21,22 +26,68 @@
         <Grid>
             <StackPanel Orientation="Vertical">
                 <local:SearchBoxControl Margin="0 0 60 0"/>
-                <StackPanel Orientation="Horizontal" Margin="86 24 0 0">
-                    <telerik:RadDateRangePicker telerik:StyleManager.Theme="Fluent" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="250"/>
-                    <telerik:RadButton Style="{StaticResource ButtonStyle}" Margin="308 0 20 0" Click="AddAVoucher_Click" >
+                <StackPanel Height="20" />
+                <StackPanel Orientation="Horizontal" Width="858">
+                    <telerik:RadDateTimePicker 
+                        x:Name="radDateTimePicker_Start"
+                        telerik:StyleManager.Theme="Fluent" 
+                        Height="24" 
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        SelectionChanged="RadDateTimePickerStart_SelectionChanged"
+                        DateTimeWatermarkContent="Enter start date"
+                        InputMode="DatePicker"
+                        DisplayFormat="Short" />
+
+                    <StackPanel Width="20" />
+
+                    <telerik:RadDateTimePicker 
+                        x:Name="radDateTimePicker_End"
+                        telerik:StyleManager.Theme="Fluent" 
+                        Height="24" 
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        SelectionChanged="RadDateTimePickerEnd_SelectionChanged"
+                        DateTimeWatermarkContent="Enter end date"
+                        InputMode="DatePicker"
+                        DisplayFormat="Short" />
+
+                    <StackPanel Width="20" />
+
+                    <telerik:RadButton  telerik:StyleManager.Theme="Office_Blue" Padding="0 0 8 0" Click="FilterRadButton_Click">
                         <Grid>
-                            <TextBlock Text="&#xF067;" Style="{StaticResource ButtonIconStyle}" />
-                            <TextBlock Text="Add a voucher" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
+                            <TextBlock Text="&#xf0b0;" FontSize="20" Style="{StaticResource ButtonIconStyle}" />
+                            <TextBlock Text="Filter" Margin="30 0 0 0" VerticalAlignment="Center" FontFamily="/Flora;component/Fonts/#Poppins" />
                         </Grid>
                     </telerik:RadButton>
+
+                    <StackPanel Width="20" />
+
+                    <telerik:RadButton  telerik:StyleManager.Theme="Office_Silver"  Padding="0 0 8 0" Click="ReloadRadButton_Click">
+                        <Grid>
+                            <TextBlock Text="&#xf01e;" FontSize="20" Style="{StaticResource ButtonIconStyle}" />
+                            <TextBlock Text="Reload" Margin="30 0 0 0" VerticalAlignment="Center" FontFamily="/Flora;component/Fonts/#Poppins" />
+                        </Grid>
+                    </telerik:RadButton>
+
+                    <StackPanel Width="95" />
+
+                    <telerik:RadButton Style="{StaticResource ButtonStyle}" Height="30" Click="AddAVoucher_Click">
+                        <Grid>
+                            <Icon:PackIconMaterial Kind="PencilPlusOutline" Margin="10 0 0 0"  Style="{StaticResource ButtonIconMaterialStyle}"/>
+                            <TextBlock Text="Add a voucher" Style="{StaticResource ButtonTextStyle}" Margin="20 0 5 0" />
+                        </Grid>
+
+                    </telerik:RadButton>
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Results per page" Foreground="#B3B6B6" Style="{StaticResource ButtonTextStyle}"/>
-                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Content="8" Style="{StaticResource DropdownButtonStyle}">
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Margin="2 0 0 0" Content="8" HorizontalContentAlignment="Stretch" Style="{StaticResource DropdownButtonStyle}">
                             <telerik:RadRibbonDropDownButton.DropDownContent>
 
-                                <ListBox ItemsSource="{Binding PagesNumberList}" 
-                                     SelectedItem="{Binding SelectedItem}"
-                                     SelectionChanged="SelectedListBoxItem_Click">
+                                <ListBox ItemsSource="{Binding PagesNumberList}" Width="40"
+                         SelectionChanged="SelectedListBoxItem_Click">
+
                                 </ListBox>
 
                             </telerik:RadRibbonDropDownButton.DropDownContent>
@@ -80,19 +131,19 @@
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn Header="" Width="16" IsReadOnly="True" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Coupon ID" DataMemberBinding="{Binding CouponId}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="200" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount}" Width="80" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate}" Width="120" IsReadOnly="True" IsResizable="False" />
-                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Coupon Code" DataMemberBinding="{Binding CouponCode}" Width="180" IsReadOnly="False" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Discount" DataMemberBinding="{Binding Discount, Converter={StaticResource CurrencyConverter}}" Width="100" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Start Date" DataMemberBinding="{Binding StartDate, Converter={StaticResource DateConverter}}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Expiry Date" DataMemberBinding="{Binding ExpiryDate, Converter={StaticResource DateConverter}}" Width="120" IsReadOnly="True" IsResizable="False" />
+                            <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Status}" Width="100" IsReadOnly="False" IsResizable="False" />
                             <telerik:GridViewDataColumn Header="Action" Width="auto" IsReadOnly="True" IsResizable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource EditButtonStyle}">
+                                            <Button Style="{StaticResource EditButtonStyle}" Click="UpdateCouponButton_Click">
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}">
+                                            <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}" Click="RemoveCouponButton_Click">
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
                                         </StackPanel>
