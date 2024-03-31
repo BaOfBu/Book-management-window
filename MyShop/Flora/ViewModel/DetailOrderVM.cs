@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Flora.Model;
+using System.Windows.Forms;
 using Flora.Utilities;
 using Flora.View;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +32,7 @@ namespace Flora.ViewModel
         public ObservableCollection<Plant> SelectedPlants { get; set; }
         public List<string> Status { get; set; }
         public string SelectedStatus { get; set; }
+        public bool IsValidData { get; set; }
         public System.Windows.Input.ICommand AddItemPanelCommand { get; set; }
         public System.Windows.Input.ICommand RemoveItemPanelCommand { get; set; }
         public System.Windows.Input.ICommand ComboBoxItemSelectionChangedCommand { get; set; }
@@ -47,7 +48,9 @@ namespace Flora.ViewModel
         public DetailOrderVM(Order selectedOrder)
         {
             _shopContext = new MyShopContext();
+            IsValidData = false;
             SelectedOrder = selectedOrder;
+            OldOlderData = (Order)SelectedOrder.Clone();
             LoadStatus();
             SelectedStatus = SelectedOrder.Status;
             SelectedPlants = new ObservableCollection<Plant>();
@@ -343,11 +346,16 @@ namespace Flora.ViewModel
             decimal totalAmount = 0;
             foreach (var item in Items)
             {
-                decimal totalPrice = item.TotalPrice;
-                totalAmount += totalPrice;
+                if(item.SelectedPlant != null && item.SelectedQuantity > 0)
+                {
+                    decimal totalPrice = item.TotalPrice;
+                    totalAmount += totalPrice;
+                }
             }
 
             totalAmount -= SelectedCoupon?.Discount ?? 0;
+
+            if (totalAmount < 0) totalAmount = 0;
             return totalAmount;
         }
         private int GetTotalQuantity()
@@ -367,7 +375,6 @@ namespace Flora.ViewModel
 
             if (!ValidateData(customer))
             {
-                SelectedOrder = new Order() { OrderId = -1};
                 return;
             }
             if (SelectedOrder != null)
@@ -380,17 +387,19 @@ namespace Flora.ViewModel
                 var orderDetails = new List<OrderDetail>();
                 foreach (var item in Items)
                 {
-                    OrderDetail orderDetail = new OrderDetail()
+                    if(item.SelectedPlant != null && item.SelectedQuantity > 0)
                     {
-                        OrderId = SelectedOrder.OrderId,
-                        PlantId = item.SelectedPlant.PlantId,
-                        Quantity = item.SelectedQuantity,
-                        Price = item.TotalPrice,
-                        Order = SelectedOrder,
-                        Plant = item.SelectedPlant
-                    };
-
-                    orderDetails.Add(orderDetail);
+                        OrderDetail orderDetail = new OrderDetail()
+                        {
+                            OrderId = SelectedOrder.OrderId,
+                            PlantId = item.SelectedPlant.PlantId,
+                            Quantity = item.SelectedQuantity,
+                            Price = item.TotalPrice,
+                            Order = SelectedOrder,
+                            Plant = item.SelectedPlant
+                        };
+                        orderDetails.Add(orderDetail);
+                    }
                 }
 
                 int j = 0;
@@ -404,16 +413,25 @@ namespace Flora.ViewModel
                 for (int i = 0; i < Items.Count; i++)
                 {
                     var item = Items[i];
-                    var orderDetail = SelectedOrder.OrderDetails.ElementAt(i);
+                    if(i < SelectedOrder.OrderDetails.Count)
+                    {
+                        var orderDetail = SelectedOrder.OrderDetails.ElementAt(i);
 
-                    item.Plants = GetAvailablePlants(Plants);
-                    item.SelectedPlant = orderDetail.Plant;
-                    item.SelectedPlantIndex = item.Plants.ToList().FindIndex(a => a.PlantId == orderDetail.PlantId);
-                    item.ItemLabel = "Item " + (i + 1);
-                    item.IsEnabledQuantityComboBox = true;
-                    item.ListQuantity = AvailableQuantityForItem(orderDetail.Plant);
-                    item.SelectedQuantity = (int)orderDetail.Quantity;
-                    item.TotalPrice = (decimal)orderDetail.Price;
+                        item.Plants = GetAvailablePlants(Plants);
+                        item.SelectedPlant = orderDetail.Plant;
+                        item.SelectedPlantIndex = item.Plants.ToList().FindIndex(a => a.PlantId == orderDetail.PlantId);
+                        item.ItemLabel = "Item " + (i + 1);
+                        item.IsEnabledQuantityComboBox = true;
+                        item.ListQuantity = AvailableQuantityForItem(orderDetail.Plant);
+                        item.SelectedQuantity = (int)orderDetail.Quantity;
+                        item.TotalPrice = (decimal)orderDetail.Price;
+                    }
+                    else
+                    {
+                        Items.RemoveAt(i);
+                        i--;
+                    }
+                    
                 }
 
                 SelectedOrder.Status = SelectedStatus;
@@ -481,9 +499,6 @@ namespace Flora.ViewModel
                             {
                                 _shopContext.OrderDetails.Remove(existingOrder);
                                 _shopContext.SaveChanges();
-                                existingOrder.Plant = orderDetail.Plant;
-                                existingOrder.PlantId = orderDetail.PlantId;
-                                _shopContext.OrderDetails.Add(existingOrder);
                             }
                         }
                     }
@@ -504,8 +519,6 @@ namespace Flora.ViewModel
 
         private bool ValidateData(Customer customer)
         {
-            bool isValid = false;
-
             if(!string.IsNullOrEmpty(customer.Email) &&
                customer.Email.Length <= 100 &&
                EmailRule.IsValidEmail(customer.Email) &&
@@ -516,19 +529,21 @@ namespace Flora.ViewModel
                !string.IsNullOrEmpty(customer.Name) &&
                FullNameRule.IsValidFullName(customer.Name))
             {
-                isValid = true;
+                IsValidData = true;
             }
             else
             {
-                MessageBox.Show("Update the plant's information failed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("Update failed!. Please fill in correct information !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                IsValidData = false;
                 return false;
             }
 
-            if (isValid)
+            if (IsValidData)
             {
-                if (SelectedPlants == null || SelectedPlants.Count == 0)
+                if (SelectedPlants == null || SelectedPlants.Count == 0 || Items.Where(item => item.SelectedPlant != null && item.SelectedQuantity <= 0).ToList().Count > 0)
                 {
-                    MessageBox.Show("Please choose at least a plant item.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show("Please choose at least a plant item !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    IsValidData = false;
                     return false;
                 }
                 return true;

@@ -97,7 +97,6 @@
   <Compile Include="Model\OrderDetail.cs" />
   <Compile Include="Model\Plant.cs" />
   <Compile Include="Model\PlantCategory.cs" />
-  <Compile Include="Model\PreviewOrder.cs" />
   <Compile Include="Model\UserAccount.cs" />
   <Compile Include="Utilities\ButtonCustom.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
@@ -110,6 +109,7 @@
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
+  <Compile Include="ViewModel\Reflection.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddressRule.cs" />

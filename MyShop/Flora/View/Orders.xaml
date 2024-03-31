@@ -150,7 +150,16 @@
                     
                 </StackPanel>
                 <StackPanel>
-                    <telerik:RadDataPager Name="dataPager" Source="{Binding OrderList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                    <telerik:RadDataPager Name="dataPager" 
+                                          PageSize="{Binding PageSize}" 
+                                          Width="858" 
+                                          Margin="0 20 0 0" 
+                                          telerik:StyleManager.Theme="Fluent" 
+                                          DisplayMode="All" 
+                                          Background="#F5F5F5"
+                                          Source="{Binding OrderList}"
+                                          >
+                    </telerik:RadDataPager>
                 </StackPanel>
             </StackPanel>
         </Grid>

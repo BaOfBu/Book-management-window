@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Forms;
-using Flora.Model;
 using Flora.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Telerik.Windows.Controls;
@@ -15,8 +15,10 @@ namespace Flora.ViewModel
     {
         private readonly MyShopContext _shopContext;
         public ObservableCollection<Order> OrderList { get; set; }
+        public IEnumerable<Order> Items { get; set; }
         public ObservableCollection<string> PagesNumberList { get; set; }
         public int PageSize { get; set; }
+        public int TotalItems { get; set; }
 
         public string SearchText { get; set; }
 
@@ -36,6 +38,7 @@ namespace Flora.ViewModel
             SearchText = string.Empty;
             PageSize = 8;
             OrderList = new ObservableCollection<Order>();
+            TotalItems = 32;
             LoadOrders();
 
             SelectedStartDate = default; 
@@ -51,7 +54,6 @@ namespace Flora.ViewModel
 
         private List<Order> GetOrdersFromDatabase()
         {
-            
             var query = _shopContext.Orders
                         .Include(o => o.Coupon)
                         .Include(o => o.Customer)
@@ -59,7 +61,7 @@ namespace Flora.ViewModel
                             .ThenInclude(od => od.Plant)
                         .Where(o => o.OrderId.ToString().Contains(SearchText) || o.Customer.Name.Contains(SearchText));
 
-            
+
             if (SelectedStartDate != null && SelectedEndDate != null)
             {
                 query = query.Where(o => (o.OrderDate >= SelectedStartDate) && (o.OrderDate < SelectedEndDate));
@@ -67,6 +69,7 @@ namespace Flora.ViewModel
             
             return query.ToList();
         }
+
         private void LoadOrders()
         {
             var orders = GetOrdersFromDatabase();
@@ -115,6 +118,5 @@ namespace Flora.ViewModel
             var date = (DateTime)endDate;
             SelectedEndDate = DateOnly.FromDateTime(date.Date);
         }
-
     }
 }

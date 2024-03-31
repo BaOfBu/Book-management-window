@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.Utilities;
+﻿using Flora.Utilities;
 using Flora.View;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.UriParser;
@@ -210,6 +209,8 @@ namespace Flora.ViewModel
             }
 
             totalAmount -= SelectedCoupon?.Discount ?? 0;
+
+            if (totalAmount < 0) totalAmount = 0;
             return totalAmount;
         }
         private int GetTotalQuantity()

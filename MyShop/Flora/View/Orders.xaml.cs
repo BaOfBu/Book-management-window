@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.ViewModel;
+﻿using Flora.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,19 +81,17 @@ namespace Flora.View
                 if (screen.ShowDialog() == true)
                 {
                     var order = screen.GetOrder();
+                    Reflection.CopyProperties(order, selectedOrder);
 
                     if (order != null)
                     {
-                        if (order.OrderId != -1)
+                        System.Windows.MessageBox.Show("Update an order successfully");
+                        for (int i = 0; i < orderVM.OrderList.Count; i++)
                         {
-                            MessageBox.Show("Update an order successfully");
-                            for (int i = 0; i < orderVM.OrderList.Count; i++)
+                            if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
                             {
-                                if ((orderVM.OrderList[i].OrderId == selectedOrder.OrderId))
-                                {
-                                    orderVM.OrderList[i] = selectedOrder;
-                                    break;
-                                }
+                                orderVM.OrderList[i] = order;
+                                break;
                             }
                         }
                     }
@@ -103,6 +100,10 @@ namespace Flora.View
                         MessageBox.Show("Remove the order successfully");
                         orderVM.OrderList.Remove(selectedOrder);
                     }
+                }
+                else
+                {
+                    Reflection.CopyProperties(_oldData, selectedOrder);
                 }
                 
             }

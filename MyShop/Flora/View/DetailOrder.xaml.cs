@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.ViewModel;
+﻿using Flora.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +73,7 @@ namespace Flora.View
             };
 
             detailOrderVM.CreateOrderCommand.Execute(customer);
-            DialogResult = true;
+            if(detailOrderVM.IsValidData) DialogResult = true;
         }
         private void RemoveItemButton_Click(object sender, RoutedEventArgs e)
         {

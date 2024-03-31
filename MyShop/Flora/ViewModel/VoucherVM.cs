@@ -1,5 +1,4 @@
-﻿using Flora.Model;
-using Flora.Utilities;
+﻿using Flora.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
