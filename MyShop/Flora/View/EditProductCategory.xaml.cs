@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 namespace Flora.View
 {
     /// <summary>
@@ -34,7 +35,7 @@ namespace Flora.View
             string currentImagePath = string.Empty;
             string categoryName = myTextBoxName.Text;
 
-            if (isImageChanged == true)
+            if (isImageChanged)
             {
                 if (displayedImage.Source != null)
                 {
@@ -50,19 +51,43 @@ namespace Flora.View
                     {
                         if (File.Exists(currentImagePath))
                         {
+                            // Set displayedImage.Source to null before copying the file
                             displayedImage.Source = null;
-                            var tmp_imagePath = view.PlantCategory.CategoryImages;
-                            CopyImageToNewLocation(currentImagePath, targetFileDirectory);
-                            view.PlantCategory.CategoryImages = tmp_imagePath;
+
+                            // Force the command to the UI thread to be processed to release the file handle
+                            Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                            GC.Collect(); // Force a garbage collection to release the file
+                            GC.WaitForPendingFinalizers(); // Wait for the finalizers to complete
+
+
+                            try
+                            {
+                                // Copy the image to the new location
+                                CopyImageToNewLocation(currentImagePath, targetFileDirectory);
+                            }
+                            catch (IOException ex)
+                            {
+                                MessageBox.Show($"Failed to copy the file: {ex.Message}");
+                                return; // Exit the method if an exception occurs
+                            }
+
+                            DisplayImage(targetFileDirectory);
+
+                            // Update the category images path
+                            view.PlantCategory.CategoryImages = targetFileDirectory;
+
+
                         }
                         else
                         {
                             MessageBox.Show("The source file does not exist.");
+                            return; // Exit the method if the source file does not exist
                         }
                     }
                     catch (IOException ex)
                     {
                         MessageBox.Show($"Failed to copy the file: {ex.Message}");
+                        return; // Exit the method if an exception occurs
                     }
                 }
             }
@@ -80,35 +105,47 @@ namespace Flora.View
             {
                 MessageBox.Show($"Failed to update the category: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            // Reset the isImageChanged flag
             isImageChanged = false;
         }
 
-        public void CopyImageToNewLocation(string currentImagePath, string otherPath)
+        public void CopyImageToNewLocation(string currentImagePath, string targetFileDirectory)
         {
-            try
+            // Attempt to copy the file with retries
+            int maxRetries = 3;
+            int delayOnRetry = 1000;
+
+            for (int i = 0; i < maxRetries; i++)
             {
-                // Check if the file exists and is not locked by another process
-                if (File.Exists(currentImagePath))
+                try
                 {
-                    using (FileStream sourceStream = new FileStream(currentImagePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    // ... existing check for File.Exists ...
+
+                    // Use a FileStream with FileMode.OpenOrCreate
+                    using (FileStream sourceStream = File.Open(currentImagePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
-                        using (FileStream destinationStream = new FileStream(otherPath, FileMode.Create, FileAccess.Write))
+                        using (FileStream destinationStream = File.Open(targetFileDirectory, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
                         {
-                            // Copy the file
                             sourceStream.CopyTo(destinationStream);
                         }
                     }
+
+                    break; // If the copy is successful, break out of the loop
                 }
-                else
+                catch (IOException ex)
                 {
-                    // File does not exist
-                    MessageBox.Show("The source file does not exist.");
+                    if (i < (maxRetries - 1))
+                    {
+                        // Wait before trying again
+                        System.Threading.Thread.Sleep(delayOnRetry);
+                    }
+                    else
+                    {
+                        // This is the last attempt - rethrow the exception
+                        throw;
+                    }
                 }
-            }
-            catch (IOException ex)
-            {
-                // Handle file access issues
-                MessageBox.Show($"Failed to copy the file: {ex.Message}");
             }
         }
 
@@ -178,6 +215,9 @@ namespace Flora.View
         }
         private void DisplayImage(string filePath)
         {
+            // Giải phóng hình ảnh hiện tại trước khi gán hình ảnh mới
+            displayedImage.Source = null;
+
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(filePath);
