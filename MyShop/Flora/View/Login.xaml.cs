@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flora.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -23,29 +24,12 @@ namespace Flora.View
     {
 
         private MyShopContext _shopContext;
+        private LoginVM _loginVM { get; set;}
         public Login()
         {
             InitializeComponent();
+            _loginVM = DataContext as LoginVM;
             _shopContext = new MyShopContext();
-        }
-        private void LoadConfig()
-        {
-            var usernameInConfig = ConfigurationManager.AppSettings["username"];
-            var passwordInConfig = ConfigurationManager.AppSettings["password"];
-            var entropyInConfig = ConfigurationManager.AppSettings["entropy"];
-
-            if (string.IsNullOrEmpty(usernameInConfig) || string.IsNullOrEmpty(passwordInConfig) || string.IsNullOrEmpty(entropyInConfig))
-            {
-                return;
-            }
-            var passwordInByte = Convert.FromBase64String(passwordInConfig);
-            var entropyInByte = Convert.FromBase64String(entropyInConfig);
-
-            var decryptedPassword = ProtectedData.Unprotect(passwordInByte, entropyInByte, DataProtectionScope.CurrentUser);
-            string password = Encoding.UTF8.GetString(decryptedPassword);
-            UsernameTextBox.Text = usernameInConfig;
-            PasswordTextBox.Password = password;
-
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
