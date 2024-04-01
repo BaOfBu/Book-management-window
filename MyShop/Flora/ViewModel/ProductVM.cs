@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -105,7 +104,6 @@ namespace Flora.ViewModel
                 PlantCategoryList.Clear();
                 PlantCategoryList = await LoadAllPlantCategoriesAsync(_pageNumber, _pageSize);
                 TotalItemCount = await CalculateTotalItemCountAsync();
-                Debug.WriteLine("TEST" + PageSize + "h" + TotalItemCount);
             }
             catch (System.Exception ex)
             {

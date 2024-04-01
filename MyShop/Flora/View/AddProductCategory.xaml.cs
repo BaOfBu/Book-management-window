@@ -156,7 +156,7 @@ namespace Flora.View
                     addProductCategoryVM.CategoryName = categoryName;
                     addProductCategoryVM.CategoryImages = targetPath.Replace(appDirectory, "");
                     await addProductCategoryVM.SaveCategoryAsync();
-                    MessageBox.Show("The category and image have been successfully added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("The plant category have been successfully added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
                 catch (Exception ex)

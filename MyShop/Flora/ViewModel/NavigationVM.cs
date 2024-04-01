@@ -49,7 +49,14 @@ namespace Flora.ViewModel
         private void Plant(object obj) => CurrentView = new PlantProductVM();
         private void AddPlantCategory(object obj) => CurrentView = new AddProductCategoryVM();
         private void AddPlantProduct(object obj) => CurrentView = new AddPlantProductVM();
-        private void EditPlantCategory(object obj) => CurrentView = new EditProductCategoryVM();
+        private void EditPlantCategory(object parameter)
+        {
+            if (parameter is PlantCategory category)
+            {
+                var viewModel = new EditProductCategoryVM(category);
+                CurrentView = viewModel;
+            }
+        }
         private void EditPlantProduct(object obj) => CurrentView = new EditPlantProductVM();
         public NavigationVM()
         {
@@ -60,7 +67,10 @@ namespace Flora.ViewModel
             PlantsCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(PlantProductVM)));
             AddProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddProductCategoryVM)));
             AddPlantProductCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddPlantProductVM)));
-            EditProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(EditProductCategoryVM)));
+            EditProductCategoryCommand = new RelayCommand(category =>
+            {
+                NavigateToWithParameter(typeof(EditProductCategoryVM), category);
+            });
             EditPlantProductCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(EditPlantProductVM)));
             CurrentView = new HomeVM();
 
@@ -71,6 +81,27 @@ namespace Flora.ViewModel
             var viewModelInstance = Activator.CreateInstance(viewModelType);
             if (viewModelInstance != null)
                 CurrentView = viewModelInstance;
+        }
+        // Add a method to navigate with parameters
+        public void NavigateToWithParameter(Type viewModelType, object parameter)
+        {
+            BeforeViewChange?.Invoke(this, EventArgs.Empty);
+
+            // Check if the ViewModel type has a constructor that accepts the parameter
+            var constructor = viewModelType.GetConstructor(new Type[] { parameter.GetType() });
+            if (constructor != null)
+            {
+                // Create an instance of the ViewModel using the constructor with parameter
+                var viewModelInstance = constructor.Invoke(new object[] { parameter });
+                if (viewModelInstance != null)
+                {
+                    CurrentView = viewModelInstance;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException($"No suitable constructor found for ViewModel: {viewModelType.Name}");
+            }
         }
     }
 }

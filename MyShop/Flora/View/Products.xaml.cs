@@ -25,7 +25,6 @@ namespace Flora.View
             {
                 // Now it's safe to interact with productVM
                 Debug.WriteLine(productVM.TotalItemCount);
-                UpdateRadDataPagerItemCount();
             }
             else
             {
@@ -67,10 +66,6 @@ namespace Flora.View
                 }
             }
         }
-        private void UpdateRadDataPagerItemCount()
-        {
-
-        }
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as Telerik.Windows.Controls.RadWatermarkTextBox;
@@ -80,12 +75,6 @@ namespace Flora.View
                 productVM.SearchText = searchText;
             }
         }
-
-        private void SortButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
         {
             AddProductCategory addPlantProduct = new AddProductCategory();
@@ -162,7 +151,7 @@ namespace Flora.View
 
                     if (navigationVM != null)
                     {
-                        navigationVM.EditProductCategoryCommand.Execute(null);
+                        navigationVM.NavigateToWithParameter(typeof(EditProductCategoryVM), item);
                     }
                 }
             }
