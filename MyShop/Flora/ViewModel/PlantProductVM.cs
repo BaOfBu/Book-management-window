@@ -17,7 +17,12 @@ namespace Flora.ViewModel
         private string _currentSortOrder = string.Empty;
         private string _searchText = string.Empty;
         public List<string> PagesNumberList { get; } = new List<string> { "8", "16", "24", "32", "64", "96" };
-        public List<string> SortTypeList { get; } = new List<string> { "Sort by name ascending", "Sort by name descending" };
+        public List<string> SortTypeList { get; } = new List<string> {
+            "Sort by name ascending",
+            "Sort by name descending",
+            "Sort by price ascending",
+            "Sort by price descending"
+        };
         public ObservableCollection<Plant> PlantList { get; set; }
         public PlantCategory PlantCategory { get; set; }
         private MyShopContext _shopContext;
@@ -169,6 +174,12 @@ namespace Flora.ViewModel
                     break;
                 case "Sort by name descending":
                     query = query.OrderByDescending(c => c.Name);
+                    break;
+                case "Sort by price ascending":
+                    query = query.OrderBy(c => c.Price);
+                    break;
+                case "Sort by price descending":
+                    query = query.OrderByDescending(c => c.Price);
                     break;
                 default:
                     break;

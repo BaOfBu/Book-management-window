@@ -27,7 +27,7 @@
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <Grid>
-            <StackPanel Orientation="Vertical" Margin="60,30,40,0">
+            <StackPanel Orientation="Vertical" Margin="60,20,50,0">
                 
                 <!-- Search Bar and Sort -->
                 
