@@ -39,14 +39,9 @@ namespace Flora.View
             {
                 string selectedItem = selectedListBoxItem as string;
 
-                ResultsPerPage.Content = selectedItem;
-
                 if (int.TryParse(selectedItem, out int pageSize))
                 {
-                    if (voucherVM != null)
-                    {
-                        voucherVM.PageSize = pageSize;
-                    }
+                    voucherVM.PageSizeChangedCommand.Execute(pageSize);
                 }
             }
         }
@@ -112,6 +107,12 @@ namespace Flora.View
             radDateTimePicker_Start.SelectedValue = default;
             radDateTimePicker_End.SelectedValue = default;
             voucherVM.ReloadVoucherCommand.Execute(null);
+        }
+
+        private void dataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
+        {
+            int pageIndex = e.NewPageIndex + 1;
+            voucherVM.LoadDataChangedCommand.Execute(pageIndex);
         }
     }
 }
