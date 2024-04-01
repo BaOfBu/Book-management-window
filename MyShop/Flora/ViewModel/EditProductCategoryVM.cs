@@ -8,7 +8,9 @@ namespace Flora.ViewModel
     {
         private PlantCategory _plantCategory;
         private MyShopContext _shopContext;
+        public string categoryName { get; set; }
 
+        public string categoryImage { get; set; }
         public PlantCategory PlantCategory
         {
             get => _plantCategory;
@@ -23,6 +25,8 @@ namespace Flora.ViewModel
         public EditProductCategoryVM(PlantCategory category)
         {
             _shopContext = new MyShopContext();
+            categoryName = category.CategoryName;
+            categoryImage = category.CategoryImages;
             PlantCategory = category;
         }
 
@@ -37,7 +41,7 @@ namespace Flora.ViewModel
                 {
                     // Update the properties of the original category with the modified values
                     originalCategory.CategoryName = PlantCategory.CategoryName;
-
+                    categoryName = PlantCategory.CategoryName;
                     // Save changes to the database
                     _shopContext.SaveChanges();
                 }
@@ -49,6 +53,30 @@ namespace Flora.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show($"Error updating category: {ex.Message}");
+            }
+        }
+        public void DeleteCategoryFromDatabase()
+        {
+            try
+            {
+                var categoryToDelete = _shopContext.PlantCategories.FirstOrDefault(c => c.CategoryId == PlantCategory.CategoryId);
+
+                if (categoryToDelete != null)
+                {
+                    _shopContext.PlantCategories.Remove(categoryToDelete);
+
+                    _shopContext.SaveChanges();
+
+                    MessageBox.Show("Category has been successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Category not found in the database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting category: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -42,7 +42,7 @@ namespace Flora.View
             if (textBox != null && string.IsNullOrEmpty(textBox.Text))
             {
                 textBox.Text = "Enter text here...";
-                textBox.FontStyle = FontStyles.Italic;
+                textBox.FontStyle = FontStyles.Normal;
                 textBox.Foreground = Brushes.Gray;
             }
         }
@@ -165,10 +165,6 @@ namespace Flora.View
                 }
             }
         }
-        private void ClearAll()
-        {
-            myTextBoxName.Text = "Enter text here...";
-        }
         private void SaveImage(BitmapImage sourceImage, string outputPath)
         {
             // Ensure the source image is loaded
@@ -183,6 +179,16 @@ namespace Flora.View
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
 
+            myTextBoxName.Text = "Enter text here...";
+            myTextBoxName.Text = "Enter text here...";
+            myTextBoxName.FontStyle = FontStyles.Normal;
+            myTextBoxName.Foreground = Brushes.Gray;
+
+            displayedImage.Source = null;
+            displayedImage.Visibility = Visibility.Collapsed;
+
+            uploadInstructionsStackPanel.Visibility = Visibility.Visible;
+            textBlockStatus.Text = "Drop files here to upload";
         }
     }
 }

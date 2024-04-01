@@ -17,6 +17,7 @@ namespace Flora.View
         private EditProductCategoryVM editProductCategoryVM { get; set; }
 
         bool isImageChanged = false;
+
         public EditProductCategory()
         {
             InitializeComponent();
@@ -24,8 +25,10 @@ namespace Flora.View
 
         public EditProductCategory(PlantCategory plantCategory) : this()
         {
+
             DataContext = new EditProductCategoryVM(plantCategory);
             editProductCategoryVM = DataContext as EditProductCategoryVM;
+
         }
 
 
@@ -105,7 +108,7 @@ namespace Flora.View
             {
                 MessageBox.Show($"Failed to update the category: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            myTitle.Text = categoryName;
             // Reset the isImageChanged flag
             isImageChanged = false;
         }
@@ -150,14 +153,10 @@ namespace Flora.View
         }
 
 
-        private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
 
-        }
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-
         }
         private void TextBox_GotFocus_Generic(object sender, RoutedEventArgs e)
         {
@@ -226,6 +225,38 @@ namespace Flora.View
 
             displayedImage.Source = bitmap;
             displayedImage.Visibility = Visibility.Visible;
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            var view = DataContext as EditProductCategoryVM;
+            if (view != null)
+            {
+                myTextBoxName.Text = (view.categoryName);
+                myTitle.Text = (view.categoryName);
+                string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string targetFileDirectory = Path.Combine(appDirectory, view.PlantCategory.CategoryImages);
+                DisplayImage(targetFileDirectory);
+            }
+        }
+        private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete this item?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                var viewModel = DataContext as EditProductCategoryVM;
+                viewModel?.DeleteCategoryFromDatabase();
+                var navigationVM = GetNavigationVMFromMainWindow();
+                if (navigationVM != null)
+                {
+                    navigationVM.NavigateBack();
+                }
+            }
+            else
+            {
+
+            }
         }
     }
 }
