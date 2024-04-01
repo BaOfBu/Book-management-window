@@ -1,154 +1,122 @@
-﻿using Flora.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using Flora.Utilities;
+using Microsoft.EntityFrameworkCore;
+using Telerik.Windows.Controls;
 
 namespace Flora.ViewModel
 {
     class OrderVM : Utilities.ViewModelBase
     {
-        private MyShopContext _shopContext;
-        private string _searchText;
-        private PreviewOrder _orderSelected;
-
-        public ObservableCollection<PreviewOrder> OrderList { get; set; }
+        private readonly MyShopContext _shopContext;
+        public ObservableCollection<Order> OrderList { get; set; }
+        public IEnumerable<Order> Items { get; set; }
         public ObservableCollection<string> PagesNumberList { get; set; }
         public int PageSize { get; set; }
+        public int TotalItems { get; set; }
 
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                if (_searchText != value)
-                {
-                    _searchText = value;
-                    OnPropertyChanged(nameof(SearchText));
-                    SearchHandle();
-                }
-            }
-        }
+        public string SearchText { get; set; }
 
-        public PreviewOrder OrderSelected
-        {
-            get => _orderSelected;
-            set
-            {
-                if (_orderSelected != value)
-                {
-                    _orderSelected = value;
-                    OnPropertyChanged(nameof(OrderSelected));
-                    RemoveOrder();
-                }
-            }
-        }
+        public DateOnly? SelectedStartDate { get; set; }
 
-        private DateOnly? _selectedStartDate;
-        public DateOnly? SelectedStartDate
-        {
-            get => _selectedStartDate;
-            set
-            {
-                if (_selectedStartDate != value)
-                {
-                    _selectedStartDate = value;
-                    OnPropertyChanged(nameof(SelectedStartDate));
-                    SearchHandle();
-                }
-            }
-        }
-
-        private DateOnly? _selectedEndDate;
-        public DateOnly? SelectedEndDate
-        {
-            get => _selectedEndDate;
-            set
-            {
-                if (_selectedEndDate != value)
-                {
-                    _selectedEndDate = value;
-                    OnPropertyChanged(nameof(SelectedEndDate));
-                    SearchHandle();
-                }
-            }
-        }
-
+        public DateOnly? SelectedEndDate { get; set; }
+        public System.Windows.Input.ICommand SearchOrderCommand { get; set; }
+        public System.Windows.Input.ICommand FilterOrderCommand { get; set; }
+        public System.Windows.Input.ICommand ReloadOrderCommand { get; set; }
+        public System.Windows.Input.ICommand RemoveOrderCommand { get; set; }
+        public System.Windows.Input.ICommand StartDateChangedCommand { get; set; }
+        public System.Windows.Input.ICommand EndDateChangedCommand { get; set; }
         public OrderVM()
         {
             _shopContext = new MyShopContext();
             PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
+            SearchText = string.Empty;
             PageSize = 8;
-            OrderList = new ObservableCollection<PreviewOrder>();
-            LoadOrders("");
+            OrderList = new ObservableCollection<Order>();
+            TotalItems = 32;
+            LoadOrders();
+
+            SelectedStartDate = default;
+            SelectedEndDate = default;
+
+            SearchOrderCommand = new RelayCommand(SearchHandle);
+            FilterOrderCommand = new RelayCommand(FilterByRangeDate);
+            RemoveOrderCommand = new RelayCommand(RemoveOrder);
+            ReloadOrderCommand = new RelayCommand(ReloadOrders);
+            StartDateChangedCommand = new RelayCommand(StartDateChanged);
+            EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
 
-        private List<Order> GetOrdersFromDatabase(string keyword)
+        private List<Order> GetOrdersFromDatabase()
         {
             var query = _shopContext.Orders
+                        .Include(o => o.Coupon)
                         .Include(o => o.Customer)
-                        .Where(o => o.OrderId.ToString().Contains(keyword) || o.Customer.Name.Contains(keyword));
+                        .Include(o => o.OrderDetails)
+                            .ThenInclude(od => od.Plant)
+                        .Where(o => o.OrderId.ToString().Contains(SearchText) || o.Customer.Name.Contains(SearchText));
 
-            if (_selectedStartDate != null && _selectedEndDate != null)
+
+            if (SelectedStartDate != null && SelectedEndDate != null)
             {
-                query = query.Where(o => o.OrderDate >= _selectedStartDate && o.OrderDate <= _selectedEndDate);
+                query = query.Where(o => (o.OrderDate >= SelectedStartDate) && (o.OrderDate < SelectedEndDate));
             }
-
-            Debug.WriteLine(query.ToList());
 
             return query.ToList();
         }
 
-        private ObservableCollection<PreviewOrder> CreatePreviewOrdersList(List<Order> orders)
+        private void LoadOrders()
         {
-            var previewOrders = new ObservableCollection<PreviewOrder>();
-            int orderIndex = 1;
-            foreach (var o in orders)
+            var orders = GetOrdersFromDatabase();
+            OrderList = new ObservableCollection<Order>(orders);
+        }
+        private void SearchHandle(object obj)
+        {
+            var text = obj as string;
+            if (text != null)
             {
-                previewOrders.Add(new PreviewOrder
-                {
-                    OrderIndex = orderIndex++,
-                    OrderId = o.OrderId,
-                    CustomerName = o.Customer.Name,
-                    Quantity = o.Quantity,
-                    TotalAmount = o.TotalAmount,
-                    OrderDate = o.OrderDate,
-                    Status = o.Status
-                });
+                SearchText = text;
+                LoadOrders();
             }
-            return previewOrders;
         }
-
-        private void LoadOrders(string keyword)
+        private void FilterByRangeDate(object obj)
         {
-            var orders = GetOrdersFromDatabase(keyword);
-            OrderList = CreatePreviewOrdersList(orders);
+            LoadOrders();
         }
-
-        private void SearchHandle()
+        private void RemoveOrder(object selectedOrder)
         {
-            LoadOrders(SearchText);
-        }
-
-        private void RemoveOrder()
-        {
-            var orderToRemove = _shopContext.Orders.SingleOrDefault(o => _orderSelected != null && o.OrderId == _orderSelected.OrderId);
-
-            if (orderToRemove != null)
+            var selectedItem = selectedOrder as Order;
+            if (selectedItem != null)
             {
-                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == orderToRemove.OrderId).ToList();
+                var orderDetails = _shopContext.OrderDetails.Where(o => o.OrderId == selectedItem.OrderId).ToList();
                 _shopContext.OrderDetails.RemoveRange(orderDetails);
 
-                _shopContext.Orders.Remove(orderToRemove);
+                _shopContext.Orders.Remove(selectedItem);
                 _shopContext.SaveChanges();
 
-                if (OrderList != null)
-                {
-                    OrderList.Remove(_orderSelected);
-                }
+                OrderList?.Remove(selectedItem);
             }
+        }
+        private void ReloadOrders(object obj)
+        {
+            SelectedStartDate = default;
+            SelectedEndDate = default;
+            LoadOrders();
+        }
+        private void StartDateChanged(object startDate)
+        {
+            var date = (DateTime)startDate;
+            SelectedStartDate = DateOnly.FromDateTime(date.Date);
+        }
+        private void EndDateChanged(object endDate)
+        {
+            var date = (DateTime)endDate;
+            SelectedEndDate = DateOnly.FromDateTime(date.Date);
         }
     }
 }

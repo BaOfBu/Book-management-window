@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using Flora.ViewModel;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Telerik.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace Flora
 {
@@ -24,6 +13,30 @@ namespace Flora
         public MainWindow()
         {
             InitializeComponent();
+            if (DataContext is NavigationVM navigationVM)
+            {
+                navigationVM.BeforeViewChange += async (sender, args) =>
+                {
+                    await RunFadeOutAnimationAsync();
+                    // Change the view only after the fade-out completes
+                    navigationVM.CurrentView = new PlantProductVM(); // This changes the current view to the plant view.
+                    RunFadeInAnimation();
+                };
+            }
+        }
+        private Task RunFadeOutAnimationAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            var fadeOutStoryboard = (Storyboard)Resources["FadeOutStoryboard"];
+            fadeOutStoryboard.Completed += (s, args) => tcs.TrySetResult(true);
+            fadeOutStoryboard.Begin(Pages);
+            return tcs.Task;
+        }
+
+        private void RunFadeInAnimation()
+        {
+            var fadeInStoryboard = (Storyboard)Resources["FadeInStoryboard"];
+            fadeInStoryboard.Begin(Pages);
         }
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
