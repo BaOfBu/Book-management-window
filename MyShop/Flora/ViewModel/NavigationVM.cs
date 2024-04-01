@@ -46,7 +46,14 @@ namespace Flora.ViewModel
         private void Product(object obj) => CurrentView = new ProductVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Voucher(object obj) => CurrentView = new VoucherVM();
-        private void Plant(object obj) => CurrentView = new PlantProductVM();
+        private void Plant(object parameter)
+        {
+            if (parameter is PlantCategory category)
+            {
+                var viewModel = new PlantProductVM(category);
+                CurrentView = viewModel;
+            }
+        }
         private void AddPlantCategory(object obj) => CurrentView = new AddProductCategoryVM();
         private void AddPlantProduct(object obj) => CurrentView = new AddPlantProductVM();
         private void EditPlantCategory(object parameter)
@@ -64,7 +71,10 @@ namespace Flora.ViewModel
             ProductsCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(ProductVM)));
             OrdersCommand = new RelayCommand(Order);
             VouchersCommand = new RelayCommand(Voucher);
-            PlantsCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(PlantProductVM)));
+            PlantsCommand = new RelayCommand(category =>
+            {
+                NavigateToWithParameter(typeof(PlantProductVM), category);
+            });
             AddProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddProductCategoryVM)));
             AddPlantProductCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddPlantProductVM)));
             EditProductCategoryCommand = new RelayCommand(category =>

@@ -92,27 +92,26 @@ namespace Flora.View
 
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //// Cast sender to ListViewItem to access properties
-            //ListViewItem listViewItem = sender as ListViewItem;
+            // Cast sender to ListViewItem to access properties
+            ListViewItem listViewItem = sender as ListViewItem;
 
-            //// Retrieve the name of the selected item
-            //if (listViewItem != null && listViewItem.Content != null)
-            //{
-            //    // Assuming PlantType is the type of the items in PlantTypesList
-            //    PlantCategory selectedPlantType = listViewItem.Content as PlantCategory;
+            // Retrieve the name of the selected item
+            if (listViewItem != null && listViewItem.Content != null)
+            {
+                // Assuming PlantType is the type of the items in PlantTypesList
+                PlantCategory selectedPlantType = listViewItem.Content as PlantCategory;
 
-            //    if (selectedPlantType != null)
-            //    {
-            //        string selectedName = selectedPlantType.CategoryName;
-            //        PlantProduct plantProduct = new PlantProduct();
-            //        var navigationVM = GetNavigationVMFromMainWindow();
+                if (selectedPlantType != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
 
-            //        if (navigationVM != null)
-            //        {
-            //            navigationVM.PlantsCommand.Execute(null);
-            //        }
-            //    }
-            //}
+                    if (navigationVM != null)
+                    {
+                        navigationVM.NavigateToWithParameter(typeof(PlantProductVM), selectedPlantType);
+                    }
+                }
+            }
+
         }
         private NavigationVM GetNavigationVMFromMainWindow()
         {
@@ -167,6 +166,11 @@ namespace Flora.View
                     viewModel.CurrentSortOrder = selectedSortType;
                 }
             }
+        }
+
+        private void ImportFromExcel_Click(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

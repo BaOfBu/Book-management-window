@@ -60,7 +60,7 @@
                         </Button.Template>
                     </Button>
 
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center"   Grid.Column="1" Text="LOẠI SẢN PHẨM 1" Style="{StaticResource ProductTypeNameHeader}" Margin="0,0,80,0"></TextBlock>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center"   Grid.Column="1" Text="{Binding PlantCategory.CategoryName}" Style="{StaticResource ProductTypeNameHeader}" Margin="0,0,80,0"></TextBlock>
                     <Border Grid.Column="2" BorderBrush="#285A43" BorderThickness="1" CornerRadius="20" Padding="15" VerticalAlignment="Center">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -72,7 +72,11 @@
 
                             <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="&#xf002;" Style="{StaticResource IconSideBarStyle}" Foreground="#285A43" Padding="0 0 10 0" HorizontalAlignment="Left" />
 
-                            <telerik:RadWatermarkTextBox Grid.Column="1" x:Name="txtSearchOrders" BorderThickness="0" FontSize="16" WatermarkContent="Search..." VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                            <telerik:RadWatermarkTextBox
+                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                Grid.Column="1" x:Name="txtSearchOrders" 
+                                BorderThickness="0" FontSize="16" WatermarkContent="Search..." 
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -87,7 +91,8 @@
                                  HandlesVisibility="Visible" IsSelectionRangeEnabled="True" Width="400"
                                  TickFrequency="100" TickPlacement="TopLeft"
                                  Minimum="0" Maximum="500"
-                                 SelectionStart="40" SelectionEnd="60">
+                                 SelectionStart="0" SelectionEnd="500"
+                                 SelectionChanged="RadSlider_SelectionChanged">
                                 <telerik:RadSlider.TickTemplate>
                                     <DataTemplate>
                                         <TextBlock FontSize="14" Text="{Binding StringFormat=\${0}}" HorizontalAlignment="Center" Margin="0,-20,0,0" Width="34" TextAlignment="Center">
@@ -110,20 +115,20 @@
                             </telerik:RadSlider>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBlock FontSize="14" Text="$" Margin="0,0,0,0"/>
-                                <TextBlock FontSize="14" Text="{Binding ElementName=RadSlider1, Path=SelectionStart, StringFormat={}{0:F0}}" Margin="0,0,5,0"/>
+                                <TextBlock  FontSize="14" Name="priceStart" Text="{Binding ElementName=RadSlider1, Path=SelectionStart, StringFormat={}{0:F0}}" Margin="0,0,5,0"/>
                                 <TextBlock FontSize="14" Text=" - " />
                                 <TextBlock FontSize="14" Text="$" Margin="5,0,0,0"/>
-                                <TextBlock FontSize="14" Text="{Binding ElementName=RadSlider1, Path=SelectionEnd, StringFormat={}{0:F0}}" Margin="0,0,0,0"/>
+                                <TextBlock FontSize="14" Name="priceEnd" Text="{Binding ElementName=RadSlider1, Path=SelectionEnd, StringFormat={}{0:F0}}" Margin="0,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
 
                         <!-- Sort -->
-                        <telerik:RadRibbonDropDownButton x:Name="SortType" Style="{StaticResource SortDropDownSmallStyles}" VerticalAlignment="Center">
+                        <telerik:RadRibbonDropDownButton x:Name="SortType" Style="{StaticResource SortDropDownStyles}" VerticalAlignment="Center">
                             <telerik:RadRibbonDropDownButton.Content>
                                 <TextBlock Text="&#xf160;" Style="{StaticResource IconSortStyle}"/>
                             </telerik:RadRibbonDropDownButton.Content>
                             <telerik:RadRibbonDropDownButton.DropDownContent>
-                                <ListBox ItemsSource="{Binding SortTypeList}" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
+                                <ListBox ItemsSource="{Binding SortTypeList}" SelectionChanged="SortTypeList_SelectionChanged" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding}" Margin="10" FontSize="12"/>
@@ -132,7 +137,6 @@
                                 </ListBox>
                             </telerik:RadRibbonDropDownButton.DropDownContent>
                         </telerik:RadRibbonDropDownButton>
-
                         <!-- Add -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
                             <telerik:RadRibbonDropDownButton x:Name="AddFunction" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
@@ -187,8 +191,8 @@
                                 </telerik:RadRibbonDropDownButton.Content>
                                 <telerik:RadRibbonDropDownButton.DropDownContent>
                                     <ListBox ItemsSource="{Binding PagesNumberList}" 
-                                             SelectionChanged="SelectedListBoxItem_Click"
-                                             ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
+                    SelectionChanged="SelectedListBoxItem_Click"
+                    ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding}" FontSize="16" TextAlignment="Left" Margin="10,0,10,0" />
@@ -277,12 +281,25 @@ Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <TextBlock x:Name="EmptyListMessage" Text="No items available" HorizontalAlignment="Center" 
+VerticalAlignment="Center" FontSize="16" Foreground="Gray">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=plantListView, Path=Items.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </Grid>
 
                 <!-- Pagenation-->
                 <StackPanel>
                     <telerik:RadDataPager Name="dataPager" 
-                Source="{Binding PlantList}" 
+                ItemCount="{Binding TotalItemCount, UpdateSourceTrigger=PropertyChanged}"
                 PageSize="{Binding PageSize}" 
                 Margin="0 10 0 0" 
                 telerik:StyleManager.Theme="Fluent" 
