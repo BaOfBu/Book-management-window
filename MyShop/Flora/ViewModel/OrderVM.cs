@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using Flora.Utilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Telerik.Windows.Controls;
 
 namespace Flora.ViewModel
@@ -18,13 +21,14 @@ namespace Flora.ViewModel
         public IEnumerable<Order> Items { get; set; }
         public ObservableCollection<string> PagesNumberList { get; set; }
         public int PageSize { get; set; }
+        public int PageNumber { get; set; }
         public int TotalItems { get; set; }
-
         public string SearchText { get; set; }
-
         public DateOnly? SelectedStartDate { get; set; }
 
         public DateOnly? SelectedEndDate { get; set; }
+        public System.Windows.Input.ICommand LoadDataChangedCommand { get; set; }
+        public System.Windows.Input.ICommand PageSizeChangedCommand { get; set; }
         public System.Windows.Input.ICommand SearchOrderCommand { get; set; }
         public System.Windows.Input.ICommand FilterOrderCommand { get; set; }
         public System.Windows.Input.ICommand ReloadOrderCommand { get; set; }
@@ -37,13 +41,14 @@ namespace Flora.ViewModel
             PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
             SearchText = string.Empty;
             PageSize = 8;
+            PageNumber = 1;
             OrderList = new ObservableCollection<Order>();
-            TotalItems = 32;
-            LoadOrders();
-
+            LoadDataForCurrentPage(PageNumber);
             SelectedStartDate = default;
             SelectedEndDate = default;
 
+            LoadDataChangedCommand = new RelayCommand(LoadDataForCurrentPage);
+            PageSizeChangedCommand = new RelayCommand(PageSizeChanged);
             SearchOrderCommand = new RelayCommand(SearchHandle);
             FilterOrderCommand = new RelayCommand(FilterByRangeDate);
             RemoveOrderCommand = new RelayCommand(RemoveOrder);
@@ -52,28 +57,52 @@ namespace Flora.ViewModel
             EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
 
-        private List<Order> GetOrdersFromDatabase()
+        private ObservableCollection<Order> GetOrdersFromDatabase(int startIndex, int endIndex)
         {
-            var query = _shopContext.Orders
-                        .Include(o => o.Coupon)
-                        .Include(o => o.Customer)
-                        .Include(o => o.OrderDetails)
-                            .ThenInclude(od => od.Plant)
-                        .Where(o => o.OrderId.ToString().Contains(SearchText) || o.Customer.Name.Contains(SearchText));
+            IQueryable<Order> query = _shopContext.Orders;
 
+            if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
+            {
+                query = query.Where(o => o.OrderId.ToString().Contains(SearchText) || o.Customer.Name.Contains(SearchText));
+            }
 
             if (SelectedStartDate != null && SelectedEndDate != null)
             {
                 query = query.Where(o => (o.OrderDate >= SelectedStartDate) && (o.OrderDate < SelectedEndDate));
             }
+            
+            TotalItems = query.Count();
 
-            return query.ToList();
+            var orders = query
+                        .Include(o => o.Coupon)
+                        .Include(o => o.Customer)
+                        .Include(o => o.OrderDetails)
+                            .ThenInclude(od => od.Plant)
+                        .Skip(startIndex)
+                        .Take(endIndex)
+                        .ToList();
+
+            return new ObservableCollection<Order>(orders);
         }
 
-        private void LoadOrders()
+        private void LoadDataForCurrentPage(object page)
         {
-            var orders = GetOrdersFromDatabase();
-            OrderList = new ObservableCollection<Order>(orders);
+            int pageNumber = Int32.Parse(page.ToString());
+
+            int skip = (pageNumber - 1) * PageSize;
+            try
+            {
+                OrderList.Clear();
+                OrderList = GetOrdersFromDatabase(skip, PageSize);
+            }catch(Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+        private void PageSizeChanged(object pageSize)
+        {
+            PageSize = (int)pageSize;
+            LoadDataForCurrentPage(PageNumber);
         }
         private void SearchHandle(object obj)
         {
@@ -81,12 +110,12 @@ namespace Flora.ViewModel
             if (text != null)
             {
                 SearchText = text;
-                LoadOrders();
+                LoadDataForCurrentPage(PageNumber);
             }
         }
         private void FilterByRangeDate(object obj)
         {
-            LoadOrders();
+            LoadDataForCurrentPage(PageNumber);
         }
         private void RemoveOrder(object selectedOrder)
         {
@@ -106,7 +135,7 @@ namespace Flora.ViewModel
         {
             SelectedStartDate = default;
             SelectedEndDate = default;
-            LoadOrders();
+            LoadDataForCurrentPage(PageNumber);
         }
         private void StartDateChanged(object startDate)
         {

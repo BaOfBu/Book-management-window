@@ -82,7 +82,7 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Results per page" Foreground="#B3B6B6" Style="{StaticResource ButtonTextStyle}"/>
-                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Margin="2 0 0 0" Content="8" HorizontalContentAlignment="Stretch" Style="{StaticResource DropdownButtonStyle}">
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Margin="2 0 0 0" Content="{Binding PageSize}" HorizontalContentAlignment="Stretch" Style="{StaticResource DropdownButtonStyle}">
                             <telerik:RadRibbonDropDownButton.DropDownContent>
 
                                 <ListBox ItemsSource="{Binding PagesNumberList}" Width="40"
@@ -95,7 +95,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel>
-                    <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding PagedSource, ElementName=dataPager}" Style="{StaticResource GridViewStyle}">
+                    <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding CouponList}" Style="{StaticResource GridViewStyle}">
 
                         <telerik:RadGridView.Resources>
                             <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
@@ -155,7 +155,17 @@
 
                 </StackPanel>
                 <StackPanel>
-                    <telerik:RadDataPager Name="dataPager" Source="{Binding CouponList}" PageSize="{Binding PageSize}" Width="858" Margin="0 20 0 0" telerik:StyleManager.Theme="Fluent" DisplayMode="All" Background="#F5F5F5"></telerik:RadDataPager>
+                    <telerik:RadDataPager 
+                        Name="dataPager" 
+                        PageSize="{Binding PageSize}" 
+                        Width="858" 
+                        Margin="0 20 0 0" 
+                        telerik:StyleManager.Theme="Fluent" 
+                        DisplayMode="All" 
+                        Background="#F5F5F5" 
+                        ItemCount="{Binding TotalItems}"
+                        PageIndexChanged="dataPager_PageIndexChanged"
+                        />
                 </StackPanel>
             </StackPanel>
         </Grid>
