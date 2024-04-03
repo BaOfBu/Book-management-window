@@ -92,11 +92,12 @@ namespace Flora.View
 
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
         {
-
+            var plants = DataContext as PlantProductVM;
+            var category = plants.PlantCategory;
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.AddPlantProductCommand.Execute(null);
+                navigationVM.NavigateToWithParameter(typeof(AddPlantProductVM), category);
             }
         }
         private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
@@ -107,7 +108,7 @@ namespace Flora.View
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.NavigateBack();
+                navigationVM.ProductsCommand.Execute(null);
             }
         }
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

@@ -50,6 +50,10 @@ namespace Flora.View
                 {
                     string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string targetFileDirectory = Path.Combine(appDirectory, view.PlantCategory.CategoryImages);
+
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string imagesDirectory = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\"));
+                    string imageFilePath = Path.Combine(imagesDirectory, view.PlantCategory.CategoryImages);
                     try
                     {
                         if (File.Exists(currentImagePath))
@@ -62,11 +66,13 @@ namespace Flora.View
                             GC.Collect(); // Force a garbage collection to release the file
                             GC.WaitForPendingFinalizers(); // Wait for the finalizers to complete
 
-
+                            MessageBox.Show(imageFilePath);
                             try
                             {
+                                DisplayImage(targetFileDirectory);
                                 // Copy the image to the new location
                                 CopyImageToNewLocation(currentImagePath, targetFileDirectory);
+                                CopyImageToNewLocation(currentImagePath, imageFilePath);
                             }
                             catch (IOException ex)
                             {
@@ -74,7 +80,7 @@ namespace Flora.View
                                 return; // Exit the method if an exception occurs
                             }
 
-                            DisplayImage(targetFileDirectory);
+
 
                             // Update the category images path
                             view.PlantCategory.CategoryImages = targetFileDirectory;
@@ -181,7 +187,7 @@ namespace Flora.View
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.NavigateBack();
+                navigationVM.ProductsCommand.Execute(null);
             }
         }
         private NavigationVM GetNavigationVMFromMainWindow()
@@ -243,12 +249,18 @@ namespace Flora.View
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 var viewModel = DataContext as EditProductCategoryVM;
+
+                var plantCategoryId = viewModel.PlantCategory.CategoryId;
+                var plantCategoryImage = viewModel.PlantCategory.CategoryImages;
+
                 viewModel?.DeleteCategoryFromDatabase();
+
                 var navigationVM = GetNavigationVMFromMainWindow();
                 if (navigationVM != null)
                 {
-                    navigationVM.NavigateBack();
+                    navigationVM.ProductsCommand.Execute(null);
                 }
+
             }
             else
             {

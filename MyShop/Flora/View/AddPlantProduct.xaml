@@ -45,7 +45,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical" >
                     <StackPanel Margin="0,0,0,20">
-                        <TextBlock Margin="0,0,0,10" Text="Name of product type" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <TextBlock Margin="0,0,0,10" Text="Name of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
                         <TextBox x:Name="myTextBoxName" Height="39" 
                              Padding="5,0,0,0"
                              telerik:CornerRadiusHelper.ClipRadius="5"
@@ -57,7 +57,50 @@
                              LostFocus="TextBox_LostFocus_Generic">
                         </TextBox>
                     </StackPanel>
-
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Margin="0,0,0,10" Text="Description of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <TextBox x:Name="myTextBoxDescription" Height="39" 
+                                  Padding="5,0,0,0"
+                                  telerik:CornerRadiusHelper.ClipRadius="5"
+                                  VerticalContentAlignment="Center"
+                                  Text="Enter text here..." 
+                                  FontStyle="Normal" 
+                                  Foreground="Gray"
+                                  GotFocus="TextBox_GotFocus_Generic"
+                                  LostFocus="TextBox_LostFocus_Generic">    
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,50, 20" HorizontalAlignment="Left">
+                            <TextBlock Margin="0,0,0,10" Text="Number of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                            <StackPanel>
+                                <TextBox x:Name="myTextBoxNumberOfProduct" Height="39" Width="200"
+                                     Padding="5,0,0,0"
+                                     telerik:CornerRadiusHelper.ClipRadius="5"
+                                     VerticalContentAlignment="Center"
+                                     Text="Enter number here..."
+                                     FontStyle="Normal" Foreground="Gray"
+                                     GotFocus="TextBox_GotFocus_Generic"
+                                     LostFocus="TextBox_Number_LostFocus_Generic"/>
+                                 <TextBlock x:Name="warningTextBlock" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,20">
+                            <TextBlock Margin="0,0,0,10" Text="Price of product ($)" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                            <TextBox x:Name="myTextBoxPrice" Height="39" Width="200"
+                                  Padding="5,0,0,0"
+                                  telerik:CornerRadiusHelper.ClipRadius="5"
+                                  VerticalContentAlignment="Center"
+                                  Text="Enter number here..." 
+                                  FontStyle="Normal" 
+                                  Foreground="Gray"
+                                  GotFocus="TextBox_GotFocus_Generic"
+                                  LostFocus="TextBox_Number_Decimal_LostFocus_Generic"> 
+                            </TextBox>
+                            <TextBlock x:Name="warningTextBlockPrice" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </StackPanel>
+                   
                     <StackPanel Margin="0,0,0,20">
                         <TextBlock Margin="0,0,0,10" Text="Type of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
                         <telerik:RadComboBox x:Name="myComboBoxProductType"
@@ -70,35 +113,10 @@
                              IsReadOnly="True"
                             ItemsSource="{Binding ProductTypes}">
                         </telerik:RadComboBox>
+                        
+                        
                     </StackPanel>
-
-                    <StackPanel Margin="0,0,0,20" Orientation="Horizontal">
-                        <StackPanel Margin="0,0,0,20">
-                            <TextBlock Margin="0,0,0,10" Text="Status of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                            <telerik:RadComboBox x:Name="myComboBoxStatusOfProduct"
-                                 Height="39"
-                                 telerik:CornerRadiusHelper.ClipRadius="5"
-                                 VerticalContentAlignment="Center"
-                                 IsEditable="True"
-                                 IsReadOnly="True"
-                                 ItemsSource="{Binding ProductStatus}" Width="189">
-                            </telerik:RadComboBox>
-                        </StackPanel>
-                        <StackPanel  Margin="50,0,0,20">
-                            <TextBlock Margin="0,0,0,10" Text="Number of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                            <StackPanel>
-                                <TextBox x:Name="myTextBoxNumberOfProduct" Height="39" Width="200"
-                                     Padding="5,0,0,0"
-                                     telerik:CornerRadiusHelper.ClipRadius="5"
-                                     VerticalContentAlignment="Center"
-                                     Text="Enter number here..."
-                                     FontStyle="Normal" Foreground="Gray"
-                                     GotFocus="TextBox_GotFocus_Generic"
-                                     LostFocus="TextBox_Number_LostFocus_Generic"/>
-                                <TextBlock x:Name="warningTextBlock" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
+                    
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
                     <Border BorderBrush="#d5d5d5" BorderThickness="1" Height="200" CornerRadius="5"
@@ -125,7 +143,7 @@
                     </Border>
                 </StackPanel>
             </Grid>
-            <StackPanel Margin="0,40,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <StackPanel Margin="0,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button Style="{StaticResource NoHoverButtonStyle}" Cursor="Hand" Margin="0,0,20,0" Background="#285A43" x:Name="AddNewProductCategoryType" Padding="20,10,20,10" Click="AddNewProductCategoryType_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">

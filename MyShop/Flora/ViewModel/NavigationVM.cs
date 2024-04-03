@@ -55,7 +55,18 @@ namespace Flora.ViewModel
             }
         }
         private void AddPlantCategory(object obj) => CurrentView = new AddProductCategoryVM();
-        private void AddPlantProduct(object obj) => CurrentView = new AddPlantProductVM();
+        private void AddPlantProduct(object parameter)
+        {
+            if (parameter is PlantCategory category)
+            {
+                var viewModel = new AddPlantProductVM(category);
+                CurrentView = viewModel;
+            }
+            else
+            {
+                CurrentView = new AddPlantProductVM();
+            }
+        }
         private void EditPlantCategory(object parameter)
         {
             if (parameter is PlantCategory category)
@@ -76,7 +87,10 @@ namespace Flora.ViewModel
                 NavigateToWithParameter(typeof(PlantProductVM), category);
             });
             AddProductCategoryCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddProductCategoryVM)));
-            AddPlantProductCommand = new RelayCommand(param => this.ChangeViewMethod(typeof(AddPlantProductVM)));
+            AddPlantProductCommand = new RelayCommand(category =>
+            {
+                NavigateToWithParameter(typeof(AddPlantProductVM), category);
+            });
             EditProductCategoryCommand = new RelayCommand(category =>
             {
                 NavigateToWithParameter(typeof(EditProductCategoryVM), category);
@@ -96,22 +110,32 @@ namespace Flora.ViewModel
         public void NavigateToWithParameter(Type viewModelType, object parameter)
         {
             BeforeViewChange?.Invoke(this, EventArgs.Empty);
-
-            // Check if the ViewModel type has a constructor that accepts the parameter
-            var constructor = viewModelType.GetConstructor(new Type[] { parameter.GetType() });
-            if (constructor != null)
+            if (parameter != null)
             {
-                // Create an instance of the ViewModel using the constructor with parameter
-                var viewModelInstance = constructor.Invoke(new object[] { parameter });
-                if (viewModelInstance != null)
+                // Check if the ViewModel type has a constructor that accepts the parameter
+                var constructor = viewModelType.GetConstructor(new Type[] { parameter.GetType() });
+                if (constructor != null)
                 {
-                    CurrentView = viewModelInstance;
+                    // Create an instance of the ViewModel using the constructor with parameter
+                    var viewModelInstance = constructor.Invoke(new object[] { parameter });
+                    if (viewModelInstance != null)
+                    {
+                        CurrentView = viewModelInstance;
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException($"No suitable constructor found for ViewModel: {viewModelType.Name}");
                 }
             }
             else
             {
-                throw new InvalidOperationException($"No suitable constructor found for ViewModel: {viewModelType.Name}");
+
+                var viewModelInstance = Activator.CreateInstance(viewModelType);
+                if (viewModelInstance != null)
+                    CurrentView = viewModelInstance;
             }
+
         }
     }
 }

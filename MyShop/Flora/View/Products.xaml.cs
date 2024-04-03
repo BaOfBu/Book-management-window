@@ -172,5 +172,15 @@ namespace Flora.View
         {
 
         }
+
+        private void AddNewPlant_Click(object sender, MouseButtonEventArgs e)
+        {
+            var navigationVM = GetNavigationVMFromMainWindow();
+
+            if (navigationVM != null)
+            {
+                navigationVM.AddPlantProductCommand.Execute(null);
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Flora.View
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.NavigateBack();
+                navigationVM.ProductsCommand.Execute(null);
             }
         }
         private NavigationVM GetNavigationVMFromMainWindow()
@@ -157,6 +157,7 @@ namespace Flora.View
                     addProductCategoryVM.CategoryImages = targetPath.Replace(appDirectory, "");
                     await addProductCategoryVM.SaveCategoryAsync();
                     MessageBox.Show("The plant category have been successfully added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Clear();
 
                 }
                 catch (Exception ex)
@@ -175,6 +176,19 @@ namespace Flora.View
             {
                 encoder.Save(fileStream);
             }
+        }
+        private void Clear()
+        {
+            myTextBoxName.Text = "Enter text here...";
+            myTextBoxName.Text = "Enter text here...";
+            myTextBoxName.FontStyle = FontStyles.Normal;
+            myTextBoxName.Foreground = Brushes.Gray;
+
+            displayedImage.Source = null;
+            displayedImage.Visibility = Visibility.Collapsed;
+
+            uploadInstructionsStackPanel.Visibility = Visibility.Visible;
+            textBlockStatus.Text = "Drop files here to upload";
         }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
