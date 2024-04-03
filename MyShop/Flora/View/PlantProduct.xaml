@@ -74,7 +74,7 @@
 
                             <telerik:RadWatermarkTextBox
                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                Grid.Column="1" x:Name="txtSearchOrders" 
+                                Grid.Column="1" x:Name="txtSearchOrders" TextChanged="txtSearchOrders_TextChanged"
                                 BorderThickness="0" FontSize="16" WatermarkContent="Search..." 
                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                         </Grid>
@@ -148,7 +148,7 @@
                                 </telerik:RadRibbonDropDownButton.Content>
                                 <telerik:RadRibbonDropDownButton.DropDownContent>
                                     <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal"  MouseLeftButtonDown="AddNewProductType_Click">
                                             <StackPanel.Style>
                                                 <Style TargetType="StackPanel">
                                                     <Setter Property="Background" Value="Transparent"/>
@@ -159,11 +159,11 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </StackPanel.Style>
-                                            <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="AddNewProductType_Click"/>
-                                            <TextBlock Text="Add a new product" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewProductType_Click"/>
+                                            <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
+                                            <TextBlock Text="Add a new product" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" />
                                         </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal"  MouseLeftButtonDown="ImportFromExcel_Click">
                                             <StackPanel.Style>
                                                 <Style TargetType="StackPanel">
                                                     <Setter Property="Background" Value="Transparent"/>
@@ -174,8 +174,8 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </StackPanel.Style>
-                                            <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
-                                            <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                            <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" />
+                                            <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </telerik:RadRibbonDropDownButton.DropDownContent>

@@ -30,8 +30,8 @@
                 Cursor="Hand" Style="{StaticResource RoundedButtonStyle}" Click="ReturnButton_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xf060;" Margin="0,0,10,0" Style="{StaticResource IconSideBarStyleNoMargin}"></TextBlock>
-                        <TextBlock Text="Return the previous page" FontSize="14"></TextBlock>
+                        <TextBlock Text="&#xf060;" Margin="0,0,10,0"  Style="{StaticResource IconSideBarStyleNoMargin}"></TextBlock>
+                        <TextBlock Text="Return the previous page"  FontSize="14"></TextBlock>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -58,55 +58,65 @@
                         </TextBox>
                     </StackPanel>
                     <StackPanel Margin="0,0,0,20">
-                        <TextBlock Margin="0,0,0,10" Text="Price Of Product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                        <TextBox x:Name="myTextBoxPrice" Height="39" 
-                          Padding="5,0,0,0"
-                          telerik:CornerRadiusHelper.ClipRadius="5"
-                          VerticalContentAlignment="Center"
-                          Text="{Binding Plant.Price }" 
-                          FontStyle="Normal" 
-                          Foreground="Black"
-                          GotFocus="TextBox_GotFocus_Generic"
-                          LostFocus="TextBox_LostFocus_Generic">
+                        <TextBlock Margin="0,0,0,10" Text="Description of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <TextBox x:Name="myTextBoxDescription" Height="39" 
+                              Padding="5,0,0,0"
+                              telerik:CornerRadiusHelper.ClipRadius="5"
+                              VerticalContentAlignment="Center"
+                              Text="{Binding Plant.Description}" 
+                              FontStyle="Normal" 
+                              Foreground="Black"
+                              GotFocus="TextBox_GotFocus_Generic"
+                              LostFocus="TextBox_LostFocus_Generic">
                         </TextBox>
                     </StackPanel>
-                    <telerik:RadComboBox x:Name="myComboBoxProductType"
-                     Height="39"
-                     telerik:CornerRadiusHelper.ClipRadius="5"
-                     VerticalContentAlignment="Center"
-                     DisplayMemberPath="CategoryName"
-                     SelectedValuePath="CategoryId"
-                     IsEditable="True"
-                     IsReadOnly="True"
-                     ItemsSource="{Binding ProductTypes}"
-                     SelectedValue="{Binding Plant.CategoryId, Mode=TwoWay}">
-                    </telerik:RadComboBox>
-                    <StackPanel Margin="0,20,0,20" Orientation="Horizontal">
-                        <StackPanel Margin="0,0,0,20">
-                            <TextBlock Margin="0,0,0,10" Text="Status of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                            <telerik:RadComboBox x:Name="myComboBoxStatusOfProduct"
+                    <StackPanel Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="0,0,50,0">
+                                <TextBlock Margin="0,0,0,10" Text="Price Of Product ($)" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                                <TextBox x:Name="myTextBoxPrice" Height="39" 
+                                       Padding="5,0,0,0"
+                                       Width="200"
+                                       telerik:CornerRadiusHelper.ClipRadius="5"
+                                       VerticalContentAlignment="Center"
+                                       Text="{Binding Plant.Price }" 
+                                       FontStyle="Normal" 
+                                       Foreground="Black"
+                                       GotFocus="TextBox_GotFocus_Generic"
+                                       LostFocus="TextBox_LostFocus_Generic">
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" Text="Number of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBox x:Name="myTextBoxNumberOfProduct" Height="39" Width="200"
+                                          Padding="5,0,0,0"
+                                          telerik:CornerRadiusHelper.ClipRadius="5"
+                                          VerticalContentAlignment="Center"
+                                          Text="{Binding Plant.StockQuantity}"
+                                          FontStyle="Normal" Foreground="Black"
+                                          GotFocus="TextBox_GotFocus_Generic"
+                                          LostFocus="TextBox_Number_LostFocus_Generic"/>
+                                    <TextBlock x:Name="warningTextBlock" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Margin="0,0,0,10" Text="Type Of Product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
+                        <telerik:RadComboBox x:Name="myComboBoxProductType"
                              Height="39"
                              telerik:CornerRadiusHelper.ClipRadius="5"
                              VerticalContentAlignment="Center"
+                             DisplayMemberPath="CategoryName"
+                             SelectedValuePath="CategoryId"
                              IsEditable="True"
                              IsReadOnly="True"
-                            ItemsSource="{Binding ProductStatus}" Width="189">
-                            </telerik:RadComboBox>
-                        </StackPanel>
-                        <StackPanel  Margin="50,0,0,20">
-                            <TextBlock Margin="0,0,0,10" Text="Number of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
-                            <StackPanel>
-                                <TextBox x:Name="myTextBoxNumberOfProduct" Height="39" Width="200"
-                 Padding="5,0,0,0"
-                 telerik:CornerRadiusHelper.ClipRadius="5"
-                 VerticalContentAlignment="Center"
-                 Text="{Binding Plant.StockQuantity}"
-                 FontStyle="Normal" Foreground="Black"
-                 GotFocus="TextBox_GotFocus_Generic"
-                 LostFocus="TextBox_Number_LostFocus_Generic"/>
-                                <TextBlock x:Name="warningTextBlock" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
-                            </StackPanel>
-                        </StackPanel>
+                             ItemsSource="{Binding ProductTypes}"
+                             SelectedValue="{Binding Plant.CategoryId, Mode=TwoWay}">
+                        </telerik:RadComboBox>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
@@ -124,7 +134,7 @@
                                 </Border>
                 </StackPanel>
             </Grid>
-            <StackPanel Margin="0,40,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <StackPanel Margin="0,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button Style="{StaticResource NoHoverButtonStyle}" Cursor="Hand" Margin="0,0,20,0" Background="#285A43" x:Name="EditButton" Padding="20,10,20,10" Click="EditButton_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">

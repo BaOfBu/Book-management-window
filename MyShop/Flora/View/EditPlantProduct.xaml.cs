@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Flora.View
 {
@@ -16,9 +17,16 @@ namespace Flora.View
     public partial class EditPlantProduct : UserControl
     {
         private EditPlantProductVM editPlantProductVM { get; set; }
+        private bool isImageChanged = false;
         public EditPlantProduct()
         {
             InitializeComponent();
+
+        }
+        public EditPlantProduct(Plant plant) : this()
+        {
+
+            DataContext = new EditPlantProductVM(plant);
             editPlantProductVM = DataContext as EditPlantProductVM;
         }
 
@@ -45,6 +53,7 @@ namespace Flora.View
         }
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
+            var view = DataContext as EditPlantProductVM;
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
@@ -73,6 +82,7 @@ namespace Flora.View
                 string fileName = openFileDialog.FileName;
                 DisplayImage(fileName);
                 textBlockStatus.Text = Path.GetFileName(fileName);
+                isImageChanged = true;
             }
         }
         private void DisplayImage(string filePath)
@@ -89,9 +99,130 @@ namespace Flora.View
 
         private void EditButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            var view = DataContext as EditPlantProductVM;
+            string currentImagePath = string.Empty;
+            if (isImageChanged)
+            {
+                if (displayedImage.Source != null)
+                {
+                    Uri uri = new Uri(displayedImage.Source.ToString());
+                    currentImagePath = uri.LocalPath;
+                }
+
+                if (view != null)
+                {
+                    string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string targetFileDirectory = Path.Combine(appDirectory, view.Plant.PlantImage);
+                    string dbFileDirectory = view.Plant.PlantImage;
+
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string imagesDirectory = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\"));
+                    string imageFilePath = Path.Combine(imagesDirectory, view.Plant.PlantImage);
+                    try
+                    {
+                        if (File.Exists(currentImagePath))
+                        {
+                            // Set displayedImage.Source to null before copying the file
+                            displayedImage.Source = null;
+
+                            // Force the command to the UI thread to be processed to release the file handle
+                            Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                            GC.Collect(); // Force a garbage collection to release the file
+                            GC.WaitForPendingFinalizers(); // Wait for the finalizers to complete
+
+                            MessageBox.Show(imageFilePath);
+                            try
+                            {
+                                // Copy the image to the new location
+                                CopyImageToNewLocation(currentImagePath, targetFileDirectory);
+                                CopyImageToNewLocation(currentImagePath, imageFilePath);
+                                DisplayImage(targetFileDirectory);
+                            }
+                            catch (IOException ex)
+                            {
+                                MessageBox.Show($"Failed to copy the file: {ex.Message}");
+                                return;
+                            }
+
+
+
+                            view.Plant.PlantImage = dbFileDirectory;
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("The source file does not exist.");
+                            return; // Exit the method if the source file does not exist
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show($"Failed to copy the file: {ex.Message}");
+                        return; // Exit the method if an exception occurs
+                    }
+
+                }
+                isImageChanged = false;
+            }
+            view.Plant.Name = myTextBoxName.Text;
+            var selectedCategoryId = (int?)myComboBoxProductType.SelectedValue;
+
+            if (selectedCategoryId.HasValue)
+            {
+                view.Plant.CategoryId = selectedCategoryId.Value;
+            }
+            view.Plant.Description = myTextBoxDescription.Text;
+            view.Plant.StockQuantity = int.Parse(myTextBoxNumberOfProduct.Text);
+            view.Plant.Price = decimal.Parse(myTextBoxPrice.Text);
+            try
+            {
+                view.SaveChangesAsync();
+                MessageBox.Show("The plant category has been successfully edited.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to update the category: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
+        public void CopyImageToNewLocation(string currentImagePath, string targetFileDirectory)
+        {
+            // Attempt to copy the file with retries
+            int maxRetries = 3;
+            int delayOnRetry = 1000;
 
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    // ... existing check for File.Exists ...
+
+                    // Use a FileStream with FileMode.OpenOrCreate
+                    using (FileStream sourceStream = File.Open(currentImagePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        using (FileStream destinationStream = File.Open(targetFileDirectory, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
+                        {
+                            sourceStream.CopyTo(destinationStream);
+                        }
+                    }
+
+                    break; // If the copy is successful, break out of the loop
+                }
+                catch (IOException ex)
+                {
+                    if (i < (maxRetries - 1))
+                    {
+                        // Wait before trying again
+                        System.Threading.Thread.Sleep(delayOnRetry);
+                    }
+                    else
+                    {
+                        // This is the last attempt - rethrow the exception
+                        throw;
+                    }
+                }
+            }
+        }
         private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 

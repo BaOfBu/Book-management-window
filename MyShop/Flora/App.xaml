@@ -7,10 +7,10 @@
     <Application.Resources>
       <ResourceDictionary>
           <ResourceDictionary.MergedDictionaries>
-			  <ResourceDictionary Source="Styles/Page.xaml" />
-			  <ResourceDictionary Source="Styles/Icon.xaml" />
-			  <ResourceDictionary Source="Styles/Text.xaml" />
-			  <ResourceDictionary Source="Styles/Button.xaml" />
+              <ResourceDictionary Source="Styles/Page.xaml" />
+              <ResourceDictionary Source="Styles/Icon.xaml" />
+              <ResourceDictionary Source="Styles/Text.xaml" />
+              <ResourceDictionary Source="Styles/Button.xaml" />
               <ResourceDictionary Source="Styles/DropdownButton.xaml" />
               <ResourceDictionary Source="Styles/GridView.xaml" />
               <ResourceDictionary Source="Styles/InputField.xaml" />

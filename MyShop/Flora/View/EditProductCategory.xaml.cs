@@ -50,6 +50,7 @@ namespace Flora.View
                 {
                     string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string targetFileDirectory = Path.Combine(appDirectory, view.PlantCategory.CategoryImages);
+                    string dbFileDirectory = view.PlantCategory.CategoryImages;
 
                     string basePath = AppDomain.CurrentDomain.BaseDirectory;
                     string imagesDirectory = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\"));
@@ -69,10 +70,10 @@ namespace Flora.View
                             MessageBox.Show(imageFilePath);
                             try
                             {
-                                DisplayImage(targetFileDirectory);
                                 // Copy the image to the new location
                                 CopyImageToNewLocation(currentImagePath, targetFileDirectory);
                                 CopyImageToNewLocation(currentImagePath, imageFilePath);
+                                DisplayImage(targetFileDirectory);
                             }
                             catch (IOException ex)
                             {
@@ -83,7 +84,7 @@ namespace Flora.View
 
 
                             // Update the category images path
-                            view.PlantCategory.CategoryImages = targetFileDirectory;
+                            view.PlantCategory.CategoryImages = dbFileDirectory;
 
 
                         }
@@ -187,7 +188,7 @@ namespace Flora.View
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.ProductsCommand.Execute(null);
+                navigationVM.NavigateBack();
             }
         }
         private NavigationVM GetNavigationVMFromMainWindow()

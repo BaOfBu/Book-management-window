@@ -14,6 +14,9 @@
     <Compile Update="View\AddVoucher.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\AllPlant.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\DetailOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,6 +122,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\AddVoucher.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AllPlant.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DetailOrder.xaml">

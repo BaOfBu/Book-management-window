@@ -19,11 +19,10 @@ namespace Flora.View
         public AddPlantProduct()
         {
             InitializeComponent();
+            DataContext = new AddPlantProductVM();
             addPlantProductVM = DataContext as AddPlantProductVM;
-            myComboBoxProductType.IsEditable = false;
-            myComboBoxProductType.SelectedIndex = 0;
-            myComboBoxProductType.IsReadOnly = true;
         }
+
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
 
@@ -106,18 +105,10 @@ namespace Flora.View
         }
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            var view = DataContext as AddPlantProductVM;
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                if (view.PlantCategory != null)
-                {
-                    navigationVM.NavigateToWithParameter(typeof(PlantProductVM), view.PlantCategory);
-                }
-                else
-                {
-                    navigationVM.ProductsCommand.Execute(null);
-                }
+                navigationVM.NavigateBack();
             }
         }
         private NavigationVM GetNavigationVMFromMainWindow()
@@ -207,8 +198,6 @@ namespace Flora.View
                 {
                     _categoryId = selectedCategoryId.Value;
                 }
-
-                string PlantImage;
                 //// Check if an image has been loaded
                 if (displayedImage.Source is not BitmapImage bitmapImage)
                 {
@@ -286,6 +275,5 @@ namespace Flora.View
             myTextBoxDescription.Text = "Enter text here";
             myTextBoxNumberOfProduct.Text = "Enter number here";
         }
-
     }
 }

@@ -106,6 +106,9 @@
   <Page Include="View\AddVoucher.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\AllPlant.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\DetailOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -156,10 +159,10 @@
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddOrderVM.cs" />
+  <Compile Include="ViewModel\AddProductCategoryVM.cs" />
   <Compile Include="ViewModel\AddVoucherVM.cs" />
   <Compile Include="ViewModel\DetailOrderVM.cs" />
   <Compile Include="ViewModel\AddPlantProductVM.cs" />
-  <Compile Include="ViewModel\AddProductCategoryVM.cs" />
   <Compile Include="ViewModel\EditPlantProductVM.cs" />
   <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
@@ -167,6 +170,7 @@
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
   <Compile Include="ViewModel\PlantProductVM.cs" />
+  <Compile Include="ViewModel\PlantVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\Reflection.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
@@ -175,6 +179,7 @@
   <Compile Include="View\AddPlantProduct.xaml.cs" />
   <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\AllPlant.xaml.cs" />
   <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
   <Compile Include="View\DateConverter.cs" />

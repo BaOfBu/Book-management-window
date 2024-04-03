@@ -1,0 +1,319 @@
+﻿<UserControl x:Class="Flora.View.AllPlant"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:local="clr-namespace:Flora.View"
+            xmlns:vm="clr-namespace:Flora.ViewModel"
+            xmlns:utils="clr-namespace:Flora.Utilities"
+            xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+            mc:Ignorable="d" 
+            d:DesignHeight="700" d:DesignWidth="1030"
+            Style="{StaticResource PageStyle}" Loaded="UserControl_Loaded">
+    <UserControl.DataContext>
+        <vm:PlantVM />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <utils:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
+            <local:CurrencyConverter x:Key="currentConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/SortDropdownButton.xaml" />
+                <ResourceDictionary Source="/Styles/ResultPerPageDropdownButton.xaml" />
+                <ResourceDictionary Source="/Styles/ProductTypePage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
+        <StackPanel Orientation="Vertical" Margin="60,20,60,0">
+            <!-- Plant Sort and Search bar -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!-- Sort Button -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Search Bar -->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Sort Dropdown -->
+                <telerik:RadRibbonDropDownButton x:Name="SortType" Style="{StaticResource SortDropDownStyles}" VerticalAlignment="Center">
+                    <telerik:RadRibbonDropDownButton.Content>
+                        <TextBlock Text="&#xf160;" Style="{StaticResource IconSortStyle}"/>
+                    </telerik:RadRibbonDropDownButton.Content>
+                    <telerik:RadRibbonDropDownButton.DropDownContent>
+                        <ListBox ItemsSource="{Binding SortTypeList}" SelectionChanged="SortTypeList_SelectionChanged" ItemContainerStyle="{StaticResource SortListBoxItemStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="10" FontSize="12"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </telerik:RadRibbonDropDownButton.DropDownContent>
+                </telerik:RadRibbonDropDownButton>
+                <!-- Search Bar -->
+                <Border Grid.Column="1" BorderBrush="#285A43" BorderThickness="1" CornerRadius="20" Padding="15" VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- For the search icon -->
+                            <ColumnDefinition Width="*"/>
+                            <!-- For the search textbox, * means take the remaining space -->
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="&#xf002;" Style="{StaticResource IconSideBarStyle}" Foreground="#285A43" Padding="0 0 10 0" HorizontalAlignment="Stretch" Margin="0,0,0,0"/>
+
+                        <telerik:RadWatermarkTextBox Grid.Column="1" 
+             x:Name="txtSearchOrders" 
+             BorderThickness="0" 
+             FontSize="16" 
+             WatermarkContent="Search..." 
+             VerticalAlignment="Center" 
+                                                     TextChanged="txtSearchOrders_TextChanged"
+             HorizontalAlignment="Stretch"
+             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Price Range -->
+                    <StackPanel Margin="0,0,20,0">
+                        <!-- RadSlider -->
+                        <telerik:RadSlider x:Name="RadSlider1" Margin="0,10,0,5"
+                              HandlesVisibility="Visible" IsSelectionRangeEnabled="True" Width="332"
+                              TickFrequency="100" TickPlacement="TopLeft"
+                              Minimum="0" Maximum="500"
+                              SelectionStart="0" SelectionEnd="500"
+                              SelectionChanged="RadSlider_SelectionChanged">
+                            <telerik:RadSlider.TickTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontSize="14" Text="{Binding StringFormat=\${0}}" HorizontalAlignment="Center" Margin="0,-20,0,0" Width="34" TextAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="500">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </telerik:RadSlider.TickTemplate>
+                        </telerik:RadSlider>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock FontSize="14" Text="$" Margin="0,0,0,0"/>
+                            <TextBlock  FontSize="14" Name="priceStart" Text="{Binding ElementName=RadSlider1, Path=SelectionStart, StringFormat={}{0:F0}}" Margin="0,0,5,0"/>
+                            <TextBlock FontSize="14" Text=" - " />
+                            <TextBlock FontSize="14" Text="$" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="14" Name="priceEnd" Text="{Binding ElementName=RadSlider1, Path=SelectionEnd, StringFormat={}{0:F0}}" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <!--Category-->
+                    <telerik:RadRibbonDropDownButton Width="160" Margin="0,0,20,0" x:Name="CategoryFilter" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <telerik:RadRibbonDropDownButton.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="CategoryButtonText" Text="Category" FontSize="16" TextAlignment="Center" Margin="10,1,10,1" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </telerik:RadRibbonDropDownButton.Content>
+                        <telerik:RadRibbonDropDownButton.DropDownContent>
+                            <StackPanel>
+                                <ListView ItemsSource="{Binding PlantCategories}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Height="200" Width="150">
+                                    <ListView.ItemTemplate >
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding CategoryName}" Width="150" FontSize="16" TextAlignment="Left" MouseLeftButtonDown="Category_Click" >
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </telerik:RadRibbonDropDownButton.DropDownContent>
+                    </telerik:RadRibbonDropDownButton>
+
+                    <!-- Add -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                        <telerik:RadRibbonDropDownButton x:Name="AddFunction" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <telerik:RadRibbonDropDownButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
+                                    <TextBlock Text="Add plant" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </telerik:RadRibbonDropDownButton.Content>
+                            <telerik:RadRibbonDropDownButton.DropDownContent>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal"  MouseLeftButtonDown="AddNewPlantProduct_Click">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightGray"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
+                                        <TextBlock Text="Add a new plant" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" MouseLeftButtonDown="ImportFromExcel_Click" >
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightGray"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                        <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </telerik:RadRibbonDropDownButton.DropDownContent>
+                        </telerik:RadRibbonDropDownButton>
+                    </StackPanel>
+                    <!-- Result per page -->
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="25,0,0,0">
+                        <TextBlock Text="Result per page" VerticalAlignment="Center" Margin="5" TextAlignment="Center" FontSize="16"/>
+                        <telerik:RadRibbonDropDownButton x:Name="ResultsPerPage" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <telerik:RadRibbonDropDownButton.Content>
+                                <TextBlock Text="8" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                            </telerik:RadRibbonDropDownButton.Content>
+                            <telerik:RadRibbonDropDownButton.DropDownContent>
+                                <ListBox ItemsSource="{Binding PagesNumberList}" 
+                                         SelectionChanged="SelectedListBoxItem_Click"
+                                         ItemContainerStyle="{StaticResource ResultPerPageBoxItemStyle}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="16" TextAlignment="Left" Margin="10,0,10,0" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </telerik:RadRibbonDropDownButton.DropDownContent>
+                        </telerik:RadRibbonDropDownButton>
+                    </StackPanel>
+
+
+                </StackPanel>
+
+            </Grid>
+            <Grid Margin="0,0,0,0">
+                <ListView Height="490" ItemsSource="{Binding Plants}" 
+                                Name="plantListView"  HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Center" Margin="0,5,0,0"  
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <!--<Setter Property="Cursor" Value="Hand"/>-->
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <!-- Set event handler for MouseLeftButtonUp event -->
+                            <!--<EventSetter Event="MouseLeftButtonUp" Handler="ListViewItem_MouseLeftButtonUp"/>-->
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,10,10,0" BorderBrush="#e6e6e6" 
+          BorderThickness="0.5" CornerRadius="10" Padding="0,0,0,10">
+                                <Grid Height="220" Width="210">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Image Stretch="Fill" Grid.Row="0" Source="{Binding PlantImage, Converter={StaticResource absoluteConverter}}" 
+                 Height="140" RenderOptions.BitmapScalingMode="HighQuality" 
+                 Margin="0,0,0,10"/>
+
+                                    <DockPanel Grid.Row="1">
+                                        <Grid Margin="10,0,10,0" DockPanel.Dock="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" Style="{StaticResource ProductTypeNameTitle}" HorizontalAlignment="Left" />
+                                            <TextBlock Grid.Column="1" Grid.Row="0" Name="MoreInformationIcon" Text="&#xf141;"  Style="{StaticResource MoreInfoIconStyle}" HorizontalAlignment="Right" FontWeight="Thin" />
+                                        </Grid>
+                                        <Grid Margin="10,0,10,0" DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Price, Converter={StaticResource currentConverter}}" Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                            <Button 
+                                                 Click="MoreDetail_Click" Cursor="Hand"
+Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More Detail" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
+                                        </Grid>
+                                    </DockPanel>
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock x:Name="EmptyListMessage" Text="No items available" HorizontalAlignment="Center" 
+VerticalAlignment="Center" FontSize="16" Foreground="Gray">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=plantListView, Path=Items.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <!-- Pagenation-->
+            <StackPanel>
+                <telerik:RadDataPager Name="dataPager" 
+                ItemCount="{Binding TotalItemCount, UpdateSourceTrigger=PropertyChanged}"
+                PageSize="{Binding PageSize}" 
+                Margin="0 10 0 0" 
+                telerik:StyleManager.Theme="Fluent" 
+                DisplayMode="All" 
+                Background="#F5F5F5"
+                PageIndexChanged="DataPager_PageIndexChanged">
+                </telerik:RadDataPager>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -10,8 +9,8 @@ namespace Flora.ViewModel
 {
     class AddPlantProductVM : Utilities.ViewModelBase, INotifyPropertyChanged
     {
-        private PlantCategory _plantCategory;
-        private MyShopContext _shopContext = new MyShopContext();
+        private MyShopContext _shopContext;
+
         private ObservableCollection<PlantCategory> _productTypes;
         public ObservableCollection<PlantCategory> ProductTypes
         {
@@ -22,15 +21,6 @@ namespace Flora.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public List<string> ProductStatus { get; } = new List<string>
-        {
-            "Out of stock",
-            "In stock",
-            "Pre-order",
-            "Arriving Soon"
-        };
-
         private string _name;
         private string _description;
         private int _stockQuantity;
@@ -38,16 +28,7 @@ namespace Flora.ViewModel
         private int _nextPlantId;
         private int _categoryId;
         private string _plantImage;
-        public PlantCategory PlantCategory
-        {
-            get => _plantCategory;
-            set
-            {
-                _plantCategory = value;
 
-                OnPropertyChanged(nameof(PlantCategory));
-            }
-        }
         public int NextPlantId
         {
             get => _nextPlantId;
@@ -118,19 +99,11 @@ namespace Flora.ViewModel
         }
         public AddPlantProductVM()
         {
-            PlantCategory = null;
-            _productTypes = new ObservableCollection<PlantCategory>();
-            InitializeNextCategoryIdAsync();
-            LoadProductTypesAsync();
+            _shopContext = new MyShopContext();
+            ProductTypes = new ObservableCollection<PlantCategory>();
+            _ = InitializeNextCategoryIdAsync();
+            _ = LoadProductTypesAsync();
         }
-        public AddPlantProductVM(PlantCategory category)
-        {
-            ProductTypes = new ObservableCollection<PlantCategory>() { category };
-            PlantCategory = category;
-            InitializeNextCategoryIdAsync();
-        }
-
-
         private async Task InitializeNextCategoryIdAsync()
         {
             NextPlantId = await GetNextPlantIdAsync();
@@ -176,9 +149,7 @@ namespace Flora.ViewModel
                 Console.WriteLine($"An error occurred while saving the plant: {ex.Message}");
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

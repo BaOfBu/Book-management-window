@@ -1,36 +1,41 @@
 ﻿using Flora.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Telerik.Windows.Controls;
 
 namespace Flora.View
 {
     /// <summary>
-    /// Interaction logic for PlantProduct.xaml
+    /// Interaction logic for AllPlant.xaml
     /// </summary>
-    public partial class PlantProduct : UserControl
+    public partial class AllPlant : UserControl
     {
-
-        private PlantProductVM plantProductVM { get; set; }
-
-        public PlantProduct()
+        private PlantVM planttVM { get; set; }
+        public AllPlant()
         {
             InitializeComponent();
-            plantProductVM = DataContext as PlantProductVM;
+            planttVM = DataContext as PlantVM;
         }
-        public PlantProduct(PlantCategory plantCategory) : this()
-        {
 
-            DataContext = new EditProductCategoryVM(plantCategory);
-            plantProductVM = DataContext as PlantProductVM;
-
-        }
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
-        private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
+
+        private void SortTypeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox listBox && listBox.SelectedItem != null)
+            {
+                string selectedSortType = listBox.SelectedItem.ToString();
+                if (DataContext is PlantVM viewModel)
+                {
+                    dataPager.PageIndex = 0;
+                    viewModel.CurrentSortOrder = selectedSortType;
+                }
+            }
+        }
+
+        private void SelectedListBoxItem_Click(object sender, SelectionChangedEventArgs e)
         {
             var selectedListBoxItem = (sender as ListBox).SelectedItem;
 
@@ -50,34 +55,37 @@ namespace Flora.View
                 ResultsPerPage.Content = textBlock;
 
                 int pageSize = -1;
-                var viewModel = DataContext as PlantProductVM;
+                var viewModel = DataContext as PlantVM;
                 if (int.TryParse(selectedItem, out pageSize))
                 {
                     if (viewModel != null)
                     {
-
-                        viewModel.PageSize = pageSize;
                         dataPager.PageIndex = 0;
+                        viewModel.PageSize = pageSize;
                     }
                 }
             }
         }
 
-
-        private void SortTypeList_SelectionChanged(object sender, RoutedEventArgs e)
+        private void RadSlider_SelectionChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            if (sender is ListBox listBox && listBox.SelectedItem != null)
+            decimal newStartValue = (decimal)RadSlider1.SelectionStart;
+            decimal newEndValue = (decimal)RadSlider1.SelectionEnd;
+            var viewModel = DataContext as PlantVM;
+            if (viewModel != null)
             {
-                string selectedSortType = listBox.SelectedItem.ToString();
-                if (DataContext is PlantProductVM viewModel)
-                {
-                    dataPager.PageIndex = 0;
-                    viewModel.CurrentSortOrder = selectedSortType;
-                }
+                //dataPager.PageIndex = 0;
+                viewModel.MinimumPrice = newStartValue;
+                viewModel.MaximumPrice = newEndValue;
             }
         }
 
-        private void AddNewProductType_Click(object sender, RoutedEventArgs e)
+        private void ImportFromExcel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddNewPlantProduct_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
@@ -85,18 +93,35 @@ namespace Flora.View
                 navigationVM.AddPlantProductCommand.Execute(null);
             }
         }
-        private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
+
+        private void Category_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-        }
-        private void ReturnButton_Click(object sender, RoutedEventArgs e)
-        {
-            var navigationVM = GetNavigationVMFromMainWindow();
-            if (navigationVM != null)
+            if (sender is TextBlock textBlock)
             {
-                navigationVM.ProductsCommand.Execute(null);
+                dataPager.PageIndex = 0;
+                CategoryButtonText.Text = textBlock.Text;
             }
         }
-        private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+        private void MoreDetail_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag is ListViewItem listViewItem)
+            {
+                var item = listViewItem.Content as Plant;
+
+                if (item != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditPlantProductCommand.Execute(item);
+                    }
+                }
+            }
+        }
+
+        private void ListViewItem_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Cast sender to ListViewItem to access properties
             ListViewItem listViewItem = sender as ListViewItem;
@@ -118,9 +143,10 @@ namespace Flora.View
                 }
             }
         }
+
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
         {
-            var viewModel = DataContext as PlantProductVM;
+            var viewModel = DataContext as PlantVM;
             if (viewModel != null)
             {
                 viewModel.PageNumber = e.NewPageIndex + 1;
@@ -138,38 +164,6 @@ namespace Flora.View
                 return navigationVM;
             }
             return null;
-        }
-
-        private void MoreDetail_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null && button.Tag is ListViewItem listViewItem)
-            {
-                var item = listViewItem.Content as Plant;
-
-                if (item != null)
-                {
-                    var navigationVM = GetNavigationVMFromMainWindow();
-                    if (navigationVM != null)
-                    {
-                        navigationVM.EditPlantProductCommand.Execute(item);
-                    }
-                }
-            }
-        }
-
-        private void RadSlider_SelectionChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
-        {
-
-            decimal newStartValue = (decimal)RadSlider1.SelectionStart;
-            decimal newEndValue = (decimal)RadSlider1.SelectionEnd;
-            var viewModel = DataContext as PlantProductVM;
-            if (viewModel != null)
-            {
-                dataPager.PageIndex = 0;
-                viewModel.MinimumPrice = newStartValue;
-                viewModel.MaximumPrice = newEndValue;
-            }
         }
 
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)

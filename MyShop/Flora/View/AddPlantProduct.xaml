@@ -7,14 +7,13 @@
       xmlns:utils="clr-namespace:Flora.Utilities"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-      xmlns:local="clr-namespace:Flora.View"
-      mc:Ignorable="d" 
+      xmlns:local="clr-namespace:Flora.View" d:DataContext="{d:DesignInstance Type=vm:AddPlantProductVM}"
+             mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1030" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <utils:RelativeToAbsoluteConveter x:Key="absoluteConverter"/>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/ResultPerPageDropdownButton.xaml" />
                 <ResourceDictionary Source="/Styles/Plants/Text.xaml"/>
                 <ResourceDictionary Source="/Styles/Plants/HoverButton.xaml"/>
                 <ResourceDictionary Source="/Styles/Plants/RadiusButton.xaml"/>
@@ -22,6 +21,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:AddPlantProductVM />
+    </UserControl.DataContext>
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <StackPanel Orientation="Vertical" Margin="65,60,60,0">
@@ -30,8 +32,8 @@
                     Cursor="Hand" Style="{StaticResource RoundedButtonStyle}" Click="ReturnButton_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xf060;" Margin="0,0,10,0" Style="{StaticResource IconSideBarStyleNoMargin}"></TextBlock>
-                        <TextBlock Text="Return the previous page" FontSize="14"></TextBlock>
+                        <TextBlock Text="&#xf060;" Margin="0,0,10,0" Style="{StaticResource IconSideBarStyleNoMargin}" ></TextBlock>
+                        <TextBlock Text="Return the previous page" FontSize="14"  ></TextBlock>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -111,10 +113,8 @@
                              SelectedValuePath="CategoryId"
                              IsEditable="True"
                              IsReadOnly="True"
-                            ItemsSource="{Binding ProductTypes}">
+                             ItemsSource="{Binding ProductTypes}">
                         </telerik:RadComboBox>
-                        
-                        
                     </StackPanel>
                     
                 </StackPanel>

@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,8 +8,14 @@ using System.Threading.Tasks;
 
 namespace Flora.ViewModel
 {
-    class PlantProductVM : Utilities.ViewModelBase, INotifyPropertyChanged
+    class PlantVM : Utilities.ViewModelBase, INotifyPropertyChanged
     {
+        private MyShopContext _shopContext;
+
+        public List<PlantCategory> PlantCategories { get; set; }
+
+        public ObservableCollection<Plant> Plants { get; set; }
+
         private int _pageSize = 8;
         private int _pageNumber = 1;
         private int _totalItemCount = 0;
@@ -23,9 +28,7 @@ namespace Flora.ViewModel
             "Sort by price ascending",
             "Sort by price descending"
         };
-        public ObservableCollection<Plant> PlantList { get; set; }
-        public PlantCategory PlantCategory { get; set; }
-        private MyShopContext _shopContext;
+
         public string CurrentSortOrder
         {
             get => _currentSortOrder;
@@ -33,8 +36,8 @@ namespace Flora.ViewModel
             {
                 if (_currentSortOrder != value)
                 {
-                    _currentSortOrder = value;
                     _pageNumber = 1;
+                    _currentSortOrder = value;
                     OnPropertyChanged(nameof(CurrentSortOrder));
                     LoadPlantAsync();
                 }
@@ -127,21 +130,22 @@ namespace Flora.ViewModel
                 }
             }
         }
-
-        public PlantProductVM(PlantCategory category)
+        public PlantVM()
         {
-            PlantList = new ObservableCollection<Plant>();
+            Plants = new ObservableCollection<Plant>();
             _shopContext = new MyShopContext();
-            PlantCategory = category;
             LoadPlantAsync();
+
         }
+
         private async void LoadPlantAsync()
         {
             try
             {
-                PlantList.Clear();
-                PlantList = await LoadAllPlantsAsync(_pageNumber, _pageSize);
+                Plants.Clear();
+                Plants = await LoadAllPlantsAsync(_pageNumber, _pageSize);
                 TotalItemCount = await CalculateTotalItemCountAsync();
+                LoadPlantCategoriesAsync();
             }
             catch (System.Exception ex)
             {
@@ -150,9 +154,8 @@ namespace Flora.ViewModel
         }
         public async Task<ObservableCollection<Plant>> LoadAllPlantsAsync(int pageNumber, int pageSize)
         {
-            int categoryId = PlantCategory.CategoryId;
             int skip = (pageNumber - 1) * pageSize;
-            IQueryable<Plant> query = _shopContext.Plants.Where(p => p.CategoryId == categoryId);
+            IQueryable<Plant> query = _shopContext.Plants;
 
             // Filter categories based on SearchText
             if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
@@ -193,11 +196,21 @@ namespace Flora.ViewModel
                                     .ToListAsync();
             return new ObservableCollection<Plant>(plants);
         }
+        private async void LoadPlantCategoriesAsync()
+        {
+            try
+            {
+                PlantCategories = await _shopContext.PlantCategories.ToListAsync();
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
         public async Task<int> CalculateTotalItemCountAsync()
         {
-            int categoryId = PlantCategory.CategoryId;
 
-            IQueryable<Plant> query = _shopContext.Plants.Where(p => p.CategoryId == categoryId);
+            IQueryable<Plant> query = _shopContext.Plants;
 
             if (!string.IsNullOrWhiteSpace(SearchText))
             {

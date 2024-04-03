@@ -38,11 +38,11 @@
     <DataTemplate DataType="{x:Type vm:AddProductCategoryVM}">
         <view:AddProductCategory />
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type vm:AddPlantProductVM}">
-        <view:AddPlantProduct />
-    </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:AddPlantProductVM}">
+        <view:AddPlantProduct/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type vm:EditProductCategoryVM}">
         <view:EditProductCategory />
     </DataTemplate>
@@ -50,5 +50,10 @@
     <DataTemplate DataType="{x:Type vm:EditPlantProductVM}">
         <view:EditPlantProduct />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:PlantVM}">
+        <view:AllPlant />
+    </DataTemplate>
+
 
 </ResourceDictionary>

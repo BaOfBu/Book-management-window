@@ -70,6 +70,7 @@
                              BorderThickness="0" 
                              FontSize="16" 
                              WatermarkContent="Search..." 
+                             TextChanged="txtSearchOrders_TextChanged"
                              VerticalAlignment="Center" 
                              HorizontalAlignment="Stretch"
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
@@ -95,7 +96,7 @@
                                 </telerik:RadRibbonDropDownButton.Content>
                                 <telerik:RadRibbonDropDownButton.DropDownContent>
                                     <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal"  MouseLeftButtonDown="AddNewProductType_Click">
                                             <StackPanel.Style>
                                                 <Style TargetType="StackPanel">
                                                     <Setter Property="Background" Value="Transparent"/>
@@ -110,50 +111,7 @@
                                             <TextBlock Text="Add a new product type" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewProductType_Click"/>
                                         </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel.Style>
-                                                <Style TargetType="StackPanel">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Background" Value="LightGray"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </StackPanel.Style>
-                                            <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
-                                            <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </telerik:RadRibbonDropDownButton.DropDownContent>
-                            </telerik:RadRibbonDropDownButton>
-                        </StackPanel>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                            <telerik:RadRibbonDropDownButton x:Name="AddPlantFunction" Style="{StaticResource ResultPerPageDropDownStyles}" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                                <telerik:RadRibbonDropDownButton.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" />
-                                        <TextBlock Text="Add new product" FontSize="16" TextAlignment="Center" Margin="10,0,10,0" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                </telerik:RadRibbonDropDownButton.Content>
-                                <telerik:RadRibbonDropDownButton.DropDownContent>
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel.Style>
-                                                <Style TargetType="StackPanel">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Background" Value="LightGray"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </StackPanel.Style>
-                                            <TextBlock Margin="5,0,5,0" Text="&#xf055;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="AddNewPlant_Click"/>
-                                            <TextBlock Text="Add a new product" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="AddNewPlant_Click"/>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal"  MouseLeftButtonDown="ImportFromExcel_Click">
                                             <StackPanel.Style>
                                                 <Style TargetType="StackPanel">
                                                     <Setter Property="Background" Value="Transparent"/>

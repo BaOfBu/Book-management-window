@@ -28,6 +28,7 @@ namespace Flora.ViewModel
                 if (_currentSortOrder != value)
                 {
                     _currentSortOrder = value;
+                    _pageNumber = 1;
                     OnPropertyChanged(nameof(CurrentSortOrder));
                     LoadPlantCategoryAsync();
                 }

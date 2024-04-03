@@ -1,50 +1,91 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Flora.ViewModel
 {
     class EditPlantProductVM : Utilities.ViewModelBase
     {
 
-        public Plant Plant { get; set; }
-        public List<string> ProductStatus { get; set; }
-        public List<PlantCategory> ProductTypes { get; set; }
-
-        public EditPlantProductVM()
+        private Plant _plant;
+        private MyShopContext _shopContext;
+        public int? previous_id { get; set; }
+        private List<PlantCategory> _productTypes;
+        public Plant Plant
         {
-            Plant = new Plant()
+            get => _plant;
+            set
             {
-                PlantId = 1,
-                Category = new PlantCategory()
-                {
-                    CategoryImages = "Images/ProductTypes/ProductCategory01.png",
-                    CategoryId = 1,
-                    CategoryName = "Indoor Plants"
-                },
-                CategoryId = 1,
-                Description = "This is a plant product",
-                Name = "Plant Product",
-                OrderDetails = null,
-                PlantImage = "/Images/ProductTypes/ProductCategory01.png",
-                Price = 100,
-                StockQuantity = 10
-            };
-            ProductTypes = new List<PlantCategory>
-            {
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 1, CategoryName = "Indoor Plants"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 2, CategoryName = "Outdoor Plants"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 3, CategoryName = "Flowering Plants"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 4, CategoryName = "Succulents"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 5, CategoryName = "Herbs"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 6, CategoryName = "Fruit Trees"},
-                    new PlantCategory() { CategoryImages = "Images/ProductTypes/ProductCategory01.png", CategoryId = 7, CategoryName = "Vegetables"},
-            };
-            ProductStatus = new List<string>
-            {
-                "Out of stock",
-                "In stock",
-                "Pre-order",
-                "Arriving Soon"
-            };
+                _plant = value;
+                OnPropertyChanged(nameof(Plant));
+            }
         }
+        public List<PlantCategory> ProductTypes
+        {
+            get => _productTypes;
+            set
+            {
+                _productTypes = value;
+                OnPropertyChanged(nameof(ProductTypes));
+            }
+        }
+        public EditPlantProductVM(Plant plant)
+        {
+            _shopContext = new MyShopContext();
+            Plant = plant;
+            previous_id = Plant.CategoryId;
+            LoadProductTypesAsync();
+        }
+        public PlantCategory FindPlantCategoryObject(int? id)
+        {
+            try
+            {
+                return FindPlantCategoryByIdAsync(id).Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while finding PlantCategory object: {ex.Message}");
+                return null;
+            }
+        }
+        public async Task LoadProductTypesAsync()
+        {
+            try
+            {
+                var productTypesList = await _shopContext.PlantCategories.ToListAsync();
+                ProductTypes = productTypesList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while loading product types: {ex.Message}");
+            }
+        }
+        public async Task<PlantCategory> FindPlantCategoryByIdAsync(int? id)
+        {
+            try
+            {
+                return await _shopContext.PlantCategories.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while finding PlantCategory by ID: {ex.Message}");
+                return null;
+            }
+        }
+        public async Task SaveChangesAsync()
+        {
+            try
+            {
+                _shopContext.Entry(Plant).State = EntityState.Modified;
+                await _shopContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while saving changes: {ex.Message}");
+            }
+        }
+
+
     }
 }

@@ -31,10 +31,6 @@ namespace Flora.View
                 Debug.WriteLine("ViewModel is not available.");
             }
         }
-        private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void SelectedListBoxItem_Click(object sender, RoutedEventArgs e)
         {
@@ -61,18 +57,10 @@ namespace Flora.View
                 {
                     if (productVM != null)
                     {
+                        dataPager.PageIndex = 0;
                         productVM.PageSize = pageSize;
                     }
                 }
-            }
-        }
-        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as Telerik.Windows.Controls.RadWatermarkTextBox;
-            if (textBox != null)
-            {
-                var searchText = txtSearchOrders.Text;
-                productVM.SearchText = searchText;
             }
         }
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
@@ -84,10 +72,6 @@ namespace Flora.View
             {
                 navigationVM.AddProductCategoryCommand.Execute(null);
             }
-        }
-        private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -163,6 +147,7 @@ namespace Flora.View
                 string selectedSortType = listBox.SelectedItem.ToString();
                 if (DataContext is ProductVM viewModel)
                 {
+                    dataPager.PageIndex = 0;
                     viewModel.CurrentSortOrder = selectedSortType;
                 }
             }
@@ -173,14 +158,9 @@ namespace Flora.View
 
         }
 
-        private void AddNewPlant_Click(object sender, MouseButtonEventArgs e)
+        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var navigationVM = GetNavigationVMFromMainWindow();
-
-            if (navigationVM != null)
-            {
-                navigationVM.AddPlantProductCommand.Execute(null);
-            }
+            dataPager.PageIndex = 0;
         }
     }
 }

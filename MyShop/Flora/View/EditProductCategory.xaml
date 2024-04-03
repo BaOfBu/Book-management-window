@@ -31,7 +31,7 @@
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xf060;" Margin="0,0,10,0" Style="{StaticResource IconSideBarStyleNoMargin}"></TextBlock>
-                        <TextBlock Text="Return the previous page" FontSize="14"></TextBlock>
+                        <TextBlock Text="Return the previous page"  FontSize="14"></TextBlock>
                     </StackPanel>
                 </Button.Content>
             </Button>
