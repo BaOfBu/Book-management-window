@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -113,22 +112,6 @@ namespace Flora.ViewModel
         {
             var maxId = await _shopContext.Plants.MaxAsync(c => (int?)c.PlantId) ?? 0;
             return maxId + 1;
-        }
-
-        private async Task<ObservableCollection<PlantCategory>> LoadProductTypesAsync()
-        {
-            //// Assuming ProductTypes is an ObservableCollection<PlantCategory>
-            //foreach (var category in categories)
-            //{
-            //    ProductTypes.Add(category);
-
-            //}
-            //foreach (var category in categories)
-            //{
-            //    Debug.WriteLine(category.CategoryName);
-            //}
-            var categories = await _shopContext.PlantCategories.ToListAsync();
-            return new ObservableCollection<PlantCategory>(categories);
         }
 
         public async Task SavePlantAsync()
