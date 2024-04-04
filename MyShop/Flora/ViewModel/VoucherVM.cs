@@ -55,30 +55,6 @@ namespace Flora.ViewModel
             StartDateChangedCommand = new RelayCommand(StartDateChanged);
             EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
-
-        /*
-        private List<Coupon> GetCouponsFromDatabase()
-        {
-
-            var query = _shopContext.Coupons
-                        .Where(o => o.CouponId.ToString().Contains(SearchText) || o.CouponCode.Contains(SearchText));
-
-            if (SelectedStartDate != null && SelectedEndDate != null)
-            {
-                query = query.Where(o => (o.StartDate >= SelectedStartDate) && (o.ExpiryDate <= SelectedEndDate));
-            }
-
-            return query.ToList();
-        }
-        */
-        /*
-        private void LoadCoupons()
-        {
-            var coupons = GetCouponsFromDatabase();
-
-            CouponList = new ObservableCollection<Coupon>(coupons);
-        }
-        */
         private ObservableCollection<Coupon> GetCouponsFromDatabase(int startIndex, int endIndex)
         {
             IQueryable<Coupon> query = _shopContext.Coupons;
