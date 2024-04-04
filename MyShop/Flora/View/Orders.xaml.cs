@@ -131,18 +131,34 @@ namespace Flora.View
         private void FilterRadButton_Click(object sender, RoutedEventArgs e)
         {
             orderVM.FilterOrderCommand.Execute(null);
+            dataPager.PageIndex = 0;
         }
         private void ReloadRadButton_Click(object sender, RoutedEventArgs e)
         {
             radDateTimePicker_Start.SelectedValue = default;
             radDateTimePicker_End.SelectedValue = default;
             orderVM.ReloadOrderCommand.Execute(null);
+            dataPager.PageIndex = 0;
         }
 
         private void dataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
         {
             int pageIndex = e.NewPageIndex + 1;
             orderVM.LoadDataChangedCommand.Execute(pageIndex);
+        }
+        private void txtSearchOrders_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchHandle();
+            }
+        }
+        private void SearchHandle()
+        {
+            string keyword = txtSearchOrders.Text.Trim();
+
+            orderVM.SearchOrderCommand.Execute(keyword);
+            dataPager.PageIndex = 0;
         }
     }
 }

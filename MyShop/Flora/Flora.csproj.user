@@ -38,9 +38,6 @@
     <Compile Update="View\Products.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\SearchBoxControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\Vouchers.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -146,9 +143,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Products.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\SearchBoxControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Vouchers.xaml">
