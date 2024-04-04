@@ -40,7 +40,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:AddPlantProductVM}">
-        <view:AddPlantProduct/>
+        <view:AddPlantProduct />
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type vm:EditProductCategoryVM}">

@@ -86,6 +86,20 @@ namespace Flora.ViewModel
             }
         }
 
-
+        public async Task DeletePlantAsync()
+        {
+            try
+            {
+                using (var context = new MyShopContext())
+                {
+                    context.Plants.Remove(Plant);
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the plant: {ex.Message}");
+            }
+        }
     }
 }

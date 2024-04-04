@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,16 +12,8 @@ namespace Flora.ViewModel
     {
         private MyShopContext _shopContext;
 
-        private ObservableCollection<PlantCategory> _productTypes;
-        public ObservableCollection<PlantCategory> ProductTypes
-        {
-            get => _productTypes;
-            set
-            {
-                _productTypes = value;
-                OnPropertyChanged();
-            }
-        }
+        public List<PlantCategory> PlantCategories { get; set; }
+
         private string _name;
         private string _description;
         private int _stockQuantity;
@@ -100,32 +93,44 @@ namespace Flora.ViewModel
         public AddPlantProductVM()
         {
             _shopContext = new MyShopContext();
-            ProductTypes = new ObservableCollection<PlantCategory>();
-            _ = InitializeNextCategoryIdAsync();
-            _ = LoadProductTypesAsync();
-        }
-        private async Task InitializeNextCategoryIdAsync()
-        {
-            NextPlantId = await GetNextPlantIdAsync();
-        }
+            LoadData();
 
+
+        }
+        private async void LoadData()
+        {
+            try
+            {
+                NextPlantId = await GetNextPlantIdAsync();
+                PlantCategories = await _shopContext.PlantCategories.ToListAsync();
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
         public async Task<int> GetNextPlantIdAsync()
         {
             var maxId = await _shopContext.Plants.MaxAsync(c => (int?)c.PlantId) ?? 0;
             return maxId + 1;
         }
 
-        private async Task LoadProductTypesAsync()
+        private async Task<ObservableCollection<PlantCategory>> LoadProductTypesAsync()
         {
-            var categories = await _shopContext.PlantCategories
-                .ToListAsync();
+            //// Assuming ProductTypes is an ObservableCollection<PlantCategory>
+            //foreach (var category in categories)
+            //{
+            //    ProductTypes.Add(category);
 
-            // Assuming ProductTypes is an ObservableCollection<PlantCategory>
-            foreach (var category in categories)
-            {
-                ProductTypes.Add(category);
-            }
+            //}
+            //foreach (var category in categories)
+            //{
+            //    Debug.WriteLine(category.CategoryName);
+            //}
+            var categories = await _shopContext.PlantCategories.ToListAsync();
+            return new ObservableCollection<PlantCategory>(categories);
         }
+
         public async Task SavePlantAsync()
         {
             var newPlant = new Plant

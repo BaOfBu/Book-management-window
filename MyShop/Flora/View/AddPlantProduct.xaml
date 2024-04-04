@@ -21,9 +21,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <vm:AddPlantProductVM />
-    </UserControl.DataContext>
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <StackPanel Orientation="Vertical" Margin="65,60,60,0">
@@ -102,21 +99,21 @@
                             <TextBlock x:Name="warningTextBlockPrice" Text="Please enter a valid number." Foreground="Red" Visibility="Collapsed"/>
                         </StackPanel>
                     </StackPanel>
-                   
+
                     <StackPanel Margin="0,0,0,20">
                         <TextBlock Margin="0,0,0,10" Text="Type of product" Style="{StaticResource ProductNameAddTitle}"></TextBlock>
                         <telerik:RadComboBox x:Name="myComboBoxProductType"
                              Height="39"
                              telerik:CornerRadiusHelper.ClipRadius="5"
                              VerticalContentAlignment="Center"
-                             DisplayMemberPath="CategoryName"
                              SelectedValuePath="CategoryId"
                              IsEditable="True"
                              IsReadOnly="True"
-                             ItemsSource="{Binding ProductTypes}">
+                             ItemsSource="{Binding PlantCategories}"
+                             DisplayMemberPath="CategoryName">
                         </telerik:RadComboBox>
                     </StackPanel>
-                    
+
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
                     <Border BorderBrush="#d5d5d5" BorderThickness="1" Height="200" CornerRadius="5"

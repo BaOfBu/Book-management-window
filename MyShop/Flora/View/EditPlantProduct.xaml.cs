@@ -225,7 +225,27 @@ namespace Flora.View
         }
         private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete this item?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                var viewModel = DataContext as EditPlantProductVM;
+
+
+
+                viewModel?.DeletePlantAsync();
+
+                var navigationVM = GetNavigationVMFromMainWindow();
+                if (navigationVM != null)
+                {
+                    navigationVM.NavigateBack();
+                }
+
+            }
+            else
+            {
+
+            }
         }
 
 

@@ -20,6 +20,7 @@ namespace Flora.View
         {
             InitializeComponent();
             DataContext = new AddPlantProductVM();
+
             addPlantProductVM = DataContext as AddPlantProductVM;
         }
 
