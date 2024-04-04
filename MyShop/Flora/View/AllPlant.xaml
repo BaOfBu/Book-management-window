@@ -68,7 +68,7 @@
              FontSize="16" 
              WatermarkContent="Search..." 
              VerticalAlignment="Center" 
-                                                     TextChanged="txtSearchOrders_TextChanged"
+             TextChanged="txtSearchOrders_TextChanged"
              HorizontalAlignment="Stretch"
              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
@@ -182,9 +182,10 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </StackPanel.Style>
-                                        <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}" MouseLeftButtonDown="ImportFromExcel_Click"/>
-                                        <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10" MouseLeftButtonDown="ImportFromExcel_Click"/>
+                                        <TextBlock Margin="5,0,5,0" Text="&#xf0ce;" Style="{StaticResource IconAddStyle}"/>
+                                        <TextBlock Text="Import from excel" FontSize="16" TextAlignment="Left" Margin="10,10,10,10"/>
                                     </StackPanel>
+                                    
                                 </StackPanel>
                             </telerik:RadRibbonDropDownButton.DropDownContent>
                         </telerik:RadRibbonDropDownButton>
@@ -216,26 +217,23 @@
             </Grid>
             <Grid Margin="0,0,0,0">
                 <ListView Height="490" ItemsSource="{Binding Plants}" 
-                                Name="plantListView"  HorizontalAlignment="Stretch" 
-                                VerticalAlignment="Center" Margin="0,5,0,0"  
+                                Name="plantListView"  Margin="0,5,0,0"  
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                 ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewItem">
-                                        <Border Background="{TemplateBinding Background}">
+                                        <Border>
                                             <ContentPresenter />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                            <!--<Setter Property="Cursor" Value="Hand"/>-->
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
-                            <!-- Set event handler for MouseLeftButtonUp event -->
-                            <!--<EventSetter Event="MouseLeftButtonUp" Handler="ListViewItem_MouseLeftButtonUp"/>-->
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>
@@ -277,13 +275,17 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Price, Converter={StaticResource currentConverter}}" Style="{StaticResource ProductTypeQuantity}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                             <Button 
-                                                 Click="MoreDetail_Click" Cursor="Hand"
-Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Grid.Column="1" Grid.Row="0" Content="More Detail" HorizontalAlignment="Right" Style="{StaticResource MoreInfoButton}"/>
+                                                Click="MoreDetail_Click" 
+                                                Cursor="Hand"
+                                                Grid.Column="1" 
+                                                Grid.Row="0" 
+                                                Content="More Detail" 
+                                                HorizontalAlignment="Right" 
+                                                Style="{StaticResource MoreInfoButton}"/>
                                         </Grid>
                                     </DockPanel>
                                 </Grid>
                             </Border>
-
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Flora.ViewModel
 {
@@ -160,7 +166,7 @@ namespace Flora.ViewModel
                 Plants.Clear();
                 Plants = await LoadAllPlantsAsync(_pageNumber, _pageSize);
                 TotalItemCount = await CalculateTotalItemCountAsync();
-                LoadPlantCategoriesAsync();
+                await LoadPlantCategoriesAsync();
             }
             catch (System.Exception ex)
             {
@@ -221,24 +227,6 @@ namespace Flora.ViewModel
                                     .ToListAsync();
             return new ObservableCollection<Plant>(plants);
         }
-        //private async void LoadPlantCategoriesAsync()
-        //{
-        //    try
-        //    {
-        //        PlantCategories = await _shopContext.PlantCategories.ToListAsync();
-        //        PlantCategories.Add(new PlantCategory
-        //        {
-        //            CategoryName = "All Categories",
-        //            CategoryId = 0,
-        //            CategoryImages = null,
-        //            Plants = null
-        //        });
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
-        //    }
-        //}
         private async Task LoadPlantCategoriesAsync()
         {
             try
@@ -295,11 +283,188 @@ namespace Flora.ViewModel
 
             return await query.CountAsync();
         }
+        public async Task ImportDataFromExcelAsync(string filePath)
+        {
+            try
+            {
+                // Call a method to read the Excel file and import data into the database
+                await ImportPlantsFromExcel(filePath);
+
+                // Notify user about successful import
+                MessageBox.Show("Data imported successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that may occur during the import process
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async Task ImportPlantsFromExcel(string filePath)
+        {
+            try
+            {
+                using (var document = SpreadsheetDocument.Open(filePath, false))
+                {
+                    var wbPart = document.WorkbookPart;
+                    var tabs = wbPart.Workbook.Descendants<Sheet>();
+                    var tab = tabs.FirstOrDefault(s => s.Name == "Plant");
+                    if (tab != null)
+                    {
+                        var wsPart = (WorksheetPart)(wbPart.GetPartById(tab.Id));
+                        var cells = wsPart.Worksheet.Descendants<Cell>();
+                        int row = 2;
+                        Cell plantIdCell = cells.FirstOrDefault(c => c?.CellReference == $"A{row}");
+                        while (plantIdCell != null)
+                        {
+                            Debug.WriteLine("Hio");
+                            string plantIdString = plantIdCell.InnerText;
+                            var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                            if (stringTable != null)
+                            {
+                                int id = int.Parse(GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"A{row}")));
+                                string name = GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"B{row}"));
+                                decimal price = decimal.Parse(GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"C{row}")));
+                                string description = GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"D{row}"));
+                                int stockQuantity = int.Parse(GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"E{row}")));
+                                int categoryId = int.Parse(GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"F{row}")));
+                                string plantImage = GetCellValue(wbPart, cells.FirstOrDefault(c => c?.CellReference == $"G{row}"));
+
+                                // Construct the path to the target directory
+                                string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                                string targetDirectory = Path.Combine(appDirectory, "Images", "PlantProducts");
+                                string targetFileName = "PlantProduct" + id + ".png";
+                                string targetPath = Path.Combine(targetDirectory, targetFileName);
+
+                                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                                string imagesDirectory = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\Images\PlantProducts"));
+                                string imageFilePath = Path.Combine(imagesDirectory, targetFileName);
+                                // Ensure the target directory exists
+                                Directory.CreateDirectory(targetDirectory);
+
+                                CopyImageToNewLocation(plantImage, targetPath);
+                                CopyImageToNewLocation(plantImage, imageFilePath);
+
+                                string dbImage = "Images/PlantProducts/" + "PlantProduct" + id + ".png";
+
+                                await SavePlantToDatabase(id, name, price, description, stockQuantity, categoryId, dbImage);
+                            }
+                            row++;
+                            plantIdCell = cells.FirstOrDefault(c => c?.CellReference == $"A{row}");
+                        }
+                        LoadPlantAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sheet 'Plant' not found in the Excel file.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while importing plants from Excel: {ex.Message}");
+            }
+        }
+        public void CopyImageToNewLocation(string currentImagePath, string targetFileDirectory)
+        {
+            // Attempt to copy the file with retries
+            int maxRetries = 3;
+            int delayOnRetry = 1000;
+
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(targetFileDirectory));
+                    using (FileStream sourceStream = File.Open(currentImagePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        using (FileStream destinationStream = File.Open(targetFileDirectory, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
+                        {
+                            sourceStream.CopyTo(destinationStream);
+                        }
+                    }
+
+                    break;
+                }
+                catch (IOException ex)
+                {
+                    if (i < (maxRetries - 1))
+                    {
+                        // Wait before trying again
+                        System.Threading.Thread.Sleep(delayOnRetry);
+                    }
+                    else
+                    {
+                        // This is the last attempt - rethrow the exception
+                        throw;
+                    }
+                }
+            }
+        }
+        private string GetCellValue(WorkbookPart workbookPart, Cell cell)
+        {
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                SharedStringTablePart stringTablePart = workbookPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                if (stringTablePart != null)
+                {
+                    SharedStringItem sharedStringItem = (SharedStringItem)stringTablePart.SharedStringTable.ElementAt(int.Parse(cell.InnerText));
+                    return sharedStringItem.Text?.Text;
+                }
+            }
+            return cell.InnerText;
+        }
+
+        private async Task SavePlantToDatabase(int id, string name, decimal price, string description, int stockQuantity, int categoryId, string plantImage)
+        {
+            try
+            {
+                // Check if the plant already exists in the database
+                var existingPlant = await _shopContext.Plants.FirstOrDefaultAsync(p => p.PlantId == id);
+                if (existingPlant != null)
+                {
+                    // Update the existing plant
+                    existingPlant.Name = name;
+                    existingPlant.Price = (decimal?)price;
+                    existingPlant.Description = description;
+                    existingPlant.StockQuantity = stockQuantity;
+                    existingPlant.CategoryId = categoryId;
+                    existingPlant.PlantImage = plantImage;
+                }
+                else
+                {
+                    // Create a new plant object
+                    var newPlant = new Plant
+                    {
+                        PlantId = id,
+                        Name = name,
+                        Price = (decimal?)price,
+                        Description = description,
+                        StockQuantity = stockQuantity,
+                        CategoryId = categoryId,
+                        PlantImage = plantImage
+                    };
+
+                    // Add the new plant to the database context
+                    _shopContext.Plants.Add(newPlant);
+                }
+
+                // Save changes to the database
+                await _shopContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving plant to the database: {ex.Message}");
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

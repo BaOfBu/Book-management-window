@@ -1,6 +1,9 @@
 ﻿using Flora.ViewModel;
+using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Telerik.Windows.Controls;
 
 namespace Flora.View
@@ -80,11 +83,6 @@ namespace Flora.View
             }
         }
 
-        private void ImportFromExcel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
         private void AddNewPlantProduct_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var navigationVM = GetNavigationVMFromMainWindow();
@@ -110,13 +108,13 @@ namespace Flora.View
 
         private void MoreDetail_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            if (button != null && button.Tag is ListViewItem listViewItem)
+            Button button = sender as Button;
+            if (button != null)
             {
-                var item = listViewItem.Content as Plant;
-
-                if (item != null)
+                ListViewItem listViewItem = FindParent<ListViewItem>(button);
+                if (listViewItem != null && listViewItem.Content is Plant item)
                 {
+                    button.Tag = listViewItem;
                     var navigationVM = GetNavigationVMFromMainWindow();
                     if (navigationVM != null)
                     {
@@ -126,27 +124,14 @@ namespace Flora.View
             }
         }
 
-        private void ListViewItem_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            // Cast sender to ListViewItem to access properties
-            ListViewItem listViewItem = sender as ListViewItem;
-
-            // Retrieve the name of the selected item
-            if (listViewItem != null && listViewItem.Content != null)
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            while (parentObject != null && !(parentObject is T))
             {
-                // Assuming PlantType is the type of the items in PlantTypesList
-                Plant selectedPlantType = listViewItem.Content as Plant;
-
-                if (selectedPlantType != null)
-                {
-                    var navigationVM = GetNavigationVMFromMainWindow();
-
-                    if (navigationVM != null)
-                    {
-                        navigationVM.EditPlantProductCommand.Execute(selectedPlantType);
-                    }
-                }
+                parentObject = VisualTreeHelper.GetParent(parentObject);
             }
+            return parentObject as T;
         }
 
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
@@ -174,6 +159,33 @@ namespace Flora.View
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
             dataPager.PageIndex = 0;
+        }
+
+        private async void ImportFromExcel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Call a method to read the Excel file and import data into the database
+                    PlantVM viewModel = DataContext as PlantVM;
+                    if (viewModel != null)
+                    {
+                        // Trigger the import operation in the ViewModel
+                        await viewModel.ImportDataFromExcelAsync(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that may occur during the import process
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

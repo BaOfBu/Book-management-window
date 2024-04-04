@@ -1,4 +1,6 @@
 ﻿using Flora.ViewModel;
+using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -153,14 +155,52 @@ namespace Flora.View
             }
         }
 
-        private void ImportFromExcel_Click(object sender, MouseButtonEventArgs e)
+        private async void ImportFromExcel_Click(object sender, MouseButtonEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
 
+                try
+                {
+                    // Call a method to read the Excel file and import data into the database
+                    ProductVM viewModel = DataContext as ProductVM;
+                    if (viewModel != null)
+                    {
+                        // Trigger the import operation in the ViewModel
+                        await viewModel.ImportDataFromExcelAsync(filePath);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that may occur during the import process
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
         {
             dataPager.PageIndex = 0;
+        }
+
+        private void RadRibbonDropDownButton_DropDownClosed(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RadRibbonDropDownButton_DropDownOpening(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RadRibbonDropDownButton_DropDownOpened(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

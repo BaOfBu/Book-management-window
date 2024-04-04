@@ -1,4 +1,6 @@
 ﻿using Flora.ViewModel;
+using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -85,9 +87,33 @@ namespace Flora.View
                 navigationVM.AddPlantProductCommand.Execute(null);
             }
         }
-        private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
+        private async void ImportFromExcel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Call a method to read the Excel file and import data into the database
+                    PlantProductVM viewModel = DataContext as PlantProductVM;
+                    if (viewModel != null)
+                    {
+                        // Trigger the import operation in the ViewModel
+                        await viewModel.ImportDataFromExcelAsync(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that may occur during the import process
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             var navigationVM = GetNavigationVMFromMainWindow();
