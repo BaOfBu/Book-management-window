@@ -25,8 +25,9 @@ namespace Flora.ViewModel
         public int TotalItems { get; set; }
         public string SearchText { get; set; }
         public DateOnly? SelectedStartDate { get; set; }
-
         public DateOnly? SelectedEndDate { get; set; }
+        public int PageIndex { get; set; }
+
         public System.Windows.Input.ICommand LoadDataChangedCommand { get; set; }
         public System.Windows.Input.ICommand PageSizeChangedCommand { get; set; }
         public System.Windows.Input.ICommand SearchOrderCommand { get; set; }
@@ -42,6 +43,7 @@ namespace Flora.ViewModel
             SearchText = string.Empty;
             PageSize = 8;
             PageNumber = 1;
+            PageIndex = 0;
             OrderList = new ObservableCollection<Order>();
             LoadDataForCurrentPage(PageNumber);
             SelectedStartDate = default;
@@ -113,6 +115,7 @@ namespace Flora.ViewModel
                 LoadDataForCurrentPage(PageNumber);
             }
         }
+
         private void FilterByRangeDate(object obj)
         {
             LoadDataForCurrentPage(PageNumber);

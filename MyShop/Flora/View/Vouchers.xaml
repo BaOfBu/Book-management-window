@@ -25,7 +25,22 @@
 
         <Grid>
             <StackPanel Orientation="Vertical">
-                <local:SearchBoxControl Margin="0 0 60 0"/>
+                <StackPanel Width="858" VerticalAlignment="Top" Margin="0 40 0 0">
+                    <Border BorderBrush="#285A43" BorderThickness="1" CornerRadius="20">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="60" Height="50">
+                                <TextBlock Text="&#xf002;" Style="{StaticResource IconSideBarStyle}" Foreground="#285A43" Padding="5 0 0 0"/>
+                            </Grid>
+                            <telerik:RadWatermarkTextBox x:Name="txtSearchCoupons" BorderThickness="0" Width="720" Height="55" KeyDown="txtSearchCoupons_KeyDown" >
+                                <telerik:RadWatermarkTextBox.WatermarkContent>
+                                    <Grid>
+                                        <TextBlock x:Name="searchText" Text="Search..." Style="{StaticResource TextPlaceHolderStyle}"/>
+                                    </Grid>
+                                </telerik:RadWatermarkTextBox.WatermarkContent>
+                            </telerik:RadWatermarkTextBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
                 <StackPanel Height="20" />
                 <StackPanel Orientation="Horizontal" Width="858">
                     <telerik:RadDateTimePicker 
