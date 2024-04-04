@@ -130,6 +130,21 @@ namespace Flora.ViewModel
                 }
             }
         }
+
+        private PlantCategory _selectedCategory;
+        public PlantCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (_selectedCategory != value)
+                {
+                    _selectedCategory = value;
+                    OnPropertyChanged(nameof(SelectedCategory));
+                    LoadPlantAsync();
+                }
+            }
+        }
         public PlantVM()
         {
             Plants = new ObservableCollection<Plant>();
@@ -173,6 +188,16 @@ namespace Flora.ViewModel
                 query = query.Where(p => p.Price <= _maximumPrice);
             }
 
+            // Filter by category
+            if (SelectedCategory != null)
+            {
+                if (SelectedCategory.CategoryId != 0)
+                {
+                    query = query.Where(p => p.CategoryId == SelectedCategory.CategoryId);
+                }
+
+            }
+
             switch (CurrentSortOrder)
             {
                 case "Sort by name ascending":
@@ -196,11 +221,42 @@ namespace Flora.ViewModel
                                     .ToListAsync();
             return new ObservableCollection<Plant>(plants);
         }
-        private async void LoadPlantCategoriesAsync()
+        //private async void LoadPlantCategoriesAsync()
+        //{
+        //    try
+        //    {
+        //        PlantCategories = await _shopContext.PlantCategories.ToListAsync();
+        //        PlantCategories.Add(new PlantCategory
+        //        {
+        //            CategoryName = "All Categories",
+        //            CategoryId = 0,
+        //            CategoryImages = null,
+        //            Plants = null
+        //        });
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+        //    }
+        //}
+        private async Task LoadPlantCategoriesAsync()
         {
             try
             {
-                PlantCategories = await _shopContext.PlantCategories.ToListAsync();
+                // Load categories from data source
+                var categories = await _shopContext.PlantCategories.ToListAsync();
+
+                // Create a new list to hold the categories
+                var newCategories = new List<PlantCategory>();
+
+                // Add "All Categories" option at the beginning of the list
+                newCategories.Add(new PlantCategory { CategoryName = "All Categories", CategoryId = 0 });
+
+                // Add actual categories to the list
+                newCategories.AddRange(categories);
+
+                // Update the PlantCategories collection
+                PlantCategories = newCategories;
             }
             catch (System.Exception ex)
             {
@@ -225,6 +281,16 @@ namespace Flora.ViewModel
             if (_maximumPrice.HasValue)
             {
                 query = query.Where(p => p.Price <= _maximumPrice);
+            }
+
+            // Filter by category
+            if (SelectedCategory != null)
+            {
+                if (SelectedCategory.CategoryId != 0)
+                {
+                    query = query.Where(p => p.CategoryId == SelectedCategory.CategoryId);
+                }
+
             }
 
             return await query.CountAsync();

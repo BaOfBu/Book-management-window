@@ -96,10 +96,15 @@ namespace Flora.View
 
         private void Category_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (sender is TextBlock textBlock)
+            if (sender is TextBlock textBlock && textBlock.DataContext is PlantCategory selectedCategory)
             {
                 dataPager.PageIndex = 0;
                 CategoryButtonText.Text = textBlock.Text;
+
+                if (planttVM != null)
+                {
+                    planttVM.SelectedCategory = selectedCategory;
+                }
             }
         }
 
