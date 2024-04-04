@@ -94,6 +94,9 @@
   <Page Include="View\AddVoucher.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\Backup.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\DetailOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -143,6 +146,7 @@
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddOrderVM.cs" />
   <Compile Include="ViewModel\AddVoucherVM.cs" />
+  <Compile Include="ViewModel\BackupVM.cs" />
   <Compile Include="ViewModel\DetailOrderVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\LoginVM.cs" />
@@ -156,6 +160,7 @@
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddressRule.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\Backup.xaml.cs" />
   <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
   <Compile Include="View\DateConverter.cs" />
@@ -163,8 +168,8 @@
   <Compile Include="View\EmailRule.cs" />
   <Compile Include="View\FullNameRule.cs" />
   <Compile Include="View\Home.xaml.cs" />
-  <Compile Include="View\MoneyRule.cs" />
   <Compile Include="View\Login.xaml.cs" />
+  <Compile Include="View\MoneyRule.cs" />
   <Compile Include="View\Orders.xaml.cs" />
   <Compile Include="View\PhoneNumberRule.cs" />
   <Compile Include="View\PlantProduct.xaml.cs" />

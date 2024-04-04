@@ -7,11 +7,109 @@
         xmlns:helper="clr-namespace:Flora.Utilities"
         xmlns:local="clr-namespace:Flora.View"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
+        Title="Login" Height="768" Width="1366"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="#285A43">
     <Window.DataContext>
         <viewModel:LoginVM/>
     </Window.DataContext>
-    <Canvas>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,20,0,10"/>
+                </Style>
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Username" HorizontalAlignment="Left"/>
+                <TextBox Name="UsernameTextBox" Text="{Binding usernameText}" Style="{StaticResource ModernTextBoxStyle}" HorizontalAlignment="Left"  Width="400" Grid.Column="1">
+                    <!--<TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsKeyboardFocused" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>-->
+                </TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Password" HorizontalAlignment="Left" Grid.Column="0"/>
+                <PasswordBox Name="PasswordTextBox" helper:PasswordHelper.BoundPassword="{Binding passwordText}" HorizontalAlignment="Left"  Width="400"  Grid.Column="1">
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsKeyboardFocused" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
+            </Grid>
+            <CheckBox Name="remember" Content="Remember me" HorizontalAlignment="Left" Margin="0 10 0 10"/>
+            <Button Content="Login" Width="200" Height="20" Click="LoginButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width" To="220" Duration="0:0:0.5"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Height" To="23" Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width" To="200" Duration="0:0:0.5"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Height" To="20" Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </Grid>
+    <!--<Canvas>
         <Label Content="Login" HorizontalAlignment="Left" Canvas.Left="380" Canvas.Top="10"/>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Canvas.Left="300" Canvas.Top="50">
             <StackPanel.Resources>
@@ -101,5 +199,5 @@
                 </Button.Style>
             </Button>
         </StackPanel>
-    </Canvas>
+    </Canvas>-->
 </Window>

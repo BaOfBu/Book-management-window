@@ -36,6 +36,7 @@ namespace Flora.ViewModel
         public ICommand ProductsCommand { get; set; }
         public ICommand OrdersCommand { get; set; }
         public ICommand VouchersCommand { get; set; }
+        public ICommand BackupCommand { get; set; }
 
         public ICommand PlantsCommand { get; set; }
 
@@ -43,6 +44,7 @@ namespace Flora.ViewModel
         private void Product(object obj) => CurrentView = new ProductVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Voucher(object obj) => CurrentView = new VoucherVM();
+        private void Backup(object obj) => CurrentView = new BackupVM();
         private void Plant(object obj) => CurrentView = new PlantProductVM();
         public NavigationVM()
         {
@@ -50,6 +52,7 @@ namespace Flora.ViewModel
             ProductsCommand = new RelayCommand(Product);
             OrdersCommand = new RelayCommand(Order);
             VouchersCommand = new RelayCommand(Voucher);
+            BackupCommand = new RelayCommand(Backup);
             PlantsCommand = new RelayCommand(param => this.ChangeViewMethodForPlant());
             CurrentView = new HomeVM();
         }

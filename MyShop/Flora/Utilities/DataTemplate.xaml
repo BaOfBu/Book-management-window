@@ -27,6 +27,11 @@
         <view:DetailOrder />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:BackupVM}">
+        <view:Backup/>
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type vm:AddVoucherVM}">
         <view:AddVoucher />
     </DataTemplate>

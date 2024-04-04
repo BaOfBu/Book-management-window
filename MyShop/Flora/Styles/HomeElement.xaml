@@ -2,20 +2,36 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                     xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks">
-    <Style x:Key="HomeTitle" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome" />
-        <Setter Property="FontSize" Value="24" />
-        <Setter Property="Foreground" Value="DarkGray" />
-        <Setter Property="Margin" Value="22,0,0,0" />
+    
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#f0f0f0"/>
+    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="#707070"/>
+    <SolidColorBrush x:Key="TextBoxForegroundBrush" Color="#000000"/>
+
+
+    <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextBoxForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_ContentHost" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <Style TargetType="Border">
-        <Setter Property="Background" Value="#5a2f28"/>
-        <Setter Property="BorderThickness" Value="2"/>
-    </Style>
-    <Style TargetType="Path">
-        <Setter Property="Fill" Value="#5a2f28"/>
-    </Style>
 </ResourceDictionary>
