@@ -1,7 +1,6 @@
 ﻿using Flora.ViewModel;
 using System;
 using System.Windows.Controls;
-using Telerik.Windows.Controls;
 
 namespace Flora.View
 {
@@ -10,10 +9,20 @@ namespace Flora.View
     /// </summary>
     public partial class Report : UserControl
     {
+
         private ReportVM ReportVM { get; set; }
         public Report()
         {
             InitializeComponent();
+            this.Loaded += (s, e) =>
+            {
+                var viewModel = this.DataContext as ReportVM;
+                if (viewModel != null)
+                {
+                    viewModel.StartDate = new DateTime(viewModel.SelectedYear, 1, 1);
+                    viewModel.EndDate = new DateTime(viewModel.SelectedYear, 12, 31);
+                }
+            };
             ReportVM = DataContext as ReportVM;
         }
 
@@ -22,17 +31,35 @@ namespace Flora.View
 
         }
 
-        private void TimeBar_SelectionChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
+
+        private void WeekComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var view = DataContext as ReportVM;
-            var timeBar = sender as RadTimeBar;
-            if (timeBar != null)
+
+        }
+
+        private void MonthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MonthComboBox.SelectedValue == "All month")
             {
-                var newSelectionStart = (DateTime)timeBar.SelectionStart;
-                var newSelectionEnd = (DateTime)timeBar.SelectionEnd;
-                view.SelectionStart = newSelectionStart;
-                view.SelectionEnd = newSelectionEnd;
+                WeekComboBox.IsEditable = false;
+                WeekComboBox.IsReadOnly = true;
+                WeekComboBox.IsEnabled = false;
             }
+            else
+            {
+                if (WeekComboBox != null)
+                {
+                    WeekComboBox.IsEditable = false;
+                    WeekComboBox.IsReadOnly = false;
+                    WeekComboBox.IsEnabled = true;
+                }
+
+            }
+        }
+
+        private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

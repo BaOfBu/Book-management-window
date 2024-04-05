@@ -1,74 +1,22 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows.Media;
 
 namespace Flora.ViewModel
 {
     internal class ReportVM : Utilities.ViewModelBase, INotifyPropertyChanged
     {
         private MyShopContext _shopContext;
-        private DateTime _periodStart;
-        public DateTime PeriodStart
-        {
-            get => _periodStart;
-            set
-            {
-                if (_periodStart != value)
-                {
-                    _periodStart = value;
-                    OnPropertyChanged(nameof(PeriodStart));
-                }
-            }
-        }
-
-        private DateTime _periodEnd;
-        public DateTime PeriodEnd
-        {
-            get => _periodEnd;
-            set
-            {
-                if (_periodEnd != value)
-                {
-                    _periodEnd = value;
-                    OnPropertyChanged(nameof(PeriodEnd));
-                }
-            }
-        }
-
-        private DateTime _selectionStart;
-        public DateTime SelectionStart
-        {
-            get => _selectionStart;
-            set
-            {
-                if (_selectionStart != value)
-                {
-
-                    _selectionStart = value;
-                    OnPropertyChanged(nameof(SelectionStart));
-                }
-            }
-        }
-
-        private DateTime _selectionEnd;
-        public DateTime SelectionEnd
-        {
-            get => _selectionEnd;
-            set
-            {
-                if (_selectionEnd != value)
-                {
-                    _selectionEnd = value;
-                    OnPropertyChanged(nameof(SelectionEnd));
-                }
-            }
-        }
-
 
         public ObservableCollection<int> AvailableYears { get; set; }
         public ObservableCollection<string> AvailableMonths { get; set; }
         public ObservableCollection<string> AvailableWeeks { get; set; }
+
 
         private int _selectedYear;
         public int SelectedYear
@@ -79,9 +27,8 @@ namespace Flora.ViewModel
                 if (_selectedYear != value)
                 {
                     _selectedYear = value;
-                    OnPropertyChanged(nameof(SelectedYear));
                     UpdateVisiblePeriod();
-
+                    OnPropertyChanged(nameof(SelectedYear));
                 }
             }
         }
@@ -95,8 +42,8 @@ namespace Flora.ViewModel
                 if (_selectedMonth != value)
                 {
                     _selectedMonth = value;
-                    OnPropertyChanged(nameof(SelectedMonth));
                     UpdateVisiblePeriod();
+                    OnPropertyChanged(nameof(SelectedMonth));
                 }
             }
         }
@@ -110,23 +57,108 @@ namespace Flora.ViewModel
                 if (_selectedWeek != value)
                 {
                     _selectedWeek = value;
-                    OnPropertyChanged(nameof(SelectedWeek));
                     UpdateVisiblePeriod();
+                    OnPropertyChanged(nameof(SelectedWeek));
+                }
+            }
+        }
+
+        private SeriesCollection _chartSeries = new SeriesCollection();
+        public SeriesCollection ChartSeries
+        {
+            get { return _chartSeries; }
+            set
+            {
+                _chartSeries = value;
+                OnPropertyChanged(nameof(ChartSeries));
+            }
+        }
+
+
+        private ObservableCollection<string> _orderDateLabels = new ObservableCollection<string>();
+        public ObservableCollection<string> OrderDateLabels
+        {
+            get => _orderDateLabels;
+            set
+            {
+                _orderDateLabels = value;
+                OnPropertyChanged(nameof(OrderDateLabels));
+            }
+        }
+
+
+        private decimal _totalRevenue;
+        public decimal TotalRevenue
+        {
+            get => _totalRevenue;
+            set
+            {
+                if (_totalRevenue != value)
+                {
+                    _totalRevenue = value;
+                    OnPropertyChanged(nameof(TotalRevenue));
+                }
+            }
+        }
+
+        private int _labelDisplay;
+        public int LabelDisplay
+        {
+
+            get => _labelDisplay;
+            set
+            {
+                if (_labelDisplay != value)
+                {
+                    _labelDisplay = value;
+                    OnPropertyChanged(nameof(LabelDisplay));
                 }
             }
         }
 
 
+        // Properties for date range selection
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                if (_startDate != value)
+                {
+                    _startDate = value;
+                    OnPropertyChanged(nameof(StartDate));
+                    //UpdateVisiblePeriod();
+                }
+            }
+        }
+
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                if (_endDate != value)
+                {
+                    _endDate = value;
+                    OnPropertyChanged(nameof(EndDate));
+                    //UpdateVisiblePeriod();
+                }
+            }
+        }
+
         public ReportVM()
         {
-            // Initialize the AvailableYears collection from 2000 to the current year
+            _shopContext = new MyShopContext();
+
             AvailableYears = new ObservableCollection<int>();
-            for (int year = 2000; year <= DateTime.Now.Year; year++)
+            for (int year = 2020; year <= DateTime.Now.Year; year++)
             {
                 AvailableYears.Add(year);
             }
 
-            // Initialize the AvailableMonths collection from 1 to 12
+
             AvailableMonths = new ObservableCollection<string>();
             AvailableMonths.Add("All month");
             for (int month = 1; month <= 12; month++)
@@ -134,76 +166,123 @@ namespace Flora.ViewModel
                 AvailableMonths.Add(month.ToString());
             }
 
-            // Initialize the AvailableWeeks collection from 1 to 4
+
             AvailableWeeks = new ObservableCollection<string> { "All weeks", "1", "2", "3", "4" };
 
-            // Set initial selected values to current date's year and month, and first week
+
             _selectedYear = DateTime.Now.Year;
             _selectedMonth = DateTime.Now.Month.ToString();
             _selectedWeek = "All weeks";
+
             UpdateVisiblePeriod();
-            // This ensures UI is updated with these initial selections
+
             OnPropertyChanged(nameof(SelectedYear));
             OnPropertyChanged(nameof(SelectedMonth));
             OnPropertyChanged(nameof(SelectedWeek));
-            OnPropertyChanged(nameof(SelectionStart));
-            OnPropertyChanged(nameof(SelectionEnd));
-            // Call any initialization method if needed to load data based on these selections
-
+            OnPropertyChanged(nameof(ChartSeries));
         }
         private void UpdateVisiblePeriod()
         {
-            Debug.WriteLine($"Month: {_selectedMonth}, Week: {_selectedWeek}");
             int month;
 
-            // Handle "All month" selection
             if (_selectedMonth.Equals("All month", StringComparison.OrdinalIgnoreCase))
             {
-                PeriodStart = new DateTime(_selectedYear, 1, 1);
-                PeriodEnd = new DateTime(_selectedYear, 12, 31);
+                StartDate = new DateTime(_selectedYear, 1, 1);
+                EndDate = new DateTime(_selectedYear, 12, 31);
+                UpdateChartSeries();
+                return;
             }
             else if (int.TryParse(_selectedMonth, out month) && month >= 1 && month <= 12)
             {
-                // Specific month selected
-                PeriodStart = new DateTime(_selectedYear, month, 1);
-                PeriodEnd = new DateTime(_selectedYear, month, DateTime.DaysInMonth(_selectedYear, month));
+                StartDate = new DateTime(_selectedYear, month, 1);
+                EndDate = new DateTime(_selectedYear, month, DateTime.DaysInMonth(_selectedYear, month));
             }
 
-            // Update SelectionStart and SelectionEnd based on week selection
             if (_selectedWeek.Equals("All weeks", StringComparison.OrdinalIgnoreCase))
             {
-                // If "All weeks" is selected, cover the entire month
-                SelectionStart = PeriodStart;
-                SelectionEnd = PeriodEnd;
+                // Handle case when all weeks are selected
             }
             else if (int.TryParse(_selectedWeek, out int week) && week >= 1 && week <= 4)
             {
-                // Specific week within a month
                 month = int.Parse(_selectedMonth);
                 int daysInMonth = DateTime.DaysInMonth(_selectedYear, month);
-                int daysInEachWeek = (int)Math.Ceiling((double)daysInMonth / 4); // Adjusted to handle varying number of days in a month
+                int daysInEachWeek = (int)Math.Ceiling((double)daysInMonth / 4);
                 int startDay = ((week - 1) * daysInEachWeek) + 1;
-                int endDay = Math.Min(week * daysInEachWeek, daysInMonth); // Ensure endDay doesn't exceed days in month
+                int endDay = Math.Min(week * daysInEachWeek, daysInMonth);
 
-                SelectionStart = new DateTime(_selectedYear, month, startDay);
-                SelectionEnd = new DateTime(_selectedYear, month, endDay);
+                StartDate = new DateTime(_selectedYear, month, startDay);
+                EndDate = new DateTime(_selectedYear, month, endDay);
+            }
+
+            OnPropertyChanged(nameof(StartDate));
+            OnPropertyChanged(nameof(EndDate));
+
+            UpdateChartSeries();
+        }
+
+
+        public void UpdateChartSeries()
+        {
+
+            var selectionStartDateOnly = DateOnly.FromDateTime(StartDate);
+            var selectionEndDateOnly = DateOnly.FromDateTime(EndDate);
+
+            var aggregatedData = _shopContext.Orders
+                .Where(o => o.OrderDate.HasValue &&
+                            o.OrderDate.Value >= selectionStartDateOnly &&
+                            o.OrderDate.Value <= selectionEndDateOnly)
+                .ToList()
+                .GroupBy(o => o.OrderDate.Value)
+                .Select(group => new
+                {
+                    OrderDate = group.Key,
+                    TotalAmount = group.Sum(o => o.TotalAmount ?? 0)
+                })
+                .OrderBy(result => result.OrderDate)
+                .ToList();
+
+            var lineSeries = new LiveCharts.Wpf.LineSeries
+            {
+                Title = "Sales",
+                Values = new ChartValues<decimal>(),
+                PointGeometry = DefaultGeometries.Circle,
+                PointGeometrySize = 15,
+                Fill = Brushes.Transparent
+            };
+            decimal totalRevenue = 0;
+            OrderDateLabels.Clear(); // Clear existing labels
+
+            foreach (var item in aggregatedData)
+            {
+                lineSeries.Values.Add(item.TotalAmount);
+                OrderDateLabels.Add(item.OrderDate.ToString("dd/MM"));
+                totalRevenue += item.TotalAmount;
+            }
+            TotalRevenue = totalRevenue;
+
+            // Add the new line series to ChartSeries
+            if (ChartSeries.Count > 0)
+            {
+                ChartSeries.Clear();
+            }
+
+            ChartSeries.Add(lineSeries);
+            Debug.WriteLine(ChartSeries.Count);
+            if (aggregatedData.Count > 0)
+            {
+                LabelDisplay = 1;
             }
             else
             {
-                // Fallback if week parsing fails or out of expected range, cover the entire month
-                SelectionStart = PeriodStart;
-                SelectionEnd = PeriodEnd;
+                LabelDisplay = 0;
             }
 
-            Debug.WriteLine($"PeriodStart: {PeriodStart}, PeriodEnd: {PeriodEnd}, SelectionStart: {SelectionStart}, SelectionEnd: {SelectionEnd}");
 
-            // Notify UI about the changes
-            OnPropertyChanged(nameof(PeriodStart));
-            OnPropertyChanged(nameof(PeriodEnd));
-            OnPropertyChanged(nameof(SelectionStart));
-            OnPropertyChanged(nameof(SelectionEnd));
+            OnPropertyChanged(nameof(ChartSeries));
+            OnPropertyChanged(nameof(OrderDateLabels));
+            OnPropertyChanged(nameof(TotalRevenue));
+            OnPropertyChanged(nameof(LabelDisplay));
         }
-
 
 
         public event PropertyChangedEventHandler PropertyChanged;

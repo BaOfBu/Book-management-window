@@ -6,6 +6,7 @@
                 xmlns:local="clr-namespace:Flora.View"
                 xmlns:vm="clr-namespace:Flora.ViewModel"
                 xmlns:utils="clr-namespace:Flora.Utilities"
+                xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
                 xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                 mc:Ignorable="d" 
                 d:DesignHeight="700" d:DesignWidth="1030"
@@ -35,76 +36,99 @@
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <StackPanel Orientation="Vertical" Margin="60,20,60,0">
+            <TextBlock Text="Revenue and profit" FontSize="32" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20" VerticalAlignment="Top">
-                    <!-- Year Selection -->
-                    <StackPanel HorizontalAlignment="Left">
-                        <TextBlock TextAlignment="Left" Text="Year" FontSize="16" FontWeight="Bold"/>
-                        <ComboBox x:Name="YearComboBox"
-                              HorizontalAlignment="Left"
-                              Width="100"
-                              Margin="5"
-                              SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
-                              ItemsSource="{Binding AvailableYears}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1">
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock TextAlignment="Left" Text="Year" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="YearComboBox"
+                                 HorizontalAlignment="Left"
+                                 Width="100"
+                                 Margin="5"
+                                 SelectionChanged="YearComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableYears}"
+                                 telerik:StyleManager.Theme="Windows11"                               />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock TextAlignment="Left" Text="Month" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="MonthComboBox"
+                                 Width="100"
+                                 Margin="5"
+                                 telerik:StyleManager.Theme="Windows11"
+                                 SelectionChanged="MonthComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableMonths}"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock TextAlignment="Left" Text="Week" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="WeekComboBox"
+                                 Width="100"
+                                 Margin="5"
+                                 telerik:StyleManager.Theme="Windows11"
+                                 SelectionChanged="WeekComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedWeek, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableWeeks}"/>
+                        </StackPanel>
+                        
                     </StackPanel>
-                    
-
-                    <!-- Month Selection -->
                     <StackPanel>
-                    <TextBlock TextAlignment="Left" Text="Month" FontSize="16" FontWeight="Bold"/>
-                        <ComboBox x:Name="MonthComboBox"
-                              Width="100"
-                              Margin="5"
-                              SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
-                              ItemsSource="{Binding AvailableMonths}"/>
-
+                        <TextBlock TextAlignment="Left" Text="Date" Margin="0,0,0,5" FontSize="16" FontWeight="Bold"/>
+                        <telerik:RadDateRangePicker Width="270"
+                             Height="40"
+                             telerik:Windows11ThemeSizeHelper.EnableDynamicAnimation="True"
+                             VerticalAlignment="Center"
+                             StartDate="{Binding StartDate, Mode=TwoWay}"
+                             telerik:StyleManager.Theme="Windows11"
+                             EndDate="{Binding EndDate, Mode=TwoWay}"
+                             HorizontalAlignment="Left"
+                             Grid.Row="2"
+                             Margin="0 0 0 0">
+                        </telerik:RadDateRangePicker>
                     </StackPanel>
-
-                    <!-- Week Selection - Assuming you manage weeks as a list of strings or DateRange objects -->
-                    <StackPanel>
-                        <TextBlock TextAlignment="Left" Text="Week" FontSize="16" FontWeight="Bold"/>
-                        <ComboBox x:Name="WeekComboBox"
-                              Width="100"
-                              Margin="5"
-                              SelectedItem="{Binding SelectedWeek, Mode=TwoWay}"
-                              ItemsSource="{Binding AvailableWeeks}"/>
+                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <TextBlock Margin="0,0,0,0" FontWeight="Bold"  Text="Total Revenue: " FontSize="16"></TextBlock>
+                        <TextBlock Text="$"  FontSize="16" />
+                        <TextBlock Text="{Binding TotalRevenue}"  FontSize="16" />
                     </StackPanel>
                 </StackPanel>
+                <Grid Grid.Column="0" Margin="0,0,20,0">
+                    <StackPanel>
+                        <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="250" >
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
 
-                <!-- RadTimeBar Control -->
-                <telerik:RadTimeBar x:Name="timeBar1" Grid.Row="1" Height="150" 
-                            MinSelectionRange="1.00:00:00" 
-                            PeriodStart="{Binding PeriodStart, Mode=TwoWay}" 
-                            telerik:StyleManager.Theme="Windows11"
-                            PeriodEnd="{Binding PeriodEnd, Mode=TwoWay}"
-                            SelectionStart="{Binding SelectionStart, Mode=TwoWay}" 
-                            SelectionEnd="{Binding SelectionEnd, Mode=TwoWay}"
-                            SelectionChanged="TimeBar_SelectionChanged">
-                           >
-                    <telerik:RadTimeBar.Intervals>
-                        <telerik:QuarterInterval />
-                        <telerik:MonthInterval />
-                        <telerik:WeekInterval />
-                        <telerik:DayInterval />
-                    </telerik:RadTimeBar.Intervals>
-                </telerik:RadTimeBar>
-                <!-- RadCartesianChart Control -->
-                <telerik:RadCartesianChart Grid.Row="2">
-                    <telerik:RadCartesianChart.HorizontalAxis>
-                        <telerik:DateTimeContinuousAxis LabelFitMode="Rotate" MajorStepUnit="Day" />
-                    </telerik:RadCartesianChart.HorizontalAxis>
-                    <telerik:RadCartesianChart.VerticalAxis>
-                        <telerik:LinearAxis />
-                    </telerik:RadCartesianChart.VerticalAxis>
-                    <!--<telerik:RadCartesianChart.Series>
-                        <telerik:LineSeries ItemsSource="{Binding ChartData}" CategoryBinding="Date" ValueBinding="Value" />
-                    </telerik:RadCartesianChart.Series>-->
-                </telerik:RadCartesianChart>
+                                </lvc:Axis>
+
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Total Amount">
+                                    <lvc:Axis.Style>
+                                        <Style TargetType="lvc:Axis">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="0">
+                                                    <Setter Property="ShowLabels" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="1">
+                                                    <Setter Property="ShowLabels" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </lvc:Axis.Style>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        
+                    </StackPanel>
+                    
+                    
+                </Grid>
+
             </Grid>
         </StackPanel>
     </Grid>
