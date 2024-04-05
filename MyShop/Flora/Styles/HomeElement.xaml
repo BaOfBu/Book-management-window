@@ -61,6 +61,30 @@
         </Setter>
     </Style>
 
+    <Style x:Key="GeneralButton" TargetType="Button">
+        <Setter Property="Background" Value="Wheat"/>
+        <Setter Property="Foreground" Value="#285A43"/>
+        <Setter Property="FontFamily" Value="/Flora;component/Fonts/#FontAwesome"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}"
+        CornerRadius="20">
+                        <!-- Adjust the CornerRadius as needed -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Add triggers here if needed -->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="FormatLabel" TargetType="Label">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
