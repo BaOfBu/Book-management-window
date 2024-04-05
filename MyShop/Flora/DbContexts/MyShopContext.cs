@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Configuration;
+using System.Transactions;
 
 namespace Flora;
 
@@ -27,6 +30,7 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<PlantCategory> PlantCategories { get; set; }
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -172,4 +176,8 @@ public partial class MyShopContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+ 
+
 }

@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Telerik.UI.for.Wpf.70.Xaml.Trial" Version="2024.1.130" />
   </ItemGroup>
@@ -111,6 +112,9 @@
   <Page Include="View\AllPlant.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\Backup.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\DetailOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -121,6 +125,9 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Home.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\Login.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Orders.xaml">
@@ -142,6 +149,7 @@
     <DependentUpon>App.xaml</DependentUpon>
     <SubType>Code</SubType>
   </Compile>
+  <Compile Include="DbContexts\MyShopContext_Extend.cs" />
   <Compile Include="DbContexts\MyShopContext.cs" />
   <Compile Include="MainWindow.xaml.cs">
     <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -157,18 +165,20 @@
   <Compile Include="Model\PlantCategory.cs" />
   <Compile Include="Model\UserAccount.cs" />
   <Compile Include="Utilities\ButtonCustom.cs" />
-  <Compile Include="Utilities\DefaultOrCustomLabelsConverter.cs" />
+  <Compile Include="Utilities\PasswordHelper.cs" />
   <Compile Include="Utilities\RelativeToAbsoluteConveter.cs" />
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddOrderVM.cs" />
   <Compile Include="ViewModel\AddProductCategoryVM.cs" />
   <Compile Include="ViewModel\AddVoucherVM.cs" />
+  <Compile Include="ViewModel\BackupVM.cs" />
   <Compile Include="ViewModel\DetailOrderVM.cs" />
   <Compile Include="ViewModel\AddPlantProductVM.cs" />
   <Compile Include="ViewModel\EditPlantProductVM.cs" />
   <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
+  <Compile Include="ViewModel\LoginVM.cs" />
   <Compile Include="ViewModel\ItemViewModel.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
@@ -183,6 +193,7 @@
   <Compile Include="View\AddPlantProduct.xaml.cs" />
   <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\Backup.xaml.cs" />
   <Compile Include="View\AllPlant.xaml.cs" />
   <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
@@ -193,6 +204,7 @@
   <Compile Include="View\EmailRule.cs" />
   <Compile Include="View\FullNameRule.cs" />
   <Compile Include="View\Home.xaml.cs" />
+  <Compile Include="View\Login.xaml.cs" />
   <Compile Include="View\MoneyRule.cs" />
   <Compile Include="View\Orders.xaml.cs" />
   <Compile Include="View\PhoneNumberRule.cs" />
@@ -220,6 +232,9 @@
     </Content>
     <Content Include="Images\home-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\login-plant.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\plant1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

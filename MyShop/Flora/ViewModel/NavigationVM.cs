@@ -25,6 +25,8 @@ namespace Flora.ViewModel
         public ICommand ProductsCommand { get; set; }
         public ICommand OrdersCommand { get; set; }
         public ICommand VouchersCommand { get; set; }
+        public ICommand BackupCommand { get; set; }
+
         public ICommand PlantsCommand { get; set; }
         public ICommand AddProductCategoryCommand { get; set; }
         public ICommand AddPlantProductCommand { get; set; }
@@ -70,6 +72,7 @@ namespace Flora.ViewModel
             }
         }
         private void Report(object parameter) => CurrentView = new ReportVM();
+        private void Backup(object obj) => CurrentView = new BackupVM();
         public NavigationVM()
         {
 
@@ -93,6 +96,7 @@ namespace Flora.ViewModel
             {
                 NavigateToWithParameter(typeof(EditPlantProductVM), plant);
             });
+            BackupCommand = new RelayCommand(Backup);
             CurrentView = new HomeVM();
 
         }
