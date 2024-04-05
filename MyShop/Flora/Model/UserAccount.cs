@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Flora;
+﻿namespace Flora;
 
 public partial class UserAccount
 {

@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -55,6 +56,12 @@
   <Page Include="Styles\Plants\CircularButtonTemplate.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="Styles\Plants\HoverButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Styles\Plants\RadiusButton.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="Styles\Plants\Text.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -91,10 +98,25 @@
   <Page Include="View\AddOrder.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\AddPlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\AddProductCategory.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\AddVoucher.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\AllPlant.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\DetailOrder.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\EditPlantProduct.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="View\EditProductCategory.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Home.xaml">
@@ -107,9 +129,6 @@
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Products.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
-  <Page Include="View\SearchBoxControl.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
   <Page Include="View\Vouchers.xaml">
@@ -138,23 +157,33 @@
   <Compile Include="Utilities\RelayCommand.cs" />
   <Compile Include="Utilities\ViewModelBase.cs" />
   <Compile Include="ViewModel\AddOrderVM.cs" />
+  <Compile Include="ViewModel\AddProductCategoryVM.cs" />
   <Compile Include="ViewModel\AddVoucherVM.cs" />
   <Compile Include="ViewModel\DetailOrderVM.cs" />
+  <Compile Include="ViewModel\AddPlantProductVM.cs" />
+  <Compile Include="ViewModel\EditPlantProductVM.cs" />
+  <Compile Include="ViewModel\EditProductCategoryVM.cs" />
   <Compile Include="ViewModel\HomeVM.cs" />
   <Compile Include="ViewModel\ItemViewModel.cs" />
   <Compile Include="ViewModel\NavigationVM.cs" />
   <Compile Include="ViewModel\OrderVM.cs" />
   <Compile Include="ViewModel\PlantProductVM.cs" />
+  <Compile Include="ViewModel\PlantVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\Reflection.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddressRule.cs" />
+  <Compile Include="View\AddPlantProduct.xaml.cs" />
+  <Compile Include="View\AddProductCategory.xaml.cs" />
   <Compile Include="View\AddVoucher.xaml.cs" />
+  <Compile Include="View\AllPlant.xaml.cs" />
   <Compile Include="View\CouponCodeRule.cs" />
   <Compile Include="View\CurrencyConverter.cs" />
   <Compile Include="View\DateConverter.cs" />
   <Compile Include="View\DetailOrder.xaml.cs" />
+  <Compile Include="View\EditPlantProduct.xaml.cs" />
+  <Compile Include="View\EditProductCategory.xaml.cs" />
   <Compile Include="View\EmailRule.cs" />
   <Compile Include="View\FullNameRule.cs" />
   <Compile Include="View\Home.xaml.cs" />
@@ -163,7 +192,6 @@
   <Compile Include="View\PhoneNumberRule.cs" />
   <Compile Include="View\PlantProduct.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
-  <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />
 </ItemGroup>
   
@@ -192,10 +220,148 @@
     <Content Include="Images\plant2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\PlantProducts\PlantProduct01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct09.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct25.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct26.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct27.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct28.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct31.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlantProducts\PlantProduct32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\product-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\ProductTypes\1.png">
+    <Content Include="Images\ProductTypes\ProductCategory01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory09.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ProductTypes\ProductCategory15.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\search-image.png">

@@ -5,10 +5,25 @@
     <Compile Update="View\AddOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\AddPlantProduct.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddProductCategory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\AddVoucher.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\AllPlant.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\DetailOrder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\EditPlantProduct.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\EditProductCategory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Home.xaml.cs">
@@ -55,6 +70,12 @@
     <Page Update="Styles\Plants\CircularButtonTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Plants\HoverButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Plants\RadiusButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Plants\Text.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -91,10 +112,25 @@
     <Page Update="View\AddOrder.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\AddPlantProduct.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddProductCategory.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\AddVoucher.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\AllPlant.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\DetailOrder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\EditPlantProduct.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\EditProductCategory.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Home.xaml">
