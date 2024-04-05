@@ -6,8 +6,8 @@
     StartupUri="MainWindow.xaml">
     <Application.Resources>
       <ResourceDictionary>
-          <ResourceDictionary.MergedDictionaries>
-              <ResourceDictionary Source="Styles/Page.xaml" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Page.xaml" />
               <ResourceDictionary Source="Styles/Icon.xaml" />
               <ResourceDictionary Source="Styles/Text.xaml" />
               <ResourceDictionary Source="Styles/Button.xaml" />
@@ -19,7 +19,7 @@
               <ResourceDictionary Source="Styles/Products/Text.xaml"/>
               <ResourceDictionary Source="Styles/Products/Icon.xaml"/>
               <ResourceDictionary Source="Styles/Products/Button.xaml"/>
-              <ResourceDictionary Source="Styles/Products/Dropdown.xaml"/>
+                <ResourceDictionary Source="Styles/Products/Dropdown.xaml"/>
             </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
     </Application.Resources>

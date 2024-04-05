@@ -54,6 +54,9 @@
     <DataTemplate DataType="{x:Type vm:PlantVM}">
         <view:AllPlant />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ReportVM}" >
+        <view:Report/>
+    </DataTemplate>
 
 
 </ResourceDictionary>

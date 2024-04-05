@@ -131,6 +131,9 @@
   <Page Include="View\Products.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
+  <Page Include="View\Report.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
   <Page Include="View\Vouchers.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -171,6 +174,7 @@
   <Compile Include="ViewModel\PlantVM.cs" />
   <Compile Include="ViewModel\ProductVM.cs" />
   <Compile Include="ViewModel\Reflection.cs" />
+  <Compile Include="ViewModel\ReportVM.cs" />
   <Compile Include="ViewModel\VoucherVM.cs" />
   <Compile Include="View\AddOrder.xaml.cs" />
   <Compile Include="View\AddressRule.cs" />
@@ -192,6 +196,7 @@
   <Compile Include="View\PhoneNumberRule.cs" />
   <Compile Include="View\PlantProduct.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
+  <Compile Include="View\Report.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />
 </ItemGroup>
   

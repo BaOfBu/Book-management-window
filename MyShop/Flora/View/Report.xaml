@@ -1,0 +1,111 @@
+﻿<UserControl    x:Class="Flora.View.Report"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:Flora.View"
+                xmlns:vm="clr-namespace:Flora.ViewModel"
+                xmlns:utils="clr-namespace:Flora.Utilities"
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                mc:Ignorable="d" 
+                d:DesignHeight="700" d:DesignWidth="1030"
+                Style="{StaticResource PageStyle}" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style TargetType="telerik:RadTimeBar">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#0078d4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <PathGeometry x:Key="markerGeometry">
+            <PathGeometry.Figures>
+                <PathFigure StartPoint="0.41,8.89" IsClosed="True">
+                    <PathFigure.Segments>
+                        <BezierSegment Point1="1.61,4.39" Point2="5.32,0.99" Point3="9.92,0.18" />
+                        <LineSegment Point="12,12" />
+                    </PathFigure.Segments>
+                </PathFigure>
+            </PathGeometry.Figures>
+        </PathGeometry>
+        
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:ReportVM />
+    </UserControl.DataContext>
+    <Grid>
+        <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
+        <StackPanel Orientation="Vertical" Margin="60,20,60,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20" VerticalAlignment="Top">
+                    <!-- Year Selection -->
+                    <StackPanel HorizontalAlignment="Left">
+                        <TextBlock TextAlignment="Left" Text="Year" FontSize="16" FontWeight="Bold"/>
+                        <ComboBox x:Name="YearComboBox"
+                              HorizontalAlignment="Left"
+                              Width="100"
+                              Margin="5"
+                              SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
+                              ItemsSource="{Binding AvailableYears}"/>
+                    </StackPanel>
+                    
+
+                    <!-- Month Selection -->
+                    <StackPanel>
+                    <TextBlock TextAlignment="Left" Text="Month" FontSize="16" FontWeight="Bold"/>
+                        <ComboBox x:Name="MonthComboBox"
+                              Width="100"
+                              Margin="5"
+                              SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
+                              ItemsSource="{Binding AvailableMonths}"/>
+
+                    </StackPanel>
+
+                    <!-- Week Selection - Assuming you manage weeks as a list of strings or DateRange objects -->
+                    <StackPanel>
+                        <TextBlock TextAlignment="Left" Text="Week" FontSize="16" FontWeight="Bold"/>
+                        <ComboBox x:Name="WeekComboBox"
+                              Width="100"
+                              Margin="5"
+                              SelectedItem="{Binding SelectedWeek, Mode=TwoWay}"
+                              ItemsSource="{Binding AvailableWeeks}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- RadTimeBar Control -->
+                <telerik:RadTimeBar x:Name="timeBar1" Grid.Row="1" Height="150" 
+                            MinSelectionRange="1.00:00:00" 
+                            PeriodStart="{Binding PeriodStart, Mode=TwoWay}" 
+                            telerik:StyleManager.Theme="Windows11"
+                            PeriodEnd="{Binding PeriodEnd, Mode=TwoWay}"
+                            SelectionStart="{Binding SelectionStart, Mode=TwoWay}" 
+                            SelectionEnd="{Binding SelectionEnd, Mode=TwoWay}"
+                            SelectionChanged="TimeBar_SelectionChanged">
+                           >
+                    <telerik:RadTimeBar.Intervals>
+                        <telerik:QuarterInterval />
+                        <telerik:MonthInterval />
+                        <telerik:WeekInterval />
+                        <telerik:DayInterval />
+                    </telerik:RadTimeBar.Intervals>
+                </telerik:RadTimeBar>
+                <!-- RadCartesianChart Control -->
+                <telerik:RadCartesianChart Grid.Row="2">
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <telerik:DateTimeContinuousAxis LabelFitMode="Rotate" MajorStepUnit="Day" />
+                    </telerik:RadCartesianChart.HorizontalAxis>
+                    <telerik:RadCartesianChart.VerticalAxis>
+                        <telerik:LinearAxis />
+                    </telerik:RadCartesianChart.VerticalAxis>
+                    <!--<telerik:RadCartesianChart.Series>
+                        <telerik:LineSeries ItemsSource="{Binding ChartData}" CategoryBinding="Date" ValueBinding="Value" />
+                    </telerik:RadCartesianChart.Series>-->
+                </telerik:RadCartesianChart>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
