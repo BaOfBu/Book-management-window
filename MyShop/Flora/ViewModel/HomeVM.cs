@@ -81,8 +81,9 @@ namespace Flora.ViewModel
         {
             var query = _shopContext.Plants
                         .OrderBy(p => p.StockQuantity)
-            .Include(p => p.Category);
-            var products = query.Take(5).ToList();
+                        .Where(p=>p.StockQuantity < 5)
+                        .Include(p => p.Category);
+            var products = query.ToList();
             int productIndex = 1;
 
             var plants = new ObservableCollection<HomeProductPreview>();

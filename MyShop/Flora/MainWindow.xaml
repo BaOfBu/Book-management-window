@@ -70,6 +70,12 @@
                             <TextBlock Text="Plants" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}">
+                        <Grid>
+                            <TextBlock Text="&#xf1c0;" Style="{DynamicResource IconSideBarStyle}" />
+                            <TextBlock Text="Backup/Restore" Style="{StaticResource SideBarTextStyle}" />
+                        </Grid>
+                    </Menu:ButtonCustom>
                 </StackPanel>
 
                 <StackPanel Height="430" Width="300" VerticalAlignment="Bottom" Panel.ZIndex="0">
