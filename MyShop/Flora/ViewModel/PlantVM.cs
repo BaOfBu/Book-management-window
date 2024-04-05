@@ -145,6 +145,7 @@ namespace Flora.ViewModel
             {
                 if (_selectedCategory != value)
                 {
+                    _pageNumber = 1;
                     _selectedCategory = value;
                     OnPropertyChanged(nameof(SelectedCategory));
                     LoadPlantAsync();
@@ -235,10 +236,11 @@ namespace Flora.ViewModel
                 var categories = await _shopContext.PlantCategories.ToListAsync();
 
                 // Create a new list to hold the categories
-                var newCategories = new List<PlantCategory>();
-
-                // Add "All Categories" option at the beginning of the list
-                newCategories.Add(new PlantCategory { CategoryName = "All Categories", CategoryId = 0 });
+                var newCategories = new List<PlantCategory>
+                {
+                    // Add "All Categories" option at the beginning of the list
+                    new PlantCategory { CategoryName = "All Categories", CategoryId = 0 }
+                };
 
                 // Add actual categories to the list
                 newCategories.AddRange(categories);
