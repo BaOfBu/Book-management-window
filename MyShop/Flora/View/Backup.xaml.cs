@@ -58,19 +58,23 @@ namespace Flora.View
             TO DISK = @file;
             ";
             myShopContext.BackupDatabase(backupFileName);
+            backupVM.BackupFiles.Add(new BackupVM.BackupFile { FileName = System.IO.Path.GetFileName(backupFileName) });
         }
 
         private void Restore_Click(object sender, RoutedEventArgs e)
         {
-            var currentPath = System.IO.Directory.GetCurrentDirectory();
-
-            // set backupfilename (you will get something like: "C:/temp/MyDatabase-2013-12-07.bak")
-            var backupFileName = String.Format("{0}\\{1}\\{2}-{3}.bak",
-                currentPath, "Backup", "MyShop",
-                DateTime.Now.ToString("yyyy-MM-dd-"));
-            var serverName = "localhost";
-            var newDatabaseName = "MyShop";
-            RestoreDatabase(serverName, "MyShop", backupFileName, newDatabaseName);
+            var selectedItem = listBox.SelectedItem;
+            if (selectedItem != null)
+            {
+                var backupFile = selectedItem as BackupVM.BackupFile;
+                var currentPath = System.IO.Directory.GetCurrentDirectory();
+                var backupFileName = String.Format("{0}\\{1}\\{2}",
+                                                          currentPath, "Backup", backupFile.FileName);
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var serverName = config.AppSettings.Settings["Server"].Value;
+                var newDatabaseName = "MyShop";
+                RestoreDatabase(serverName, "MyShop", backupFileName, newDatabaseName);
+            }
         }
 
         private void RestoreDatabase(string serverName, string databaseName, string backupFilePath, string newDatabaseName)
@@ -89,6 +93,20 @@ namespace Flora.View
             restore.SqlRestore(sqlServer);
 
             MessageBox.Show("Database restored successfully.");
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = listBox.SelectedItem;
+            if (selectedItem != null)
+            {
+                var backupFile = selectedItem as BackupVM.BackupFile;
+                var currentPath = System.IO.Directory.GetCurrentDirectory();
+                var backupFileName = String.Format("{0}\\{1}\\{2}",
+                                       currentPath, "Backup", backupFile.FileName);
+                System.IO.File.Delete(backupFileName);
+                backupVM.BackupFiles.Remove(backupFile);
+            }
         }
     }
 }
