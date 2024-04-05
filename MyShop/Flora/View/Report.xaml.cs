@@ -1,5 +1,4 @@
 ﻿using Flora.ViewModel;
-using System;
 using System.Windows.Controls;
 
 namespace Flora.View
@@ -14,15 +13,6 @@ namespace Flora.View
         public Report()
         {
             InitializeComponent();
-            this.Loaded += (s, e) =>
-            {
-                var viewModel = this.DataContext as ReportVM;
-                if (viewModel != null)
-                {
-                    viewModel.StartDate = new DateTime(viewModel.SelectedYear, 1, 1);
-                    viewModel.EndDate = new DateTime(viewModel.SelectedYear, 12, 31);
-                }
-            };
             ReportVM = DataContext as ReportVM;
         }
 
@@ -61,5 +51,7 @@ namespace Flora.View
         {
 
         }
+
+
     }
 }

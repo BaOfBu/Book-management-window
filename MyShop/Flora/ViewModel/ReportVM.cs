@@ -128,7 +128,7 @@ namespace Flora.ViewModel
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
-                    //UpdateChartSeries();
+                    UpdateChartSeries();
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace Flora.ViewModel
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
-                    //UpdateChartSeries();
+                    UpdateChartSeries();
                 }
             }
         }
@@ -173,7 +173,8 @@ namespace Flora.ViewModel
             _selectedYear = DateTime.Now.Year;
             _selectedMonth = DateTime.Now.Month.ToString();
             _selectedWeek = "All weeks";
-
+            StartDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), 1);
+            EndDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), DateTime.DaysInMonth(_selectedYear, int.Parse(_selectedMonth)));
             UpdateVisiblePeriod();
 
             OnPropertyChanged(nameof(SelectedYear));
@@ -217,7 +218,7 @@ namespace Flora.ViewModel
             OnPropertyChanged(nameof(StartDate));
             OnPropertyChanged(nameof(EndDate));
 
-            UpdateChartSeries();
+            //UpdateChartSeries();
         }
 
 
@@ -261,9 +262,13 @@ namespace Flora.ViewModel
             TotalRevenue = totalRevenue;
 
             // Add the new line series to ChartSeries
-            if (ChartSeries.Count > 2)
+            if (ChartSeries.Count > 0)
             {
-                ChartSeries.Clear();
+                if (aggregatedData.Count > 0)
+                {
+
+                    ChartSeries.Clear();
+                }
             }
 
             ChartSeries.Add(lineSeries);
