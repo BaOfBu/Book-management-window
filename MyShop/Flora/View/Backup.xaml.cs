@@ -1,4 +1,8 @@
-﻿using Flora.ViewModel;
+﻿using DocumentFormat.OpenXml.InkML;
+using Flora.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -40,18 +45,50 @@ namespace Flora.View
             // read backup folder from config file ("C:/temp/")
             var currentPath = System.IO.Directory.GetCurrentDirectory();
 
-            Directory.CreateDirectory(currentPath + "\\Backup");
+            if(!System.IO.Directory.Exists(currentPath + "\\Backup"))
+                System.IO.Directory.CreateDirectory(currentPath + "\\Backup");
 
             // set backupfilename (you will get something like: "C:/temp/MyDatabase-2013-12-07.bak")
             var backupFileName = String.Format("{0}\\{1}\\{2}-{3}.bak",
                 currentPath,"Backup", "MyShop",
-                DateTime.Now.ToString("yyyy-MM-dd"));
+                DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss"));
 
             const string query = @"
             BACKUP DATABASE @db
             TO DISK = @file;
             ";
             myShopContext.BackupDatabase(backupFileName);
+        }
+
+        private void Restore_Click(object sender, RoutedEventArgs e)
+        {
+            var currentPath = System.IO.Directory.GetCurrentDirectory();
+
+            // set backupfilename (you will get something like: "C:/temp/MyDatabase-2013-12-07.bak")
+            var backupFileName = String.Format("{0}\\{1}\\{2}-{3}.bak",
+                currentPath, "Backup", "MyShop",
+                DateTime.Now.ToString("yyyy-MM-dd-"));
+            var serverName = "localhost";
+            var newDatabaseName = "MyShop";
+            RestoreDatabase(serverName, "MyShop", backupFileName, newDatabaseName);
+        }
+
+        private void RestoreDatabase(string serverName, string databaseName, string backupFilePath, string newDatabaseName)
+        {
+            ServerConnection serverConnection = new ServerConnection(serverName);
+            Server sqlServer = new Server(serverConnection);
+
+            Restore restore = new Restore();
+            restore.Database = newDatabaseName;
+            restore.Action = RestoreActionType.Database;
+            restore.Devices.AddDevice(backupFilePath, DeviceType.File);
+            restore.ReplaceDatabase = true;
+
+
+            sqlServer.KillAllProcesses(databaseName); // Kill existing connections
+            restore.SqlRestore(sqlServer);
+
+            MessageBox.Show("Database restored successfully.");
         }
     }
 }

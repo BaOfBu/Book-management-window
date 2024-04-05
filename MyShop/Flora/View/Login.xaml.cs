@@ -29,16 +29,36 @@ namespace Flora.View
         {
             InitializeComponent();
             _loginVM = DataContext as LoginVM;
-            _shopContext = new MyShopContext();
+            //_shopContext = new MyShopContext();
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            // modified connection string and connect to database
+            string server = ServerNameBox.Text;
+            string database = DatabaseNameBox.Text;
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.ConnectionStrings.ConnectionStrings["MyConnectionString"].ConnectionString = $"Server={server};Database={database};Trusted_Connection=True;TrustServerCertificate=True";
+            config.Save(ConfigurationSaveMode.Minimal);
+            ConfigurationManager.RefreshSection("appSettings");
+            ConfigurationManager.RefreshSection("connectionStrings");
+
+            // check if the connection is valid
+            try
+            {
+                _shopContext = new MyShopContext();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Connection failed");
+                return;
+            }
+
+            // authenticate user
             string username = UsernameTextBox.Text;
             string password = PasswordTextBox.Password;
 
-
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var passwordInBytes = Encoding.UTF8.GetBytes(password);
             var entropy = new byte[20];
             using (var rng = new RNGCryptoServiceProvider())
@@ -68,18 +88,20 @@ namespace Flora.View
                     config.AppSettings.Settings["username"].Value = username;
                     config.AppSettings.Settings["password"].Value = Convert.ToBase64String(encryptedPassword);
                     config.AppSettings.Settings["entropy"].Value = Convert.ToBase64String(entropy);
+                    config.AppSettings.Settings["server"].Value = server;
+                    config.AppSettings.Settings["database"].Value = database;
                     config.Save(ConfigurationSaveMode.Minimal);
                     ConfigurationManager.RefreshSection("appSettings");
-                    MessageBox.Show("Username and password saved");
                 }
                 else
                 {
                     config.AppSettings.Settings["username"].Value = "";
                     config.AppSettings.Settings["password"].Value = "";
                     config.AppSettings.Settings["entropy"].Value = "";
+                    config.AppSettings.Settings["server"].Value = "";
+                    config.AppSettings.Settings["database"].Value = "";
                     config.Save(ConfigurationSaveMode.Minimal);
                     ConfigurationManager.RefreshSection("appSettings");
-                    MessageBox.Show("Username and password cleared");
                 }
                 Window mainWindow = new MainWindow();
                 mainWindow.Show();
@@ -91,6 +113,11 @@ namespace Flora.View
             }
 
 
+        }
+
+        private void ExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

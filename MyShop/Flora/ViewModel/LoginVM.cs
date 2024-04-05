@@ -19,6 +19,8 @@ namespace Flora.ViewModel
         
         public string usernameText { get; set; }
         public string passwordText { get; set; }
+        public string serverText { get; set; }
+        public string databaseText { get; set; }
         public LoginVM()
         {
             _shopContext = new MyShopContext();
@@ -29,6 +31,10 @@ namespace Flora.ViewModel
             var usernameInConfig = ConfigurationManager.AppSettings["username"];
             var passwordInConfig = ConfigurationManager.AppSettings["password"];
             var entropyInConfig = ConfigurationManager.AppSettings["entropy"];
+            var serverInConfig = ConfigurationManager.AppSettings["server"];
+            var databaseInConfig = ConfigurationManager.AppSettings["database"];
+            serverText = serverInConfig ?? "localhost";
+            databaseText = databaseInConfig ?? "MyShop";
 
             if (string.IsNullOrEmpty(usernameInConfig) || string.IsNullOrEmpty(passwordInConfig) || string.IsNullOrEmpty(entropyInConfig))
             {

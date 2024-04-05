@@ -70,7 +70,6 @@
                             <TextBlock Text="Plants" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
-
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}">
                         <Grid>
                             <TextBlock Text="&#xf1c0;" Style="{DynamicResource IconSideBarStyle}" />
