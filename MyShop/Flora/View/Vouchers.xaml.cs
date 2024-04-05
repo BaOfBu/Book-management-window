@@ -39,14 +39,9 @@ namespace Flora.View
             {
                 string selectedItem = selectedListBoxItem as string;
 
-                ResultsPerPage.Content = selectedItem;
-
                 if (int.TryParse(selectedItem, out int pageSize))
                 {
-                    if (voucherVM != null)
-                    {
-                        voucherVM.PageSize = pageSize;
-                    }
+                    voucherVM.PageSizeChangedCommand.Execute(pageSize);
                 }
             }
         }
@@ -106,12 +101,35 @@ namespace Flora.View
         private void FilterRadButton_Click(object sender, RoutedEventArgs e)
         {
             voucherVM.FilterVoucherCommand.Execute(null);
+            dataPager.PageIndex = 0;
         }
         private void ReloadRadButton_Click(object sender, RoutedEventArgs e)
         {
             radDateTimePicker_Start.SelectedValue = default;
             radDateTimePicker_End.SelectedValue = default;
             voucherVM.ReloadVoucherCommand.Execute(null);
+            dataPager.PageIndex = 0;
+        }
+
+        private void dataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
+        {
+            int pageIndex = e.NewPageIndex + 1;
+            voucherVM.LoadDataChangedCommand.Execute(pageIndex);
+        }
+
+        private void txtSearchCoupons_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchHandle();
+            }
+        }
+        private void SearchHandle()
+        {
+            string keyword = txtSearchCoupons.Text.Trim();
+
+            voucherVM.SearchVoucherCommand.Execute(keyword);
+            dataPager.PageIndex = 0;
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,14 @@ namespace Flora.ViewModel
         public ObservableCollection<Coupon> CouponList { get; set; }
         public ObservableCollection<string> PagesNumberList { get; set; }
         public int PageSize { get; set; }
+        public int PageNumber { get; set; }
+        public int TotalItems { get; set; }
         public string SearchText { get; set; }
         public DateOnly? SelectedStartDate { get; set; }
 
         public DateOnly? SelectedEndDate { get; set; }
+        public System.Windows.Input.ICommand LoadDataChangedCommand { get; set; }
+        public System.Windows.Input.ICommand PageSizeChangedCommand { get; set; }
         public System.Windows.Input.ICommand SearchVoucherCommand { get; set; }
         public System.Windows.Input.ICommand FilterVoucherCommand { get; set; }
         public System.Windows.Input.ICommand ReloadVoucherCommand { get; set; }
@@ -33,12 +38,15 @@ namespace Flora.ViewModel
             PagesNumberList = new ObservableCollection<string> { "8", "16", "24", "32", "64", "96" };
             SearchText = string.Empty;
             PageSize = 8;
+            PageNumber = 1;
             CouponList = new ObservableCollection<Coupon>();
-            LoadCoupons();
+            LoadDataForCurrentPage(PageNumber);
 
             SelectedStartDate = default;
             SelectedEndDate = default;
 
+            LoadDataChangedCommand = new RelayCommand(LoadDataForCurrentPage);
+            PageSizeChangedCommand = new RelayCommand(PageSizeChanged);
             SearchVoucherCommand = new RelayCommand(SearchHandle);
             FilterVoucherCommand = new RelayCommand(FilterByRangeDate);
             ReloadVoucherCommand = new RelayCommand(ReloadCoupons);
@@ -47,25 +55,49 @@ namespace Flora.ViewModel
             StartDateChangedCommand = new RelayCommand(StartDateChanged);
             EndDateChangedCommand = new RelayCommand(EndDateChanged);
         }
-
-        private List<Coupon> GetCouponsFromDatabase()
+        private ObservableCollection<Coupon> GetCouponsFromDatabase(int startIndex, int endIndex)
         {
+            IQueryable<Coupon> query = _shopContext.Coupons;
 
-            var query = _shopContext.Coupons
-                        .Where(o => o.CouponId.ToString().Contains(SearchText) || o.CouponCode.Contains(SearchText));
+            if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
+            {
+                query = query.Where(o => o.CouponId.ToString().Contains(SearchText) || o.CouponCode.Contains(SearchText));
+            }
 
             if (SelectedStartDate != null && SelectedEndDate != null)
             {
-                query = query.Where(o => (o.StartDate >= SelectedStartDate) && (o.ExpiryDate <= SelectedEndDate));
+                query = query.Where(o => (o.StartDate >= SelectedStartDate) && (o.ExpiryDate < SelectedEndDate));
             }
 
-            return query.ToList();
-        }
-        private void LoadCoupons()
-        {
-            var coupons = GetCouponsFromDatabase();
+            TotalItems = query.Count();
 
-            CouponList = new ObservableCollection<Coupon>(coupons);
+            var coupons = query
+                        .Skip(startIndex)
+                        .Take(endIndex)
+                        .ToList();
+
+            return new ObservableCollection<Coupon>(coupons);
+        }
+
+        private void LoadDataForCurrentPage(object page)
+        {
+            int pageNumber = Int32.Parse(page.ToString());
+
+            int skip = (pageNumber - 1) * PageSize;
+            try
+            {
+                CouponList.Clear();
+                CouponList = GetCouponsFromDatabase(skip, PageSize);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+        private void PageSizeChanged(object pageSize)
+        {
+            PageSize = (int)pageSize;
+            LoadDataForCurrentPage(PageNumber);
         }
         private void SearchHandle(object obj)
         {
@@ -73,12 +105,12 @@ namespace Flora.ViewModel
             if (text != null)
             {
                 SearchText = text;
-                LoadCoupons();
+                LoadDataForCurrentPage(PageNumber);
             }
         }
         private void FilterByRangeDate(object obj)
         {
-            LoadCoupons();
+            LoadDataForCurrentPage(PageNumber);
         }
         private void RemoveCoupon(object selectedCoupon)
         {
@@ -109,7 +141,7 @@ namespace Flora.ViewModel
         {
             SelectedStartDate = default;
             SelectedEndDate = default;
-            LoadCoupons();
+            LoadDataForCurrentPage(PageNumber);
         }
         private void StartDateChanged(object startDate)
         {
