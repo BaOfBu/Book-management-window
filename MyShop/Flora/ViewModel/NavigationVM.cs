@@ -71,7 +71,6 @@ namespace Flora.ViewModel
             }
         }
         private void Backup(object obj) => CurrentView = new BackupVM();
-        private void Plant(object obj) => CurrentView = new PlantProductVM();
         public NavigationVM()
         {
 
@@ -95,7 +94,6 @@ namespace Flora.ViewModel
                 NavigateToWithParameter(typeof(EditPlantProductVM), plant);
             });
             BackupCommand = new RelayCommand(Backup);
-            PlantsCommand = new RelayCommand(param => this.ChangeViewMethodForPlant());
             CurrentView = new HomeVM();
 
         }

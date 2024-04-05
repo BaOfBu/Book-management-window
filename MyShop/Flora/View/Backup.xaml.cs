@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,11 +38,13 @@ namespace Flora.View
         {
 
             // read backup folder from config file ("C:/temp/")
-            var backupFolder = ConfigurationManager.AppSettings["BackupFolder"];
+            var currentPath = System.IO.Directory.GetCurrentDirectory();
+
+            Directory.CreateDirectory(currentPath + "\\Backup");
 
             // set backupfilename (you will get something like: "C:/temp/MyDatabase-2013-12-07.bak")
-            var backupFileName = String.Format("{0}{1}-{2}.bak",
-                backupFolder, "MyShop",
+            var backupFileName = String.Format("{0}\\{1}\\{2}-{3}.bak",
+                currentPath,"Backup", "MyShop",
                 DateTime.Now.ToString("yyyy-MM-dd"));
 
             const string query = @"
