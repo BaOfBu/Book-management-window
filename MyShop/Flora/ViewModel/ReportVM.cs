@@ -128,7 +128,7 @@ namespace Flora.ViewModel
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
-                    //UpdateVisiblePeriod();
+                    //UpdateChartSeries();
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace Flora.ViewModel
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
-                    //UpdateVisiblePeriod();
+                    //UpdateChartSeries();
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace Flora.ViewModel
             TotalRevenue = totalRevenue;
 
             // Add the new line series to ChartSeries
-            if (ChartSeries.Count > 0)
+            if (ChartSeries.Count > 2)
             {
                 ChartSeries.Clear();
             }

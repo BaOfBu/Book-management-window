@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace Flora.ViewModel
 {
@@ -19,7 +14,10 @@ namespace Flora.ViewModel
         {
             BackupPath = System.IO.Directory.GetCurrentDirectory();
             BackupFiles = new ObservableCollection<BackupFile>();
+            if (!System.IO.Directory.Exists(BackupPath + "\\Backup"))
+                System.IO.Directory.CreateDirectory(BackupPath + "\\Backup");
             var files = System.IO.Directory.GetFiles(BackupPath + "\\Backup");
+
             foreach (var file in files)
             {
                 var fileName = System.IO.Path.GetFileName(file);

@@ -1,19 +1,10 @@
 ﻿using Flora.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Flora.View
 {
@@ -24,7 +15,7 @@ namespace Flora.View
     {
 
         private MyShopContext _shopContext;
-        private LoginVM _loginVM { get; set;}
+        private LoginVM _loginVM { get; set; }
         public Login()
         {
             InitializeComponent();
