@@ -1,9 +1,9 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 
@@ -74,7 +74,6 @@ namespace Flora.ViewModel
             }
         }
 
-
         private ObservableCollection<string> _orderDateLabels = new ObservableCollection<string>();
         public ObservableCollection<string> OrderDateLabels
         {
@@ -85,8 +84,6 @@ namespace Flora.ViewModel
                 OnPropertyChanged(nameof(OrderDateLabels));
             }
         }
-
-
         private decimal _totalRevenue;
         public decimal TotalRevenue
         {
@@ -116,7 +113,6 @@ namespace Flora.ViewModel
             }
         }
 
-
         // Properties for date range selection
         private DateTime _startDate;
         public DateTime StartDate
@@ -129,6 +125,7 @@ namespace Flora.ViewModel
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
                     UpdateChartSeries();
+                    LoadProductsSales();
                 }
             }
         }
@@ -144,44 +141,12 @@ namespace Flora.ViewModel
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
                     UpdateChartSeries();
+                    LoadProductsSales();
                 }
             }
         }
 
-        public ReportVM()
-        {
-            _shopContext = new MyShopContext();
 
-            AvailableYears = new ObservableCollection<int>();
-            for (int year = 2020; year <= DateTime.Now.Year; year++)
-            {
-                AvailableYears.Add(year);
-            }
-
-
-            AvailableMonths = new ObservableCollection<string>();
-            AvailableMonths.Add("All month");
-            for (int month = 1; month <= 12; month++)
-            {
-                AvailableMonths.Add(month.ToString());
-            }
-
-
-            AvailableWeeks = new ObservableCollection<string> { "All weeks", "1", "2", "3", "4" };
-
-
-            _selectedYear = DateTime.Now.Year;
-            _selectedMonth = DateTime.Now.Month.ToString();
-            _selectedWeek = "All weeks";
-            StartDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), 1);
-            EndDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), DateTime.DaysInMonth(_selectedYear, int.Parse(_selectedMonth)));
-            UpdateVisiblePeriod();
-
-            OnPropertyChanged(nameof(SelectedYear));
-            OnPropertyChanged(nameof(SelectedMonth));
-            OnPropertyChanged(nameof(SelectedWeek));
-            OnPropertyChanged(nameof(ChartSeries));
-        }
         private void UpdateVisiblePeriod()
         {
             int month;
@@ -218,9 +183,7 @@ namespace Flora.ViewModel
             OnPropertyChanged(nameof(StartDate));
             OnPropertyChanged(nameof(EndDate));
 
-            //UpdateChartSeries();
         }
-
 
         public void UpdateChartSeries()
         {
@@ -271,8 +234,9 @@ namespace Flora.ViewModel
                 }
             }
 
+
             ChartSeries.Add(lineSeries);
-            Debug.WriteLine(ChartSeries.Count);
+
             if (aggregatedData.Count > 0)
             {
                 LabelDisplay = 1;
@@ -296,7 +260,125 @@ namespace Flora.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private List<object> _plantsProducts;
+        public List<object> PlantsProducts
+        {
+            get { return _plantsProducts; }
+            set
+            {
+                _plantsProducts = value;
+                OnPropertyChanged(nameof(PlantsProducts));
+            }
+        }
+
+        private Func<double, string> _yAxisLabelFormatter;
+        public Func<double, string> YAxisLabelFormatter
+        {
+            get { return _yAxisLabelFormatter; }
+            set
+            {
+                _yAxisLabelFormatter = value;
+                OnPropertyChanged(nameof(YAxisLabelFormatter));
+            }
+        }
+
+
+        public void LoadProductsSales()
+        {
+            var selectionStartDateOnly = DateOnly.FromDateTime(StartDate);
+            var selectionEndDateOnly = DateOnly.FromDateTime(EndDate);
+
+            // Materialize the query to the client side by calling ToList()
+            var productsSales = (from plant in _shopContext.Plants
+                                 join orderDetail in _shopContext.OrderDetails on plant.PlantId equals orderDetail.PlantId into odGroup
+                                 from od in odGroup.DefaultIfEmpty()
+                                 join order in _shopContext.Orders on od.OrderId equals order.OrderId into oGroup
+                                 from o in oGroup.DefaultIfEmpty()
+                                 where o != null && o.OrderDate >= selectionStartDateOnly && o.OrderDate <= selectionEndDateOnly
+                                 group new { plant, od, o } by new { plant.PlantId, plant.Name, plant.Category.CategoryName } into grouped
+                                 select new
+                                 {
+                                     ProductId = grouped.Key.PlantId,
+                                     ProductName = grouped.Key.Name,
+                                     CategoryName = grouped.Key.CategoryName,
+                                     SalesQuantity = grouped.Sum(x => x.od.Quantity ?? 0),
+                                     ChartSeries = new SeriesCollection
+                                     {
+                                         new LineSeries
+                                         {
+                                             Title = grouped.Key.Name,
+                                             Values = new ChartValues<double>(grouped.Select(g => (double)(g.od.Quantity ?? 0)))
+                                         }
+                                     },
+                                     OrderDateLabels = grouped.Select(g => g.o.OrderDate.Value.ToString("dd/MM/yyyy")).ToList(),
+                                 })
+                                 .ToList() // Materialize the query
+                                 .Select(item => new
+                                 {
+                                     item.ProductId,
+                                     item.ProductName,
+                                     item.CategoryName,
+                                     item.SalesQuantity,
+                                     item.ChartSeries,
+                                     item.OrderDateLabels,
+                                     YAxisLabelFormatter = new Func<double, string>(value => value.ToString("0"))
+                                 })
+                                 .Distinct()
+                                 .ToList<object>();
+
+            if (productsSales.Count == 0)
+            {
+                if (ChartSeries != null && ChartSeries.Count > 2)
+                {
+                    ChartSeries.Clear();
+                }
+            }
+            PlantsProducts = productsSales;
+        }
+
+
+
+
+
+        public ReportVM()
+        {
+            // Constructor or method where you set the formatter
+            YAxisLabelFormatter = value => value.ToString("0");
+
+            _shopContext = new MyShopContext();
+
+            AvailableYears = new ObservableCollection<int>();
+            for (int year = 2020; year <= DateTime.Now.Year; year++)
+            {
+                AvailableYears.Add(year);
+            }
+
+
+            AvailableMonths = new ObservableCollection<string>();
+            AvailableMonths.Add("All month");
+            for (int month = 1; month <= 12; month++)
+            {
+                AvailableMonths.Add(month.ToString());
+            }
+
+
+            AvailableWeeks = new ObservableCollection<string> { "All weeks", "1", "2", "3", "4" };
+
+
+            _selectedYear = DateTime.Now.Year;
+            _selectedMonth = DateTime.Now.Month.ToString();
+            _selectedWeek = "All weeks";
+            StartDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), 1);
+            EndDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), DateTime.DaysInMonth(_selectedYear, int.Parse(_selectedMonth)));
+            UpdateVisiblePeriod();
+
+            LoadProductsSales();
+
+            OnPropertyChanged(nameof(SelectedYear));
+            OnPropertyChanged(nameof(SelectedMonth));
+            OnPropertyChanged(nameof(SelectedWeek));
+            OnPropertyChanged(nameof(ChartSeries));
+        }
     }
-
-
 }
+

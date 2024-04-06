@@ -39,7 +39,7 @@
             <TextBlock Text="Revenue and profit" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="1.2*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="1">
@@ -91,7 +91,7 @@
                              Margin="0 0 0 0">
                         </telerik:RadDateRangePicker>
                     </StackPanel>
-                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Margin="0,0,0,0" FontWeight="Bold"  Text="Total Revenue: " FontSize="16"></TextBlock>
                         <TextBlock Text="$"  FontSize="16" />
                         <TextBlock Text="{Binding TotalRevenue}"  FontSize="16" />
@@ -99,7 +99,7 @@
                 </StackPanel>
                 <Grid Grid.Column="0" Margin="0,0,20,0">
                     <StackPanel>
-                        <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="250" >
+                        <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="150" >
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
 
@@ -107,7 +107,7 @@
 
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="Total Amount">
+                                <lvc:Axis Title="Total Amount" LabelFormatter="{Binding YAxisLabelFormatter}">
                                     <lvc:Axis.Style>
                                         <Style TargetType="lvc:Axis">
                                             <Style.Triggers>
@@ -130,14 +130,60 @@
                 </Grid>
 
             </Grid>
-            <TextBlock Text="Report the number of product" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
-            <telerik:RadTabControl x:Name="TabControl" Margin="10">
-                <telerik:RadTabItem Header="Tab 1" >
-                    
-                    
+            <TextBlock Text="Report the number of product" FontSize="24" Margin="0,0,0,0" Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <telerik:RadTabControl telerik:StyleManager.Theme="Windows11" x:Name="ReportTabControl" Margin="10" Height="400">
+                <telerik:RadTabItem telerik:StyleManager.Theme="Windows11" 
+                                    Header="Plant Products sales" >
+                    <telerik:RadGridView x:Name="PlantGridView"
+                                         GroupRenderMode="Flat"
+                                         IsReadOnly="True"
+                                         EnableMouseWheelScaling="True"
+                                         ShowColumnSortIndexes="True"
+                                         RowIndicatorVisibility="Collapsed" 
+                                         telerik:StyleManager.Theme="Windows11"
+                                         AutoExpandGroups="True" ItemsSource="{Binding PlantsProducts}" AutoGenerateColumns="False" ScrollMode="RealTime">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewToggleRowDetailsColumn Width="40"/>
+                            <telerik:GridViewDataColumn Header="Product ID" DataMemberBinding="{Binding ProductId}" />
+                            <telerik:GridViewDataColumn Header="Product Name" DataMemberBinding="{Binding ProductName}"/>
+                            <telerik:GridViewDataColumn Header="Category"  DataMemberBinding="{Binding CategoryName}"/>
+                            <telerik:GridViewDataColumn Header="Sales Quantity"  DataMemberBinding="{Binding SalesQuantity}"/>
+                            <telerik:GridViewDataColumn Header="Chart" IsReadOnly="True" Width="*">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="200" >
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                            <lvc:CartesianChart.AxisY >
+                                                <lvc:Axis Title="Total Quanity" LabelFormatter="{Binding YAxisLabelFormatter}">
+                                                    <lvc:Axis.Style>
+                                                        <Style TargetType="lvc:Axis">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="0">
+                                                                    <Setter Property="ShowLabels" Value="False"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="1">
+                                                                    <Setter Property="ShowLabels" Value="True"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </lvc:Axis.Style>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                        </lvc:CartesianChart>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                        </telerik:RadGridView.Columns>
+                        <!--<telerik:RadGridView.RowDetailsTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Row details content goes here..." />
+                            </DataTemplate>
+                        </telerik:RadGridView.RowDetailsTemplate>-->
+                    </telerik:RadGridView>
                 </telerik:RadTabItem>
-
-
             </telerik:RadTabControl>
         </StackPanel>
     </Grid>
