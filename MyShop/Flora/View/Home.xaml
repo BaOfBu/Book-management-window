@@ -171,7 +171,7 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Left">
             <TextBlock Text="Products low on quantity" Style="{StaticResource HomeTitle}" Margin="40 10 0 0"/>
-            <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}" Margin="40 0 0 0 ">
+            <telerik:RadGridView x:Name="gridView" ItemsSource="{Binding Plants}" Style="{StaticResource HomeGridViewStyle}" FrozenColumnsSplitterVisibility="Collapsed" Margin="40 0 0 0 ">
                 <telerik:RadGridView.Resources>
                         <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
                             <Style.Triggers>
