@@ -101,13 +101,10 @@
                     <StackPanel>
                         <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="150" >
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
-
-                                </lvc:Axis>
-
+                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}"></lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="Total Amount"  >
+                                <lvc:Axis Title="Total Amount">
                                     <lvc:Axis.Style>
                                         <Style TargetType="lvc:Axis">
                                             <Style.Triggers>
