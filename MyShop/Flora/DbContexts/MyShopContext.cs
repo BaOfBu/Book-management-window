@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.InkML;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Configuration;
 using System.Transactions;
@@ -30,7 +31,6 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<PlantCategory> PlantCategories { get; set; }
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;

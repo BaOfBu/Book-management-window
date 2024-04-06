@@ -68,40 +68,84 @@ namespace Flora.View
                 return;
             }
 
-            var passwordDTBInByte = Convert.FromBase64String(userAccount.Password);
-            var entropyDTBInByte = Convert.FromBase64String(userAccount.Entropy);
-            var decryptedPasswordFromDTB = Encoding.UTF8.GetString(ProtectedData.Unprotect(passwordDTBInByte, entropyDTBInByte, DataProtectionScope.CurrentUser));
-            if (password == decryptedPasswordFromDTB)
+            if(userAccount.Entropy == null)
             {
-                MessageBox.Show("Login successful");
-                if (remember.IsChecked == true)
+                var passwordDTB = userAccount.Password;
+                var entropyDTB = Convert.ToBase64String(entropy);
+                if(password == passwordDTB)
                 {
-                    config.AppSettings.Settings["username"].Value = username;
-                    config.AppSettings.Settings["password"].Value = Convert.ToBase64String(encryptedPassword);
-                    config.AppSettings.Settings["entropy"].Value = Convert.ToBase64String(entropy);
-                    config.AppSettings.Settings["server"].Value = server;
-                    config.AppSettings.Settings["database"].Value = database;
-                    config.Save(ConfigurationSaveMode.Minimal);
-                    ConfigurationManager.RefreshSection("appSettings");
+                    MessageBox.Show("Login successful");
+                    if (remember.IsChecked == true)
+                    {
+                        config.AppSettings.Settings["username"].Value = username;
+                        config.AppSettings.Settings["password"].Value = Convert.ToBase64String(encryptedPassword);
+                        config.AppSettings.Settings["entropy"].Value = entropyDTB;
+                        config.AppSettings.Settings["server"].Value = server;
+                        config.AppSettings.Settings["database"].Value = database;
+                        config.Save(ConfigurationSaveMode.Minimal);
+                        ConfigurationManager.RefreshSection("appSettings");
+                    }
+                    else
+                    {
+                        config.AppSettings.Settings["username"].Value = "";
+                        config.AppSettings.Settings["password"].Value = "";
+                        config.AppSettings.Settings["entropy"].Value = "";
+                        config.AppSettings.Settings["server"].Value = "";
+                        config.AppSettings.Settings["database"].Value = "";
+                        config.Save(ConfigurationSaveMode.Minimal);
+                        ConfigurationManager.RefreshSection("appSettings");
+                    }
+                    userAccount.Entropy = entropyDTB;
+                    userAccount.Password = Convert.ToBase64String(encryptedPassword);
+                    _shopContext.SaveChanges();
+                    Window mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
                 }
                 else
                 {
-                    config.AppSettings.Settings["username"].Value = "";
-                    config.AppSettings.Settings["password"].Value = "";
-                    config.AppSettings.Settings["entropy"].Value = "";
-                    config.AppSettings.Settings["server"].Value = "";
-                    config.AppSettings.Settings["database"].Value = "";
-                    config.Save(ConfigurationSaveMode.Minimal);
-                    ConfigurationManager.RefreshSection("appSettings");
-                }
-                Window mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                    MessageBox.Show("Login failed");
+                }   
             }
             else
             {
-                MessageBox.Show("Login failed");
+                var passwordDTBInByte = Convert.FromBase64String(userAccount.Password);
+                var entropyDTBInByte = Convert.FromBase64String(userAccount.Entropy);
+                var decryptedPasswordFromDTB = Encoding.UTF8.GetString(ProtectedData.Unprotect(passwordDTBInByte, entropyDTBInByte, DataProtectionScope.CurrentUser));
+                if (password == decryptedPasswordFromDTB)
+                {
+                    MessageBox.Show("Login successful");
+                    if (remember.IsChecked == true)
+                    {
+                        config.AppSettings.Settings["username"].Value = username;
+                        config.AppSettings.Settings["password"].Value = Convert.ToBase64String(encryptedPassword);
+                        config.AppSettings.Settings["entropy"].Value = Convert.ToBase64String(entropy);
+                        config.AppSettings.Settings["server"].Value = server;
+                        config.AppSettings.Settings["database"].Value = database;
+                        config.Save(ConfigurationSaveMode.Minimal);
+                        ConfigurationManager.RefreshSection("appSettings");
+                    }
+                    else
+                    {
+                        config.AppSettings.Settings["username"].Value = "";
+                        config.AppSettings.Settings["password"].Value = "";
+                        config.AppSettings.Settings["entropy"].Value = "";
+                        config.AppSettings.Settings["server"].Value = "";
+                        config.AppSettings.Settings["database"].Value = "";
+                        config.Save(ConfigurationSaveMode.Minimal);
+                        ConfigurationManager.RefreshSection("appSettings");
+                    }
+                    Window mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Login failed");
+                }
             }
+
+
 
 
         }
