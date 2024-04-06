@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using Flora.Utilities;
 using Flora.View;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 using Microsoft.OData.UriParser;
 using Telerik.Windows.Data;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -472,12 +474,24 @@ namespace Flora.ViewModel
                 var existingOrder = _shopContext.Orders.FirstOrDefault(o => o.OrderId == order.OrderId);
                 if (existingOrder != null)
                 {
-                    existingOrder.OrderDetails = SelectedOrder.OrderDetails;
+                    _shopContext.OrderDetails.RemoveRange(existingOrder.OrderDetails);
+
+                    foreach (var orderDetail in SelectedOrder.OrderDetails)
+                    {
+                        existingOrder.OrderDetails.Add(new OrderDetail
+                        {
+                            PlantId = orderDetail.PlantId,
+                            Quantity = orderDetail.Quantity,
+                            Price = orderDetail.Price
+                        });
+                    }
+
                     existingOrder.Status = SelectedOrder.Status;
                     existingOrder.TotalAmount = GetTotalAmount();
                     existingOrder.Quantity = GetTotalQuantity();
+
+                    _shopContext.SaveChanges();
                 }
-                _shopContext.SaveChanges();
             }
         }
         private void UpdateOrderDetail(Order order, int index, OrderDetail orderDetail)

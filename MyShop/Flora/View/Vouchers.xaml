@@ -156,7 +156,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource EditButtonStyle}" Click="UpdateCouponButton_Click">
-                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
+                                                <Icon:PackIconMaterial Kind="Update" Style="{StaticResource ButtonIconMaterialStyle}"/>
                                             </Button>
                                             <Button Margin="5 0 0 0" Style="{StaticResource RemoveButtonStyle}" Click="RemoveCouponButton_Click">
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource ButtonIconMaterialStyle}"/>
