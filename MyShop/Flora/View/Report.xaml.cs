@@ -14,7 +14,17 @@ namespace Flora.View
         public Report()
         {
             InitializeComponent();
+
+            if (RevenueGraph != null && RevenueGraph.AxisY != null && RevenueGraph.AxisY.Count > 0)
+            {
+                var yAxis = RevenueGraph.AxisY[0];
+                yAxis.LabelFormatter = value => value.ToString("0");
+            }
+
             ReportVM = DataContext as ReportVM;
+
+
+
         }
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)

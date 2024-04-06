@@ -35,7 +35,7 @@ namespace Flora.ViewModel
             _shopContext = new MyShopContext();
             Plant = plant;
             previous_id = Plant.CategoryId;
-            LoadProductTypesAsync();
+            Task task = LoadProductTypesAsync();
         }
         public PlantCategory FindPlantCategoryObject(int? id)
         {

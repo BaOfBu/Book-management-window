@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 
@@ -124,8 +125,8 @@ namespace Flora.ViewModel
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
-                    UpdateChartSeries();
-                    LoadProductsSales();
+                    //UpdateChartSeries();
+                    //LoadProductsSales();
                 }
             }
         }
@@ -140,8 +141,8 @@ namespace Flora.ViewModel
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
-                    UpdateChartSeries();
-                    LoadProductsSales();
+                    //UpdateChartSeries();
+                    //LoadProductsSales();
                 }
             }
         }
@@ -155,7 +156,9 @@ namespace Flora.ViewModel
             {
                 StartDate = new DateTime(_selectedYear, 1, 1);
                 EndDate = new DateTime(_selectedYear, 12, 31);
+
                 UpdateChartSeries();
+                LoadProductsSales();
                 return;
             }
             else if (int.TryParse(_selectedMonth, out month) && month >= 1 && month <= 12)
@@ -182,15 +185,20 @@ namespace Flora.ViewModel
 
             OnPropertyChanged(nameof(StartDate));
             OnPropertyChanged(nameof(EndDate));
-
+            UpdateChartSeries();
+            LoadProductsSales();
         }
 
         public void UpdateChartSeries()
         {
+            if (PlantsProducts != null && PlantsProducts.Count > 0)
+            {
+                ChartSeries.Clear();
+            }
             _shopContext = new MyShopContext();
             var selectionStartDateOnly = DateOnly.FromDateTime(StartDate);
             var selectionEndDateOnly = DateOnly.FromDateTime(EndDate);
-
+            Debug.WriteLine(selectionStartDateOnly + "()" + selectionEndDateOnly);
             var aggregatedData = _shopContext.Orders
                 .Where(o => o.OrderDate.HasValue &&
                             o.OrderDate.Value >= selectionStartDateOnly &&
@@ -225,14 +233,14 @@ namespace Flora.ViewModel
             TotalRevenue = totalRevenue;
 
             // Add the new line series to ChartSeries
-            if (ChartSeries.Count > 0)
-            {
-                if (aggregatedData.Count > 0)
-                {
+            //if (ChartSeries.Count > 0)
+            //{
+            //    if (aggregatedData.Count > 0)
+            //    {
 
-                    ChartSeries.Clear();
-                }
-            }
+            //        ChartSeries.Clear();
+            //    }
+            //}
 
 
             ChartSeries.Add(lineSeries);
@@ -311,19 +319,8 @@ namespace Flora.ViewModel
                                          }
                                      },
                                      OrderDateLabels = grouped.Select(g => g.o.OrderDate.Value.ToString("dd/MM/yyyy")).ToList(),
+                                     LabelDisplay = OrderDateLabels.Count > 0 ? 1 : 0,
                                  })
-                                 .ToList() // Materialize the query
-                                 .Select(item => new
-                                 {
-                                     item.ProductId,
-                                     item.ProductName,
-                                     item.CategoryName,
-                                     item.SalesQuantity,
-                                     item.ChartSeries,
-                                     item.OrderDateLabels,
-                                     YAxisLabelFormatter = new Func<double, string>(value => value.ToString("0"))
-                                 })
-                                 .Distinct()
                                  .ToList<object>();
 
             if (productsSales.Count == 0)

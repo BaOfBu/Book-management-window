@@ -153,11 +153,10 @@
                                     <DataTemplate>
                                         <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="200" >
                                             <lvc:CartesianChart.AxisX>
-                                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
-                                                </lvc:Axis>
+                                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}"/>
                                             </lvc:CartesianChart.AxisX>
-                                            <lvc:CartesianChart.AxisY >
-                                                <lvc:Axis Title="Total Quanity" LabelFormatter="{Binding YAxisLabelFormatter}">
+                                            <lvc:CartesianChart.AxisY  >
+                                                <lvc:Axis Title="Total Quanity" >
                                                     <lvc:Axis.Style>
                                                         <Style TargetType="lvc:Axis">
                                                             <Style.Triggers>
