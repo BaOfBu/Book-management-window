@@ -109,9 +109,6 @@
   <Page Include="View\Products.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
-  <Page Include="View\SearchBoxControl.xaml">
-    <Generator>MSBuild:Compile</Generator>
-  </Page>
   <Page Include="View\Vouchers.xaml">
     <Generator>MSBuild:Compile</Generator>
   </Page>
@@ -163,7 +160,6 @@
   <Compile Include="View\PhoneNumberRule.cs" />
   <Compile Include="View\PlantProduct.xaml.cs" />
   <Compile Include="View\Products.xaml.cs" />
-  <Compile Include="View\SearchBoxControl.xaml.cs" />
   <Compile Include="View\Vouchers.xaml.cs" />
 </ItemGroup>
   
