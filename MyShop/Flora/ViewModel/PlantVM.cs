@@ -176,6 +176,7 @@ namespace Flora.ViewModel
         }
         public async Task<ObservableCollection<Plant>> LoadAllPlantsAsync(int pageNumber, int pageSize)
         {
+            _shopContext = new MyShopContext();
             int skip = (pageNumber - 1) * pageSize;
             IQueryable<Plant> query = _shopContext.Plants;
 
@@ -232,6 +233,7 @@ namespace Flora.ViewModel
         {
             try
             {
+                _shopContext = new MyShopContext();
                 // Load categories from data source
                 var categories = await _shopContext.PlantCategories.ToListAsync();
 
@@ -255,7 +257,7 @@ namespace Flora.ViewModel
         }
         public async Task<int> CalculateTotalItemCountAsync()
         {
-
+            _shopContext = new MyShopContext();
             IQueryable<Plant> query = _shopContext.Plants;
 
             if (!string.IsNullOrWhiteSpace(SearchText))

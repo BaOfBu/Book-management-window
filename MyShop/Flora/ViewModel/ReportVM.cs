@@ -224,7 +224,7 @@ namespace Flora.ViewModel
 
         public void UpdateChartSeries()
         {
-
+            _shopContext = new MyShopContext();
             var selectionStartDateOnly = DateOnly.FromDateTime(StartDate);
             var selectionEndDateOnly = DateOnly.FromDateTime(EndDate);
 
