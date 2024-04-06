@@ -46,7 +46,7 @@
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ProductsCommand}">
                         <Grid>
                             <TextBlock Text="&#xf03e;" Style="{StaticResource IconSideBarStyle}"/>
-                            <TextBlock Text="Products" Style="{StaticResource SideBarTextStyle}" />
+                            <TextBlock Text="Plant Categorys" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
@@ -61,6 +61,19 @@
                         <Grid>
                             <TextBlock Text="&#xf06b;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Vouchers" Style="{StaticResource SideBarTextStyle}" />
+                        </Grid>
+                    </Menu:ButtonCustom>
+
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding AllPlantCommand}">
+                        <Grid>
+                            <TextBlock Text="&#xf06c;" Style="{DynamicResource IconSideBarStyle}" />
+                            <TextBlock Text="Plants" Style="{StaticResource SideBarTextStyle}" />
+                        </Grid>
+                    </Menu:ButtonCustom>
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}">
+                        <Grid>
+                            <TextBlock Text="&#xf1c0;" Style="{DynamicResource IconSideBarStyle}" />
+                            <TextBlock Text="Backup/Restore" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
                 </StackPanel>

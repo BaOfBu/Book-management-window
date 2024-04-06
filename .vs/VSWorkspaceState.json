@@ -3,9 +3,9 @@
     "",
     "\\MyShop",
     "\\MyShop\\Flora",
-    "\\MyShop\\Flora\\Styles",
+    "\\MyShop\\Flora\\Utilities",
     "\\MyShop\\Flora\\View"
   ],
-  "SelectedNode": "\\MyShop\\Flora\\View\\Home.xaml",
+  "SelectedNode": "\\MyShop\\MyShop.sln",
   "PreviewInSolutionExplorer": false
 }

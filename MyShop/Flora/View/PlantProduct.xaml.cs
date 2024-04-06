@@ -1,4 +1,6 @@
 ﻿using Flora.ViewModel;
+using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,7 +14,6 @@ namespace Flora.View
     public partial class PlantProduct : UserControl
     {
 
-
         private PlantProductVM plantProductVM { get; set; }
 
         public PlantProduct()
@@ -20,8 +21,11 @@ namespace Flora.View
             InitializeComponent();
             plantProductVM = DataContext as PlantProductVM;
         }
-        private void SearchBoxControl_Loaded(object sender, RoutedEventArgs e)
+        public PlantProduct(PlantCategory plantCategory) : this()
         {
+
+            DataContext = new EditProductCategoryVM(plantCategory);
+            plantProductVM = DataContext as PlantProductVM;
 
         }
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -48,54 +52,109 @@ namespace Flora.View
                 ResultsPerPage.Content = textBlock;
 
                 int pageSize = -1;
-
+                var viewModel = DataContext as PlantProductVM;
                 if (int.TryParse(selectedItem, out pageSize))
                 {
-                    if (plantProductVM != null)
+                    if (viewModel != null)
                     {
-                        plantProductVM.PageSize = pageSize;
+
+                        viewModel.PageSize = pageSize;
+                        dataPager.PageIndex = 0;
                     }
                 }
             }
         }
 
-        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void SortTypeList_SelectionChanged(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void SortButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (sender is ListBox listBox && listBox.SelectedItem != null)
+            {
+                string selectedSortType = listBox.SelectedItem.ToString();
+                if (DataContext is PlantProductVM viewModel)
+                {
+                    dataPager.PageIndex = 0;
+                    viewModel.CurrentSortOrder = selectedSortType;
+                }
+            }
         }
 
         private void AddNewProductType_Click(object sender, RoutedEventArgs e)
         {
-
+            var navigationVM = GetNavigationVMFromMainWindow();
+            if (navigationVM != null)
+            {
+                navigationVM.AddPlantProductCommand.Execute(null);
+            }
         }
-        private void ImportFromExcel_Click(object sender, RoutedEventArgs e)
+        private async void ImportFromExcel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
 
+                try
+                {
+                    // Call a method to read the Excel file and import data into the database
+                    PlantProductVM viewModel = DataContext as PlantProductVM;
+                    if (viewModel != null)
+                    {
+                        // Trigger the import operation in the ViewModel
+                        await viewModel.ImportDataFromExcelAsync(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that may occur during the import process
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             var navigationVM = GetNavigationVMFromMainWindow();
             if (navigationVM != null)
             {
-                navigationVM.NavigateBack();
+                navigationVM.ProductsCommand.Execute(null);
             }
         }
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Cast sender to ListViewItem to access properties
+            ListViewItem listViewItem = sender as ListViewItem;
 
+            // Retrieve the name of the selected item
+            if (listViewItem != null && listViewItem.Content != null)
+            {
+                // Assuming PlantType is the type of the items in PlantTypesList
+                Plant selectedPlantType = listViewItem.Content as Plant;
+
+                if (selectedPlantType != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
+
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditPlantProductCommand.Execute(selectedPlantType);
+                    }
+                }
+            }
         }
-
         private void DataPager_PageIndexChanged(object sender, PageIndexChangedEventArgs e)
         {
-            // e.OldPageIndex gives you the previous page index
-            // e.NewPageIndex gives you the new current page index
-
-            // Debug.WriteLine(e.OldPageIndex.ToString() + " " + e.NewPageIndex.ToString());
+            var viewModel = DataContext as PlantProductVM;
+            if (viewModel != null)
+            {
+                viewModel.PageNumber = e.NewPageIndex + 1;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("ViewModel is not available.");
+            }
         }
         private NavigationVM GetNavigationVMFromMainWindow()
         {
@@ -105,6 +164,43 @@ namespace Flora.View
                 return navigationVM;
             }
             return null;
+        }
+
+        private void MoreDetail_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag is ListViewItem listViewItem)
+            {
+                var item = listViewItem.Content as Plant;
+
+                if (item != null)
+                {
+                    var navigationVM = GetNavigationVMFromMainWindow();
+                    if (navigationVM != null)
+                    {
+                        navigationVM.EditPlantProductCommand.Execute(item);
+                    }
+                }
+            }
+        }
+
+        private void RadSlider_SelectionChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+
+            decimal newStartValue = (decimal)RadSlider1.SelectionStart;
+            decimal newEndValue = (decimal)RadSlider1.SelectionEnd;
+            var viewModel = DataContext as PlantProductVM;
+            if (viewModel != null)
+            {
+                dataPager.PageIndex = 0;
+                viewModel.MinimumPrice = newStartValue;
+                viewModel.MaximumPrice = newEndValue;
+            }
+        }
+
+        private void txtSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            dataPager.PageIndex = 0;
         }
     }
 }

@@ -17,9 +17,7 @@ namespace Flora
             {
                 navigationVM.BeforeViewChange += async (sender, args) =>
                 {
-                    await RunFadeOutAnimationAsync();
-                    // Change the view only after the fade-out completes
-                    navigationVM.CurrentView = new PlantProductVM(); // This changes the current view to the plant view.
+                    RunFadeOutAnimationAsync();
                     RunFadeInAnimation();
                 };
             }
