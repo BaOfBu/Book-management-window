@@ -13,7 +13,7 @@ namespace Flora.ViewModel
     internal class ReportVM : Utilities.ViewModelBase, INotifyPropertyChanged
     {
         private MyShopContext _shopContext;
-
+        public Func<double, string> IntegerLabelFormatter { get; set; }
         public ObservableCollection<int> AvailableYears { get; set; }
         public ObservableCollection<string> AvailableMonths { get; set; }
         public ObservableCollection<string> AvailableWeeks { get; set; }
@@ -125,8 +125,8 @@ namespace Flora.ViewModel
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
-                    //UpdateChartSeries();
-                    //LoadProductsSales();
+                    UpdateChartSeries();
+                    LoadProductsSales();
                 }
             }
         }
@@ -141,8 +141,8 @@ namespace Flora.ViewModel
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
-                    //UpdateChartSeries();
-                    //LoadProductsSales();
+                    UpdateChartSeries();
+                    LoadProductsSales();
                 }
             }
         }
@@ -227,21 +227,11 @@ namespace Flora.ViewModel
             foreach (var item in aggregatedData)
             {
                 lineSeries.Values.Add(item.TotalAmount);
+                Debug.WriteLine(item.TotalAmount);
                 OrderDateLabels.Add(item.OrderDate.ToString("dd/MM"));
                 totalRevenue += item.TotalAmount;
             }
             TotalRevenue = totalRevenue;
-
-            // Add the new line series to ChartSeries
-            //if (ChartSeries.Count > 0)
-            //{
-            //    if (aggregatedData.Count > 0)
-            //    {
-
-            //        ChartSeries.Clear();
-            //    }
-            //}
-
 
             ChartSeries.Add(lineSeries);
 
@@ -323,13 +313,13 @@ namespace Flora.ViewModel
                                  })
                                  .ToList<object>();
 
-            if (productsSales.Count == 0)
-            {
-                if (ChartSeries != null && ChartSeries.Count > 2)
-                {
-                    ChartSeries.Clear();
-                }
-            }
+            //if (productsSales.Count == 0)
+            //{
+            //    if (ChartSeries != null && ChartSeries.Count > 2)
+            //    {
+            //        ChartSeries.Clear();
+            //    }
+            //}
             PlantsProducts = productsSales;
         }
 
@@ -340,7 +330,7 @@ namespace Flora.ViewModel
         public ReportVM()
         {
             // Constructor or method where you set the formatter
-            YAxisLabelFormatter = value => value.ToString("0");
+            IntegerLabelFormatter = value => ((int)value).ToString();
 
             _shopContext = new MyShopContext();
 

@@ -107,7 +107,7 @@
 
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="Total Amount" LabelFormatter="{Binding YAxisLabelFormatter}">
+                                <lvc:Axis Title="Total Amount"  >
                                     <lvc:Axis.Style>
                                         <Style TargetType="lvc:Axis">
                                             <Style.Triggers>
