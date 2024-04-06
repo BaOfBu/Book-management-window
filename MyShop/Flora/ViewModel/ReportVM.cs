@@ -305,7 +305,7 @@ namespace Flora.ViewModel
                                          new LineSeries
                                          {
                                              Title = grouped.Key.Name,
-                                             Values = new ChartValues<double>(grouped.Select(g => (double)(g.od.Quantity ?? 0)))
+                                             Values = new ChartValues<int>(grouped.Select(g => (int)(g.od.Quantity ?? 0)))
                                          }
                                      },
                                      OrderDateLabels = grouped.Select(g => g.o.OrderDate.Value.ToString("dd/MM/yyyy")).ToList(),
