@@ -36,7 +36,7 @@
     <Grid>
         <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
         <StackPanel Orientation="Vertical" Margin="60,20,60,0">
-            <TextBlock Text="Revenue and profit" FontSize="32" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <TextBlock Text="Revenue and profit" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.8*"/>
@@ -130,6 +130,15 @@
                 </Grid>
 
             </Grid>
+            <TextBlock Text="Report the number of product" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <telerik:RadTabControl x:Name="TabControl" Margin="10">
+                <telerik:RadTabItem Header="Tab 1" >
+                    
+                    
+                </telerik:RadTabItem>
+
+
+            </telerik:RadTabControl>
         </StackPanel>
     </Grid>
 </UserControl>
