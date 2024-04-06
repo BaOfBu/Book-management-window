@@ -53,6 +53,7 @@ namespace Flora.ViewModel
         {
             try
             {
+                _shopContext = new MyShopContext();
                 var productTypesList = await _shopContext.PlantCategories.ToListAsync();
                 ProductTypes = productTypesList;
             }
@@ -65,6 +66,7 @@ namespace Flora.ViewModel
         {
             try
             {
+                _shopContext = new MyShopContext();
                 return await _shopContext.PlantCategories.FindAsync(id);
             }
             catch (Exception ex)

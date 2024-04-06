@@ -1,0 +1,144 @@
+﻿<UserControl    x:Class="Flora.View.Report"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:Flora.View"
+                xmlns:vm="clr-namespace:Flora.ViewModel"
+                xmlns:utils="clr-namespace:Flora.Utilities"
+                xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                mc:Ignorable="d" 
+                d:DesignHeight="700" d:DesignWidth="1030"
+                Style="{StaticResource PageStyle}" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style TargetType="telerik:RadTimeBar">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#0078d4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <PathGeometry x:Key="markerGeometry">
+            <PathGeometry.Figures>
+                <PathFigure StartPoint="0.41,8.89" IsClosed="True">
+                    <PathFigure.Segments>
+                        <BezierSegment Point1="1.61,4.39" Point2="5.32,0.99" Point3="9.92,0.18" />
+                        <LineSegment Point="12,12" />
+                    </PathFigure.Segments>
+                </PathFigure>
+            </PathGeometry.Figures>
+        </PathGeometry>
+        
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:ReportVM />
+    </UserControl.DataContext>
+    <Grid>
+        <Border BorderBrush="White" BorderThickness="1" CornerRadius="48" Background="White" />
+        <StackPanel Orientation="Vertical" Margin="60,20,60,0">
+            <TextBlock Text="Revenue and profit" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1">
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock TextAlignment="Left" Text="Year" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="YearComboBox"
+                                 HorizontalAlignment="Left"
+                                 Width="100"
+                                 Margin="5"
+                                 SelectionChanged="YearComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableYears}"
+                                 telerik:StyleManager.Theme="Windows11"                               />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock TextAlignment="Left" Text="Month" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="MonthComboBox"
+                                 Width="100"
+                                 Margin="5"
+                                 telerik:StyleManager.Theme="Windows11"
+                                 SelectionChanged="MonthComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableMonths}"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock TextAlignment="Left" Text="Week" FontSize="16" FontWeight="Bold"/>
+                            <telerik:RadComboBox x:Name="WeekComboBox"
+                                 Width="100"
+                                 Margin="5"
+                                 telerik:StyleManager.Theme="Windows11"
+                                 SelectionChanged="WeekComboBox_SelectionChanged"
+                                 SelectedItem="{Binding SelectedWeek, Mode=TwoWay}"
+                                 ItemsSource="{Binding AvailableWeeks}"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock TextAlignment="Left" Text="Date" Margin="0,0,0,5" FontSize="16" FontWeight="Bold"/>
+                        <telerik:RadDateRangePicker Width="270"
+                             Height="40"
+                             telerik:Windows11ThemeSizeHelper.EnableDynamicAnimation="True"
+                             VerticalAlignment="Center"
+                             StartDate="{Binding StartDate, Mode=TwoWay}"
+                             telerik:StyleManager.Theme="Windows11"
+                             EndDate="{Binding EndDate, Mode=TwoWay}"
+                             HorizontalAlignment="Left"
+                             Grid.Row="2"
+                             Margin="0 0 0 0">
+                        </telerik:RadDateRangePicker>
+                    </StackPanel>
+                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <TextBlock Margin="0,0,0,0" FontWeight="Bold"  Text="Total Revenue: " FontSize="16"></TextBlock>
+                        <TextBlock Text="$"  FontSize="16" />
+                        <TextBlock Text="{Binding TotalRevenue}"  FontSize="16" />
+                    </StackPanel>
+                </StackPanel>
+                <Grid Grid.Column="0" Margin="0,0,20,0">
+                    <StackPanel>
+                        <lvc:CartesianChart Name="RevenueGraph" Margin="0,0,0,0" Series="{Binding ChartSeries}" Height="250" >
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Order Date"  Labels="{Binding OrderDateLabels}">
+
+                                </lvc:Axis>
+
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Total Amount">
+                                    <lvc:Axis.Style>
+                                        <Style TargetType="lvc:Axis">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="0">
+                                                    <Setter Property="ShowLabels" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LabelDisplay}" Value="1">
+                                                    <Setter Property="ShowLabels" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </lvc:Axis.Style>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        
+                    </StackPanel>
+                    
+                    
+                </Grid>
+
+            </Grid>
+            <TextBlock Text="Report the number of product" FontSize="24" Margin="0,0,0,20" Foreground="#285A43" FontWeight="Bold"></TextBlock>
+            <telerik:RadTabControl x:Name="TabControl" Margin="10">
+                <telerik:RadTabItem Header="Tab 1" >
+                    
+                    
+                </telerik:RadTabItem>
+
+
+            </telerik:RadTabControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

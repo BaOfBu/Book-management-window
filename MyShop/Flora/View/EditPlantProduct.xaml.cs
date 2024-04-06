@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,7 +63,7 @@ namespace Flora.View
         }
         private NavigationVM GetNavigationVMFromMainWindow()
         {
-            var mainWindow = Application.Current.MainWindow;
+            var mainWindow = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
             if (mainWindow.DataContext is NavigationVM navigationVM)
             {
                 return navigationVM;

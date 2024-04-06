@@ -100,6 +100,7 @@ namespace Flora.ViewModel
         {
             try
             {
+                _shopContext = new MyShopContext();
                 NextPlantId = await GetNextPlantIdAsync();
                 PlantCategories = await _shopContext.PlantCategories.ToListAsync();
             }
@@ -110,6 +111,7 @@ namespace Flora.ViewModel
         }
         public async Task<int> GetNextPlantIdAsync()
         {
+            _shopContext = new MyShopContext();
             var maxId = await _shopContext.Plants.MaxAsync(c => (int?)c.PlantId) ?? 0;
             return maxId + 1;
         }

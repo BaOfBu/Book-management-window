@@ -49,6 +49,7 @@ namespace Flora.ViewModel
         }
         public async Task<int> GetNextCategoryIdAsync()
         {
+            _shopContext = new MyShopContext();
             var maxId = await _shopContext.PlantCategories.MaxAsync(c => (int?)c.CategoryId) ?? 0;
             return maxId + 1;
         }

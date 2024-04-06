@@ -9,7 +9,6 @@
                 WindowStartupLocation="CenterScreen"
                 WindowStyle="None"
                 Background="Transparent">
-
     <Window.DataContext>
         <vm:NavigationVM />
     </Window.DataContext>
@@ -68,6 +67,12 @@
                         <Grid>
                             <TextBlock Text="&#xf06c;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Plants" Style="{StaticResource SideBarTextStyle}" />
+                        </Grid>
+                    </Menu:ButtonCustom>
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ReportCommand}">
+                        <Grid>
+                            <TextBlock Text="&#xf1fe;" Style="{DynamicResource IconSideBarStyle}" />
+                            <TextBlock Text="Reports" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
                     <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}">

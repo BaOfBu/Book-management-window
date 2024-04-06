@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -77,6 +78,7 @@ namespace Flora.ViewModel
                 {
                     _pageNumber = value;
                     OnPropertyChanged(nameof(PageNumber));
+                    Debug.WriteLine(_pageNumber);
                     LoadPlantCategoryAsync();
                 }
             }
@@ -119,6 +121,7 @@ namespace Flora.ViewModel
 
         public async Task<ObservableCollection<PlantCategory>> LoadAllPlantCategoriesAsync(int pageNumber, int pageSize)
         {
+            _shopContext = new MyShopContext();
             int skip = (pageNumber - 1) * pageSize;
             IQueryable<PlantCategory> query = _shopContext.PlantCategories;
 
@@ -148,6 +151,7 @@ namespace Flora.ViewModel
 
         public async Task<int> CalculateTotalItemCountAsync()
         {
+            _shopContext = new MyShopContext();
             IQueryable<PlantCategory> query = _shopContext.PlantCategories;
 
             if (!string.IsNullOrWhiteSpace(SearchText) && SearchText != "")
