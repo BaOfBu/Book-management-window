@@ -10,6 +10,7 @@ namespace Flora.View
     {
 
         private ReportVM ReportVM { get; set; }
+
         public Report()
         {
             InitializeComponent();
