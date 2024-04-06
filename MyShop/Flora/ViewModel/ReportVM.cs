@@ -215,19 +215,19 @@ namespace Flora.ViewModel
 
             var lineSeries = new LiveCharts.Wpf.LineSeries
             {
-                Title = "Sales",
+                Title = "Total Amounts",
                 Values = new ChartValues<decimal>(),
                 PointGeometry = DefaultGeometries.Circle,
                 PointGeometrySize = 15,
-                Fill = Brushes.Transparent
+                Fill = Brushes.Transparent,
+                LabelPoint = point => point.Y.ToString("N3")
             };
             decimal totalRevenue = 0;
-            OrderDateLabels.Clear(); // Clear existing labels
+            OrderDateLabels.Clear();
 
             foreach (var item in aggregatedData)
             {
                 lineSeries.Values.Add(item.TotalAmount);
-                Debug.WriteLine(item.TotalAmount);
                 OrderDateLabels.Add(item.OrderDate.ToString("dd/MM"));
                 totalRevenue += item.TotalAmount;
             }
@@ -305,7 +305,7 @@ namespace Flora.ViewModel
                                          new LineSeries
                                          {
                                              Title = grouped.Key.Name,
-                                             Values = new ChartValues<double>(grouped.Select(g => (double)(g.od.Quantity ?? 0)))
+                                             Values = new ChartValues<int>(grouped.Select(g => (int)(g.od.Quantity ?? 0)))
                                          }
                                      },
                                      OrderDateLabels = grouped.Select(g => g.o.OrderDate.Value.ToString("dd/MM/yyyy")).ToList(),
