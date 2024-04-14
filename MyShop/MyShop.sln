@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flora", "Flora\Flora.csproj", "{EF10BCE4-344F-4035-BB8D-EAA220C970F3}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8DA6BDFB-25A4-4064-9CC0-7A6C16B6E879}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,8 +15,6 @@ Global
 		{EF10BCE4-344F-4035-BB8D-EAA220C970F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF10BCE4-344F-4035-BB8D-EAA220C970F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF10BCE4-344F-4035-BB8D-EAA220C970F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DA6BDFB-25A4-4064-9CC0-7A6C16B6E879}.Debug|Any CPU.ActiveCfg = Debug
-		{8DA6BDFB-25A4-4064-9CC0-7A6C16B6E879}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,8 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="15"/>
         <Setter Property="Margin" Value="0,0,20,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
         <Setter Property="IsOpen" Value="False" />
     </Style>
@@ -17,14 +19,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" />
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
                     <ControlTemplate.Triggers>
                         <!-- Trigger for Selected State -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="#285A43"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
-                        <!-- Trigger for HoHover State -->
+                        <!-- Trigger for Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="#D3D3D3"/>
                             <!-- Light Gray Background for Hover -->
@@ -43,6 +47,7 @@
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="0,0,20,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="telerik:StyleManager.Theme" Value="Fluent" />
         <Setter Property="IsOpen" Value="False" />
     </Style>
