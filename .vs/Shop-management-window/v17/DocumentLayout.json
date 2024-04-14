@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyShop\\Flora\\View\\Home.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\MainWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyShop\\Flora\\MainWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyShop\\Flora\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\MainWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyShop\\Flora\\MainWindow.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\View\\AllPlant.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyShop\\Flora\\View\\AllPlant.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,12 +37,20 @@
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AllPlant.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\View\\AllPlant.xaml.cs",
+              "RelativeDocumentMoniker": "MyShop\\Flora\\View\\AllPlant.xaml.cs",
+              "ToolTip": "C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\View\\AllPlant.xaml.cs",
+              "RelativeToolTip": "MyShop\\Flora\\View\\AllPlant.xaml.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-06T18:11:58.996Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "App.config",
               "DocumentMoniker": "C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\App.config",
               "RelativeDocumentMoniker": "MyShop\\Flora\\App.config",
@@ -46,7 +58,8 @@
               "RelativeToolTip": "MyShop\\Flora\\App.config",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-04-01T06:32:13.127Z"
+              "WhenOpened": "2024-04-01T06:32:13.127Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -71,19 +84,21 @@
               "RelativeToolTip": "MyShop\\Flora\\View\\Home.xaml",
               "ViewState": "AQIAAHQAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-03-29T14:23:25.474Z"
+              "WhenOpened": "2024-03-29T14:23:25.474Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MyShop\\Flora\\MainWindow.xaml",
               "ToolTip": "C:\\Users\\Asus\\source\\repos\\BaOfBu\\Shop-management-window\\MyShop\\Flora\\MainWindow.xaml",
               "RelativeToolTip": "MyShop\\Flora\\MainWindow.xaml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAnAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-03-28T09:33:03.806Z"
+              "WhenOpened": "2024-03-28T09:33:03.806Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -63,6 +63,9 @@ namespace Flora.View
 
         }
 
+        private void RevenueGraph_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
 
+        }
     }
 }
