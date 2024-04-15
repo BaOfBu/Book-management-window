@@ -35,47 +35,47 @@
                 </StackPanel>
 
                 <StackPanel Height="420" Width="230" Margin="30 0 0 0" Panel.ZIndex="1">
-                    <Menu:ButtonCustom IsChecked="True" Style="{StaticResource SideBarButtonStyle}" Command="{Binding HomeCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding HomeCommand}" IsChecked="{Binding HomeIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf015;" Style="{StaticResource IconSideBarStyle}" />
                             <TextBlock Text="Home" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ProductsCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ProductsCommand}" IsChecked="{Binding CategoryIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf03e;" Style="{StaticResource IconSideBarStyle}"/>
                             <TextBlock Text="Plant Categorys" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding OrdersCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding OrdersCommand}" IsChecked="{Binding OrderIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf07a;" Style="{StaticResource IconSideBarStyle}" />
                             <TextBlock Text="Orders" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding VouchersCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding VouchersCommand}" IsChecked="{Binding VoucherIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf06b;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Vouchers" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
 
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding AllPlantCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding AllPlantCommand}" IsChecked="{Binding ProductIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf06c;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Plants" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ReportCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding ReportCommand}" IsChecked="{Binding ReportIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf1fe;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Reports" Style="{StaticResource SideBarTextStyle}" />
                         </Grid>
                     </Menu:ButtonCustom>
-                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}">
+                    <Menu:ButtonCustom Style="{StaticResource SideBarButtonStyle}" Command="{Binding BackupCommand}" IsChecked="{Binding BackupIsChecked}">
                         <Grid>
                             <TextBlock Text="&#xf1c0;" Style="{DynamicResource IconSideBarStyle}" />
                             <TextBlock Text="Backup/Restore" Style="{StaticResource SideBarTextStyle}" />
