@@ -307,12 +307,12 @@
                         <TextBlock Text="Update its information" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0" />
                     </Grid>
                 </telerik:RadButton>
-                <telerik:RadButton  telerik:StyleManager.Theme="Windows11" Width="180" Height="40" Margin="20 0 0 0" Click="RemoveRadButton_Click">
+                <!--<telerik:RadButton  telerik:StyleManager.Theme="Windows11" Width="180" Height="40" Margin="20 0 0 0" Click="RemoveRadButton_Click">
                     <Grid>
                         <TextBlock Text="&#xf056;" Style="{StaticResource ButtonIconStyle}" />
                         <TextBlock Text="Remove this order" Style="{StaticResource ButtonTextStyle}" Margin="24 0 5 0"/>
                     </Grid>
-                </telerik:RadButton>
+                </telerik:RadButton>-->
             </StackPanel>
         </StackPanel>
     </Grid>
