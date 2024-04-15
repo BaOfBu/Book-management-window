@@ -524,7 +524,7 @@ namespace Flora.ViewModel
             _selectedWeek = "All weeks";
             StartDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), 1);
             EndDate = new DateTime(_selectedYear, int.Parse(_selectedMonth), DateTime.DaysInMonth(_selectedYear, int.Parse(_selectedMonth)));
-            UpdateVisiblePeriod();
+            //UpdateVisiblePeriod();
 
             LoadProductsSales();
             LoadMostSale();
