@@ -391,6 +391,9 @@
     <Content Include="Images\ProductTypes\ProductCategory15.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\ProductTypes\ProductCategory16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\search-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
