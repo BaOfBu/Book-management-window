@@ -46,6 +46,11 @@ namespace Flora.View
                 return;
             }
 
+            if (!_shopContext.Database.CanConnect()) { 
+                MessageBox.Show("Connection failed");
+                return;
+            }
+
             // authenticate user
             string username = UsernameTextBox.Text;
             string password = PasswordTextBox.Password;
